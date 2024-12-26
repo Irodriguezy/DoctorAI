@@ -1,0 +1,152 @@
+{
+  "categorias": {
+      "saludos": [
+          {
+              "pregunta": ["hola", "buenos dias", "buenas tardes", "buenas noches", "que tal", "como estas", "hi", "hello"],
+              "respuesta": "¡Hola! ¿En qué te puedo ayudar con tu salud dental? Pregúntame cualquier duda que tengas sobre tus dientes."
+          }
+      ],
+      "despedidas": [
+          {
+              "pregunta": ["chao", "adios", "hasta luego", "nos vemos", "bye", "gracias", "muchas gracias"],
+              "respuesta": "¡Que estés muy bien! Recuerda lavarte los dientes después de cada comida. ¡Nos vemos!"
+          }
+      ],
+      "problemas_comunes": [
+          {
+              "pregunta": ["¿Qué es una caries?", "que es una caries", "que son las caries", "explicame que es una caries", "caries que es", "tengo una caries", "como saber si tengo caries"],
+              "respuesta": "Una caries es cuando se te pica un diente por culpa de las bacterias. Es super común y si no la tratas altiro, puede llegar hasta el nervio y ahí sí que duele caleta. Lo bacán es que si la pescas a tiempo, con un empaste quedai al tiro."
+          },
+          {
+              "pregunta": ["¿Me duele una muela que hago?", "me duele caleta la muela", "que hago si me duele el diente", "dolor de muela", "tengo dolor en un diente", "muela con dolor", "me duele mucho un diente", "dolor dental"],
+              "respuesta": "Pucha, si te duele mucho una muela lo mejor es que vayas al tiro al dentista. Mientras tanto puedes tomar un paracetamol o ibuprofeno pa'l dolor. Si el dolor es muy brígido o llevai varios días así, podría ser una infección y ahí hay que atenderse urgente nomás."
+          },
+          {
+              "pregunta": ["¿Por qué sangran las encias?", "me sangran las encias", "sangrado de encias", "porque me sangran las encias cuando me lavo los dientes", "encias con sangre", "sangre en las encias", "me sale sangre al cepillarme"],
+              "respuesta": "Las encías sangran principalmente por una gingivitis, que es cuando se inflaman por la acumulación de bacterias. Esto pasa cuando no te lavas bien los dientes o no usai seda dental. Si te sangran caleta las encías, tení que mejorar tu higiene y sería bueno que te hagas una limpieza profesional al tiro."
+          },
+          {
+              "pregunta": ["¿Por qué tengo mal aliento?", "tengo mal aliento", "como eliminar el mal aliento", "halitosis", "mal olor en la boca", "me huele mal la boca", "como quitar el mal aliento"],
+              "respuesta": "El mal aliento puede ser por varias cosas: no lavarte bien los dientes, tener restos de comida entre los dientes, caries, problemas en las encías o dramas del estómago. Lo primero es mejorar tu higiene dental, usar hilo dental y limpiarte la lengua. Si seguí con la custión, mejor anda al dentista pa' cachar bien qué onda."
+          },
+          {
+              "pregunta": ["¿Qué es la sensibilidad dental?", "porque me duelen los dientes con el frio", "dientes sensibles", "me duelen los dientes con lo dulce", "sensibilidad al frio y calor", "porque son sensibles mis dientes"],
+              "respuesta": "La sensibilidad dental es cuando sentí dolor o molestia con cosas frías, calientes o dulces. Puede ser porque te cepillai muy fuerte y se gastó el esmalte, tenís las encías retraídas o hay alguna picadura. Hay pastas especiales pa' la sensibilidad que ayudan caleta, pero igual es mejor que te revise un dentista pa' estar seguros."
+          }
+      ],
+      "higiene_dental": [
+          {
+              "pregunta": ["¿Cada cuanto hay que lavarse los dientes?", "cada cuanto me lavo los dientes", "cuantas veces al dia hay que lavarse los dientes", "cada cuanto tiempo debo cepillarme", "lavado de dientes frecuencia", "cada cuanto me cepillo", "cuantas veces al dia cepillarse"],
+              "respuesta": "Mira, lo ideal es que te laves los dientes después de cada comida, o sea mínimo 3 veces al día. El lavado más importante es el de la noche antes de dormir, ahí tienes que hacerlo súper bien porque durante la noche se multiplican más las bacterias. ¡No te vayai a acostar sin lavarte los dientes!"
+          },
+          {
+              "pregunta": ["¿Como usar bien el hilo dental?", "como se usa la seda dental", "uso correcto del hilo dental", "para que sirve el hilo dental", "es necesario usar hilo dental", "debo usar seda dental"],
+              "respuesta": "El hilo dental es la raja pa' sacar los restos de comida que quedan entre los dientes y que el cepillo no puede sacar. Tenís que usar unos 40 cm de hilo, enrollarlo en los dedos y pasarlo suavemente entre cada diente con movimientos de arriba a abajo. Es super importante usarlo al menos una vez al día, idealmente en la noche."
+          }
+      ],
+      "tratamientos_dentales": [
+          {
+              "pregunta": ["¿Qué es un conducto?", "que es una endodoncia", "tratamiento de conducto", "me van a hacer un conducto", "endodoncia que es", "para que sirve un conducto dental", "cuando hay que hacer un conducto"],
+              "respuesta": "El conducto o endodoncia es cuando la caries llegó tan profundo que afectó el nervio del diente. El dentista tiene que sacar todo el nervio infectado y rellenar el conducto. No es tan terrible como dicen, con la anestesia no duele nada y es mejor que perder el diente. Después te ponen una corona pa' proteger el diente y quedai joya."
+          },
+          {
+              "pregunta": ["¿Qué es un empaste?", "que es una restauracion dental", "para que sirven los empastes", "tapaduras dentales", "composite dental", "que es una tapadura", "empaste dental que es"],
+              "respuesta": "Un empaste es cuando el dentista te rellena un diente que tiene una caries. Primero te sacan toda la parte picada y después la rellenan con un material especial que queda del mismo color del diente. Es súper común y rápido, con anestesia no duele nada. Es importante hacerlo cuando la caries está chica pa' que no se ponga más brígida."
+          },
+          {
+              "pregunta": ["¿Qué es una corona dental?", "para que sirve una corona dental", "fundas dentales", "necesito una corona", "corona en un diente", "coronas dentales que son"],
+              "respuesta": "Una corona es como un gorrito que se pone sobre un diente cuando está muy dañado por caries o quebrado. Primero liman el diente pa' que quede más chico y después ponen la corona encima. Pueden ser de metal, porcelana o una mezcla de ambos. Son bacanes porque protegen el diente y se ven super naturales."
+          },
+          {
+              "pregunta": ["¿Qué es una limpieza dental?", "limpieza dental profesional", "destartraje dental", "profilaxis dental", "cada cuanto hacerse una limpieza dental", "para que sirve la limpieza dental"],
+              "respuesta": "La limpieza dental o destartraje es cuando el dentista te saca todo el sarro (esa cosa amarilla y dura) que se acumula en los dientes y que tú no podís sacar con el cepillado normal. También te pulen los dientes y quedan súper suavecitos. Es importante hacerse una limpieza al menos una vez al año pa' mantener las encías sanitas y prevenir problemas más graves."
+          }
+      ],
+      "urgencias_dentales": [
+          {
+              "pregunta": ["¿Qué hago si se me quebró un diente?", "se me rompio un diente", "diente quebrado que hacer", "se me partio una muela", "diente roto urgencia", "que hacer si se rompe un diente"],
+              "respuesta": "Si se te quebró un diente, lo primero es mantener la calma. Guarda el pedazo que se quebró en leche o suero fisiológico y anda al tiro al dentista. Si te duele, podís tomar un analgésico. No te preocupís, hay varias formas de arreglarlo dependiendo de qué tan grande es la quebradura. Lo importante es que te atiendan lo antes posible."
+          },
+          {
+              "pregunta": ["¿Qué hago si se me salió un diente?", "se me cayo un diente", "diente que se salio", "avulsion dental", "que hacer si se sale un diente", "diente expulsado"],
+              "respuesta": "Si se te salió un diente entero (con raíz y todo), es una urgencia brígida. Agarra el diente por la corona (la parte que se ve), no lo laves con agua ni lo frotes, ponlo en leche o suero y anda corriendo al dentista. Si te lo ponen de vuelta dentro de una hora, hay posibilidades de salvarlo. También ponte hielo en la cara pa' bajar la hinchazón."
+          },
+          {
+              "pregunta": ["¿Qué es un absceso dental?", "tengo un absceso", "infeccion dental con pus", "tengo una bolita con pus en la encia", "absceso en la muela que hacer", "inflamacion con pus en el diente"],
+              "respuesta": "Un absceso es una infección brígida que forma como una bolita con pus en la encía. Duele caleta y puede ser peligroso si no se trata. Necesitai antibióticos y que te revise un dentista urgente. No lo apretís ni te lo reventís solo, porque podís empeorar la infección. Mientras tanto podís hacer enjuagues con agua tibia con sal y tomar analgésicos."
+          }
+      ],
+      "ortodoncia_frenillos": [
+          {
+              "pregunta": ["¿Qué son los frenillos?", "brackets que son", "para que sirven los frenillos", "ortodoncia que es", "necesito frenillos", "brackets o frenillos", "como son los frenillos"],
+              "respuesta": "Los frenillos o brackets son esos aparatos que te ponen en los dientes pa' enderezarlos cuando están chuecos. El tratamiento puede durar entre 1 a 3 años dependiendo de qué tan desordenados estén tus dientes. Hay que tener más cuidado con la limpieza porque se pueden acumular restos de comida, pero el resultado es la raja y te queda una sonrisa perfecta."
+          },
+          {
+              "pregunta": ["¿Duelen los frenillos?", "duele ponerse brackets", "dolor de frenillos", "molestan los frenillos", "que tan dolorosos son los brackets", "dolor por ortodoncia"],
+              "respuesta": "Mira, cuando recién te ponen los frenillos o te los ajustan, puede que te molesten un poco los primeros días. No es un dolor terrible, es más como una presión. Se pasa con analgésicos y comiendo cositas blandas. Después te acostumbrai y ni los sentí. ¡Vale la pena el esfuerzo pa' tener los dientes derechitos!"
+          },
+          {
+              "pregunta": ["¿Qué no puedo comer con frenillos?", "alimentos prohibidos con brackets", "que comer con frenillos", "comidas permitidas con brackets", "que no debo comer con ortodoncia"],
+              "respuesta": "Con frenillos hay que tener cuidado con las comidas muy duras o pegajosas. Evita los dulces duros, chicles, maní, palomitas de maíz y cosas que se pegan caleta. También hay que tener cuidado con las manzanas duras o el choclo en la coronta. Mejor corta todo en pedazos chicos. Si se te suelta un bracket por comer algo que no debías, vai a tener que ir al dentista a que te lo pegue de nuevo."
+          }
+      ],
+      "estetica_dental": [
+          {
+              "pregunta": ["¿Cómo blanquear los dientes?", "blanqueamiento dental", "como tener dientes mas blancos", "dientes amarillos que hacer", "blanqueamiento casero dental", "aclaramiento dental"],
+              "respuesta": "Pa' blanquear los dientes tenís varias opciones: está el blanqueamiento profesional en la consulta que es más rápido y efectivo, o el casero con férulas que te hace el dentista. Los productos de farmacia como pastas blanqueadoras ayudan pero no hacen milagros. Ojo que el limón y el bicarbonato pueden dañar el esmalte, mejor no te mandís esas tallas caseras. Lo más importante es mantener una buena higiene y evitar las cosas que manchan como el café, té, vino tinto y cigarro."
+          },
+          {
+              "pregunta": ["¿Qué son las carillas dentales?", "carillas de porcelana", "carillas esteticas", "veneer dental", "carillas que son", "para que sirven las carillas"],
+              "respuesta": "Las carillas son como unas láminas finitas que se pegan en los dientes pa' mejorar su forma o color. Son bacanes pa' arreglar dientes chuecos, manchados o con espacios entre medio. Se pueden hacer de porcelana o de composite. Las de porcelana son más caras pero duran más y se ven más naturales. Es un tratamiento estético super popular porque te puede cambiar la sonrisa caleta."
+          }
+      ],
+      "prevencion": [
+          {
+              "pregunta": ["¿Cómo prevenir las caries?", "como evitar las caries", "prevenir caries", "que hacer para no tener caries", "consejos para evitar caries", "como cuidar los dientes"],
+              "respuesta": "Pa' prevenir las caries lo más importante es: lavarte bien los dientes después de cada comida, usar pasta con flúor, pasar hilo dental, no comer tantos dulces (y si comís, lavarte al tiro), y visitar al dentista cada 6 meses pa' una limpieza y revisión. También ayuda tomar harta agua y masticar chicle sin azúcar después de comer si no podís lavarte al tiro."
+          },
+          {
+              "pregunta": ["¿Cada cuanto ir al dentista?", "cada cuanto tiempo hay que ir al dentista", "visitas al dentista frecuencia", "control dental cada cuanto", "revision dental frecuencia"],
+              "respuesta": "Lo ideal es ir al dentista cada 6 meses pa' una revisión y limpieza, aunque no tengai ninguna molestia. Así pueden cachar cualquier drama a tiempo antes de que se ponga más complicado. Si usai frenillos o tenís problemas en las encías, capaz que tengai que ir más seguido. ¡No esperís a que te duela algo pa' ir al dentista!"
+          }
+      ],
+      "ninos_y_dientes": [
+          {
+              "pregunta": ["¿Cuándo empiezan a salir los dientes en los bebes?", "primera denticion", "dientes de leche cuando salen", "edad dientes bebes", "cuando salen los primeros dientes", "denticion temporal"],
+              "respuesta": "Los dientes de leche empiezan a salir como a los 6 meses, aunque algunos bebés pueden ser más temprano o más tarde, es normal. Primero salen los de adelante abajo, después los de arriba y así. Pa' cuando tienen 3 años ya deberían tener todos sus dientes de leche (20 en total). Cuando les están saliendo pueden estar más mañosos y babear caleta, es normal."
+          },
+          {
+              "pregunta": ["¿Cuándo hay que empezar a lavar los dientes a los niños?", "higiene dental niños", "cuando cepillar dientes bebes", "como lavar dientes niños", "cepillado dental infantil"],
+              "respuesta": "Hay que empezar a limpiar las encías del bebé incluso antes de que le salgan los dientes, con una gasa húmeda. Cuando sale el primer diente, ahí hay que empezar a cepillar con un cepillo chiquitito y pasta sin flúor. Después de los 2 años ya pueden usar pasta con flúor pero poquita, del porte de un granito de arroz. Es importante enseñarles desde chiquititos pa' que agarren el hábito."
+          },
+          {
+              "pregunta": ["¿Cuándo se caen los dientes de leche?", "cambio de dientes", "dientes permanentes cuando salen", "cuando se mudan los dientes", "dientes definitivos edad"],
+              "respuesta": "Los dientes de leche empiezan a mudarse como a los 6 años, partiendo por los de adelante. El proceso dura varios años, hasta como los 12 o 13. No hay que sacarlos a la fuerza, tienen que caerse solitos cuando estén listos. Si un diente de leche se cae antes por un golpe o caries, hay que ir al dentista pa' ver si necesita un mantenedor de espacio."
+          }
+      ],
+      "alimentacion_salud_dental": [
+          {
+              "pregunta": ["¿Qué alimentos son buenos para los dientes?", "comidas saludables dientes", "alimentos que fortalecen dientes", "que comer para dientes sanos", "dieta buena para dientes"],
+              "respuesta": "Los mejores alimentos pa' tus dientes son: lácteos (por el calcio), frutas y verduras crudas (porque te hacen masticar más y limpian natural), frutos secos (tienen minerales buenos) y quesos (ayudan a neutralizar los ácidos). El agua también es super importante. Evita las weas muy azucaradas o ácidas, y si las comí, pégate un cepillado después."
+          },
+          {
+              "pregunta": ["¿El café mancha los dientes?", "que mancha los dientes", "alimentos que manchan dientes", "porque se manchan los dientes", "como evitar manchas en dientes"],
+              "respuesta": "Sí, el café mancha caleta los dientes, igual que el té, el vino tinto, las bebidas de cola y el cigarro. Si tomái mucho café, podís usar bombilla o enjuagarte la boca con agua después. También ayuda lavarse los dientes 30 minutos después (no al tiro porque el ácido ablanda el esmalte). Si ya tenís los dientes manchados, una limpieza profesional o un blanqueamiento te pueden ayudar."
+          }
+      ],
+      "preguntas_generales": [
+          {
+              "pregunta": ["¿Por qué es importante la saliva?", "funcion de la saliva", "para que sirve la saliva", "boca seca que hacer", "poca saliva problemas"],
+              "respuesta": "La saliva es super importante porque ayuda a limpiar la boca, neutraliza los ácidos, remineraliza los dientes y mata bacterias. Si tenís la boca seca (xerostomía) podís tener más caries y problemas en las encías. Pa' aumentar la saliva: toma harta agua, mastica chicle sin azúcar, evita la cafeína y el copete, y si es muy heavy, hay sprays y pastillas que ayudan."
+          },
+          {
+              "pregunta": ["¿Qué es el bruxismo?", "rechino los dientes", "apreto los dientes", "bruxismo que hacer", "placa dental bruxismo", "ferula descarga"],
+              "respuesta": "El bruxismo es cuando apretai o rechínai los dientes, generalmente cuando dormís o estai estresado. Puede desgastar los dientes, causar dolor de cabeza y problemas en la mandíbula. El dentista te puede hacer una placa o férula pa' usar en la noche y proteger los dientes. También ayuda reducir el estrés, hacer ejercicios de relajación y evitar la cafeína."
+          },
+          {
+              "pregunta": ["¿Es normal que los dientes se muevan?", "dientes flojos adultos", "movilidad dental", "dientes se mueven", "porque se sueltan los dientes"],
+              "respuesta": "No es normal que los dientes se muevan en adultos. Si notai que tus dientes están más sueltos, puede ser por enfermedad de las encías (periodontitis), bruxismo, o un problema en el hueso. Es importante ir al dentista al tiro porque si no se trata, podís terminar perdiendo los dientes. Con tratamiento a tiempo se puede controlar en la mayoría de los casos."
+          }
+      ]
+  }
+}

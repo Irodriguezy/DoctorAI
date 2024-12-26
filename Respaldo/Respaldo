@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Doctor: Dentista</title>
+    <style>
+        body {
+            background-color: #F0F8FF;
+            color: #000000;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .chat-container {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            max-height: 500px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+        .chat-input {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .chat-input input[type="text"] {
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+            min-height: 25px; /* Ajustamos la altura a una sola línea */
+            line-height: 25px; /* Reducimos el espacio entre líneas */
+            margin-bottom: 0;
+            box-sizing: border-box;
+        }
+        .chat-input button {
+            padding: 5px 10px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px; /* Reducido el tamaño del botón */
+        }
+        .chat-input button.send-btn {
+            width: 33%; /* Botón "Enviar" al 1/3 de su tamaño original */
+        }
+        .chat-input input[type="file"] {
+            padding: 5px;
+            font-size: 12px; /* Ajustamos el tamaño del archivo */
+        }
+        .chat-messages {
+            max-height: 300px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+        .chat-message {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .user-message {
+            background-color: #E6E6FA;
+        }
+        .ai-message {
+            background-color: #D3D3D3;
+        }
+        .left-image {
+            position: fixed;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            width: 500px; /* Reducimos la imagen izquierda a 500px */
+        }
+        .right-image {
+            position: fixed;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            width: 600px; /* La imagen de la derecha sigue siendo grande */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>AI Doctor: Dentista</h1>
+        <h2>¿En qué te puedo ayudar hoy?</h2>
+        <div class="chat-container">
+            <div class="chat-messages">
+                <!-- Los mensajes del chat se mostrarán aquí -->
+            </div>
+            <div class="chat-input">
+                <input type="text" id="user-name" placeholder="Ingresa tu nombre y apellido">
+                <input type="text" id="user-input" placeholder="Escribe tu mensaje...">
+                <button class="send-btn" onclick="sendChatMessage()">Enviar</button>
+                <input type="file" id="file-input" />
+            </div>
+        </div>
+    </div>
+    <img src="https://png.pngtree.com/png-clipart/20211121/original/pngtree-cute-dentist-in-cartoon-style-png-image_6950456.png" alt="Dentista" class="left-image">
+    <img src="https://cdn3d.iconscout.com/3d/premium/thumb/dentista-asiento-sobre-los-dientes-4541158-3770002.png" alt="Dentista" class="right-image">
+
+    <script>
+        const userInput = document.getElementById('user-input');
+        const userName = document.getElementById('user-name');
+        const chatMessages = document.querySelector('.chat-messages');
+
+        const responses = {
+            "hola": "¡Hola! ¿Cómo puedo ayudarte con tu consulta dental?",
+            "me duele un diente": "Si te duele un diente, podría ser una caries, inflamación o un problema más profundo. Es mejor que consultes a un dentista. Si quieres que te pueda orientar mejor, dame más detalles o bien adjunta alguna radiografía.",
+            "que hago si me sangran las encías": "Si te sangran las encías, podrías tener gingivitis. Usa hilo dental y consulta un especialista pronto. Si quieres que te pueda orientar mejor, dame más detalles o bien adjunta alguna radiografía.",
+            "tengo mal aliento": "El mal aliento puede deberse a problemas dentales o estomacales. Una evaluación dental es clave. Si quieres que te pueda orientar mejor, dame más detalles o bien adjunta alguna radiografía.",
+            "que es la caries": "La caries es una enfermedad dental que daña el esmalte y requiere tratamiento. Si quieres que te pueda orientar mejor, dame más detalles o bien adjunta alguna radiografía.",
+            "me duele la muela del juicio": "El dolor de la muela del juicio puede indicar inflamación o falta de espacio. Acude a un odontólogo. Si quieres que te pueda orientar mejor, dame más detalles o bien adjunta alguna radiografía.",
+            "por que se me mueven los dientes": "Dientes flojos pueden ser señal de problemas periodontales. Consulta un periodoncista. Si quieres que te pueda orientar mejor, dame más detalles o bien adjunta alguna radiografía.",
+            "necesito ortodoncia": "Si necesitas ortodoncia, busca un especialista en ortodoncia para evaluar tus opciones. Si quieres que te pueda orientar mejor, dame más detalles o bien adjunta alguna radiografía.",
+            "como puedo blanquear mis dientes": "Para blanquear tus dientes, consulta un dentista que ofrezca tratamientos seguros. Si quieres que te pueda orientar mejor, dame más detalles o bien adjunta alguna radiografía.",
+            "me duele mucho": "Si te duele mucho, es importante que consultes con un dentista lo más pronto posible. Si quieres que te pueda orientar mejor, dame más detalles o bien adjunta alguna radiografía.",
+            "me está sangrando": "Si te está sangrando, puede ser una señal de gingivitis o una afección periodontal. Es importante que acudas a un especialista. Si quieres que te pueda orientar mejor, dame más detalles o bien adjunta alguna radiografía.",
+            "me duele una muela": "Si te duele una muela, puede ser una caries o un problema en la encía. Acude a un dentista para una evaluación. Si quieres que te pueda orientar mejor, dame más detalles o bien adjunta alguna radiografía.",
+            "ayuda": "Claro, ¿cómo te puedo ayudar? ¿Tienes algún problema dental específico?",
+            "ayuda por favor": "Claro, por favor cuéntame más sobre tu problema y te ayudaré en lo que pueda.",
+            "tengo una carie": "Si tienes una carie, lo mejor es que un dentista la trate para evitar que se agrave. Si quieres que te pueda orientar mejor, dame más detalles o bien adjunta alguna radiografía.",
+            "creo que tengo una carie": "Si crees que tienes una carie, es importante que la evalúe un profesional para evitar mayores complicaciones. Si quieres que te pueda orientar mejor, dame más detalles o bien adjunta alguna radiografía.",
+            "donde puedo ir": "Te puedo recomendar algunas clínicas y darte un presupuesto estimado. ¿Te gustaría que lo haga?",
+            "yo te puedo recomendar algunas clínicas y te puedo decir algunos presupuestos": "Claro, si me dices tu ubicación y necesidades, puedo darte algunas opciones de clínicas y presupuesto estimado.",
+            "puedes analizar examenes": "Puedo analizar radiografías e imágenes que se distingan las densidades de los dientes con blanco y negro. Por favor adjunta una imagen.",
+            "solo radiografias e imagenes que se distingan las densidades de los dientes con blanco y negro": "Correcto, solo puedo analizar radiografías e imágenes que tengan contraste adecuado, especialmente las que muestran las densidades de los dientes.",
+            "me duele los dientes al masticar": "Dolor al masticar puede indicar caries o daño en el diente. Es mejor evaluarlo. Si quieres que te pueda orientar mejor, dame más detalles o bien adjunta alguna radiografía.",
+            "cada cuanto debo ir al dentista": "Visita al dentista al menos dos veces al año para chequeos regulares. Si quieres que te pueda orientar mejor, dame más detalles o bien adjunta alguna radiografía.",
+            "que tipo de cepillo debo usar": "Usa un cepillo suave y cámbialo cada tres meses. Si quieres que te pueda orientar mejor, dame más detalles o bien adjunta alguna radiografía.",
+            "que pasta dental es mejor": "Busca pastas con flúor y que se ajusten a tus necesidades específicas. Si quieres que te pueda orientar mejor, dame más detalles o bien adjunta alguna radiografía.",
+            "que es la gingivitis": "La gingivitis es inflamación de las encías por acumulación de placa. Si quieres que te pueda orientar mejor, dame más detalles o bien adjunta alguna radiografía.",
+            "por que me duelen los dientes despues de un tratamiento": "Dolor después de un tratamiento puede ser temporal. Consulta a tu dentista si persiste. Si quieres que te pueda orientar mejor, dame más detalles o bien adjunta alguna radiografía."
+        };
+
+        function sendChatMessage() {
+            const message = userInput.value.toLowerCase().replace(/[^\w\sáéíóú]/g, ''); // Normalizar y quitar signos innecesarios
+            const userName = document.getElementById('user-name').value || "Usuario";
+            const date = new Date();
+            const hours = date.getHours().toString().padStart(2, '0');
+            const minutes = date.getMinutes().toString().padStart(2, '0');
+            const time = `${hours}:${minutes}`;
+
+            const userMessageDiv = document.createElement('div');
+            userMessageDiv.classList.add('chat-message', 'user-message');
+            userMessageDiv.innerHTML = `<strong>${userName}</strong> (${time}): ${userInput.value}`;
+            chatMessages.appendChild(userMessageDiv);
+            
+            userInput.value = '';
+
+            let aiResponse = "Lo siento, no entendí tu consulta.";
+
+            // Buscar respuesta correspondiente en el objeto responses
+            if (responses[message]) {
+                aiResponse = responses[message];
+            }
+
+            const aiMessageDiv = document.createElement('div');
+            aiMessageDiv.classList.add('chat-message', 'ai-message');
+            aiMessageDiv.innerHTML = `<strong>Dr. AI</strong> (${time}): ${aiResponse}`;
+            chatMessages.appendChild(aiMessageDiv);
+
+            // Desplazar la vista hacia abajo para mostrar el último mensaje
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        userInput.addEventListener('keyup', function(event) {
+            if (event.key === 'Enter' && userInput.value.trim() !== '') {
+                sendChatMessage();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+{
+  "questions": [
+    {
+      "question": "hola",
+      "answer": "¡Hola! ¿Cómo puedo ayudarte con tu consulta dental?"
+    },
+    {
+      "question": "me duele un diente",
+      "answer": "Si te duele un diente, podría ser una caries, inflamación o un problema más profundo. Es mejor que consultes a un dentista. Si quieres que te pueda orientar mejor, dame más detalles o bien adjunta alguna radiografía."
+    },
+    {
+      "question": "que hago si me sangran las encías",
+      "answer": "Si te sangran las encías, podrías tener gingivitis. Usa hilo dental y consulta un especialista pronto. Si quieres que te pueda orientar mejor, dame más detalles o bien adjunta alguna radiografía."
+    },
+    {
+      "question": "tengo mal aliento",
+      "answer": "El mal aliento puede deberse a problemas dentales o estomacales. Una evaluación dental es clave. Si quieres que te pueda orientar mejor, dame más detalles o bien adjunta alguna radiografía."
+    },
+    {
+      "question": "que es la caries",
+      "answer": "La caries es una enfermedad dental que daña el esmalte y requiere tratamiento. Si quieres que te pueda orientar mejor, dame más detalles o bien adjunta alguna radiografía."
+    },
+    {
+      "question": "me duele la muela del juicio",
+      "answer": "El dolor de la muela del juicio puede indicar inflamación o falta de espacio. Acude a un odontólogo. Si quieres que te pueda orientar mejor, dame más detalles o bien adjunta alguna radiografía."
+    },
+    {
+      "question": "por que se me mueven los dientes",
+      "answer": "Dientes flojos pueden ser señal de problemas periodontales. Consulta un periodoncista. Si quieres que te pueda orientar mejor, dame más detalles o bien adjunta alguna radiografía."
+    },
+    {
+      "question": "necesito ortodoncia",
+      "answer": "Si necesitas ortodoncia, busca un especialista en ortodoncia para evaluar tus opciones. Si quieres que te pueda orientar mejor, dame más detalles o bien adjunta alguna radiografía."
+    },
+    {
+      "question": "como puedo blanquear mis dientes",
+      "answer": "Para blanquear tus dientes, consulta un dentista que ofrezca tratamientos seguros. Si quieres que te pueda orientar mejor, dame más detalles o bien adjunta alguna radiografía."
+    },
+    {
+      "question": "me duele mucho",
+      "answer": "Si te duele mucho, es importante que consultes con un dentista lo más pronto posible. Si quieres que te pueda orientar mejor, dame más detalles o bien adjunta alguna radiografía."
+    },
+    {
+      "question": "me está sangrando",
+      "answer": "Si te está sangrando, puede ser una señal de gingivitis o una afección periodontal. Es importante que acudas a un especialista. Si quieres que te pueda orientar mejor, dame más detalles o bien adjunta alguna radiografía."
+    },
+    {
+      "question": "me duele una muela",
+      "answer": "Si te duele una muela, puede ser una caries o un problema en la encía. Acude a un dentista para una evaluación. Si quieres que te pueda orientar mejor, dame más detalles o bien adjunta alguna radiografía."
+    },
+    {
+      "question": "ayuda",
+      "answer": "Claro, ¿cómo te puedo ayudar? ¿Tienes algún problema dental específico?"
+    },
+    {
+      "question": "ayuda por favor",
+      "answer": "Claro, por favor cuéntame más sobre tu problema y te ayudaré en lo que pueda."
+    },
+    {
+      "question": "tengo una carie",
+      "answer": "Si tienes una carie, lo mejor es que un dentista la trate para evitar que se agrave. Si quieres que te pueda orientar mejor, dame más detalles o bien adjunta alguna radiografía."
+    },
+    {
+      "question": "creo que tengo una carie",
+      "answer": "Si crees que tienes una carie, es importante que la evalúe un profesional para evitar mayores complicaciones. Si quieres que te pueda orientar mejor, dame más detalles o bien adjunta alguna radiografía."
+    },
+    {
+      "question": "donde puedo ir",
+      "answer": "Te puedo recomendar algunas clínicas y darte un presupuesto estimado. ¿Te gustaría que lo haga?"
+    },
+    {
+      "question": "puedes analizar examenes",
+      "answer": "Puedo analizar radiografías e imágenes que se distingan las densidades de los dientes con blanco y negro. Por favor adjunta una imagen."
+    },
+    {
+      "question": "me duelen los dientes al masticar",
+      "answer": "Dolor al masticar puede indicar caries o daño en el diente. Es mejor evaluarlo. Si quieres que te pueda orientar mejor, dame más detalles o bien adjunta alguna radiografía."
+    },
+    {
+      "question": "cada cuanto debo ir al dentista",
+      "answer": "Visita al dentista al menos dos veces al año para chequeos regulares. Si quieres que te pueda orientar mejor, dame más detalles o bien adjunta alguna radiografía."
+    },
+    {
+      "question": "que tipo de cepillo debo usar",
+      "answer": "Usa un cepillo suave y cámbialo cada tres meses. Si quieres que te pueda orientar mejor, dame más detalles o bien adjunta alguna radiografía."
+    },
+    {
+      "question": "que pasta dental es mejor",
+      "answer": "Busca pastas con flúor y que se ajusten a tus necesidades específicas. Si quieres que te pueda orientar mejor, dame más detalles o bien adjunta alguna radiografía."
+    },
+    {
+      "question": "que es la gingivitis",
+      "answer": "La gingivitis es inflamación de las encías por acumulación de placa. Si quieres que te pueda orientar mejor, dame más detalles o bien adjunta alguna radiografía."
+    },
+    {
+      "question": "que hago si me fracture un diente",
+      "answer": "Si fracturaste un diente, guarda el fragmento y consulta urgentemente a un dentista. Si quieres que te pueda orientar mejor, dame más detalles o bien adjunta alguna radiografía."
+    },
+    {
+      "question": "que hago si tengo fiebre despues de un tratamiento dental",
+      "answer": "La fiebre después de un tratamiento puede ser señal de infección. Consulta a tu dentista si la fiebre persiste. Si quieres que te pueda orientar mejor, dame más detalles o bien adjunta alguna radiografía."
+    },
+    {
+      "question": "me salen manchas blancas en los dientes",
+      "answer": "Las manchas blancas pueden ser un signo de desmineralización, que es un indicio temprano de caries. Si quieres que te pueda orientar mejor, dame más detalles o bien adjunta alguna radiografía."
+    }
+  ]
+}
+
+    // Agrega aquí las demás preguntas restantes de la lista
+  ]
+}
+

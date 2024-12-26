@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Doctor: Dentista</title>
+    <style>
+        body {
+            background-color: #F0F8FF;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+        .chat-container {
+            border: 1px solid #ccc;
+            padding: 10px;
+            max-height: 500px;
+            overflow-y: auto;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        .chat-message {
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .user-message {
+            text-align: left;
+        }
+        .user-message strong {
+            color: green;
+        }
+        .ai-message {
+            text-align: left;
+        }
+        .ai-message strong {
+            color: blue;
+        }
+        .chat-input {
+            display: flex;
+            justify-content: space-between;
+        }
+        .chat-input input {
+            flex: 1;
+            margin-right: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .chat-input button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        .image-left {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 600px; /* Agrandar imagen */
+        }
+        .image-right {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 600px; /* Agrandar imagen */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>AI Doctor: Dentista</h1>
+        <div class="chat-container" id="chat-container"></div>
+        <div class="chat-input">
+            <input type="text" id="user-name" placeholder="Tu nombre">
+            <input type="text" id="user-message" placeholder="Escribe tu mensaje" onkeydown="handleEnter(event)">
+            <button onclick="sendMessage()">Enviar</button>
+        </div>
+    </div>
+    <img src="https://png.pngtree.com/png-clipart/20211121/original/pngtree-cute-dentist-in-cartoon-style-png-image_6950456.png" alt="Dentista" class="image-left">
+    <img src="https://cdn3d.iconscout.com/3d/premium/thumb/dentista-asiento-sobre-los-dientes-4541158-3770002.png" alt="Dentista" class="image-right">
+    <script>
+        async function sendMessage() {
+            const userName = document.getElementById('user-name').value || 'Usuario';
+            const userMessage = document.getElementById('user-message').value.trim();
+            const chatContainer = document.getElementById('chat-container');
+
+            if (!userMessage) return;
+
+            const now = new Date();
+            const time = now.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+
+            // Añadir mensaje del usuario
+            const userDiv = document.createElement('div');
+            userDiv.className = 'chat-message user-message';
+            userDiv.innerHTML = `<strong>${userName} (${time}):</strong> ${userMessage}`;
+            chatContainer.appendChild(userDiv);
+
+            try {
+                const response = await fetch('/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: userMessage })
+                });
+                const data = await response.json();
+
+                // Añadir respuesta del AI
+                const aiDiv = document.createElement('div');
+                aiDiv.className = 'chat-message ai-message';
+                aiDiv.innerHTML = `<strong>Dr. AI (${time}):</strong> ${data.response}`;
+                chatContainer.appendChild(aiDiv);
+            } catch (error) {
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'chat-message ai-message';
+                errorDiv.innerHTML = '<strong>Dr. AI:</strong> Hubo un error al procesar tu solicitud.';
+                chatContainer.appendChild(errorDiv);
+            }
+
+            document.getElementById('user-message').value = '';
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function handleEnter(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+

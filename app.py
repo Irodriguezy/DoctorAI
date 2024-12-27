@@ -23,16 +23,19 @@ def find_best_match(user_question, qa_data):
         print("Error: qa_data está vacío o no tiene el formato correcto")
         return None
     
-    user_question = user_question.lower()
+    user_question = user_question.lower().strip()
+    print(f"\nBuscando coincidencia para: '{user_question}'")
     
     # Buscar en todas las categorías
-    for categoria, preguntas in qa_data['categorias'].items():
-        for qa in preguntas:
-            # Verifica si la pregunta del usuario coincide con alguna variante
-            for pregunta in qa['pregunta']:
-                if user_question in pregunta.lower() or pregunta.lower() in user_question:
-                    print(f"Coincidencia encontrada en categoría: {categoria}")
-                    return qa['respuesta']
+    for categoria_nombre, categoria_data in qa_data['categorias'].items():
+        print(f"Revisando categoría: {categoria_nombre}")
+        for qa_item in categoria_data:
+            for variant in qa_item['pregunta']:
+                variant = variant.lower().strip()
+                print(f"Comparando '{user_question}' con '{variant}'")
+                if user_question == variant or user_question in variant or variant in user_question:
+                    print(f"¡Coincidencia encontrada en {categoria_nombre}!")
+                    return qa_item['respuesta']
     
     print("No se encontró coincidencia en preguntas.json")
     return None
@@ -311,6 +314,7 @@ def chat():
     try:
         data = request.json
         user_message = data.get('message', '').strip()
+        print(f"\n=== Nuevo mensaje recibido: '{user_message}' ===")
         user_name = data.get('userName', '')
         user_last_name = data.get('userLastName', '')
         timestamp = datetime.now().strftime("%H:%M")

@@ -120,7 +120,12 @@ CLINICAS = {
 
 def load_qa_data():
     try:
-        with open('preguntas.json', 'r', encoding='utf-8') as file:
+        # Obtener la ruta del directorio actual
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        # Construir la ruta completa al archivo
+        json_path = os.path.join(current_dir, 'preguntas.json')
+        
+        with open(json_path, 'r', encoding='utf-8') as file:
             data = json.load(file)
             qa_list = []
             for categoria in data['categorias'].values():

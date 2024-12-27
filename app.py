@@ -1,528 +1,386 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Doctor - Consultas Dentales</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+from flask import Flask, request, jsonify, render_template
+from flask_cors import CORS
+import json
+import difflib
+import os
+from dotenv import load_dotenv
+import cohere
+from datetime import datetime
+import random
 
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 40px;
-            background-color: #f0f2f5;
-            min-height: 100vh;
-            margin: 0;
-        }
+app = Flask(__name__)
+CORS(app)
+load_dotenv()
 
-        .modal {
-            display: flex;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
+# Configuración para producción
+PORT = int(os.environ.get('PORT', 5000))
+DEBUG = os.environ.get('FLASK_ENV') != 'production'
 
-        .modal-content {
-            background-color: white;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            width: 90%;
-            max-width: 400px;
-        }
+co = cohere.Client(os.getenv('COHERE_API_KEY'))
 
-        .form-group {
-            margin: 20px 0;
-            position: relative;
-        }
+def load_qa_data():
+    try:
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        json_path = os.path.join(current_dir, 'preguntas.json')
+        
+        with open(json_path, 'r', encoding='utf-8') as file:
+            data = json.load(file)
+            qa_list = []
+            for categoria, preguntas in data['categorias'].items():
+                for qa_pair in preguntas:
+                    if isinstance(qa_pair['pregunta'], list):
+                        for pregunta in qa_pair['pregunta']:
+                            qa_list.append({
+                                'pregunta': pregunta.lower().strip(),
+                                'respuesta': qa_pair['respuesta']
+                            })
+                    else:
+                        qa_list.append({
+                            'pregunta': qa_pair['pregunta'].lower().strip(),
+                            'respuesta': qa_pair['respuesta']
+                        })
+            return qa_list
+    except Exception as e:
+        print(f"Error al cargar JSON: {e}")
+        return []
+# ... existing code ...
 
-        .form-group.required label::after {
-            content: " *";
-            color: #dc3545;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 5px;
-            font-size: 16px;
-            transition: border-color 0.3s ease;
-        }
-
-        .form-group input:focus {
-            border-color: #007bff;
-            outline: none;
-        }
-
-        .form-group.error input {
-            border-color: #dc3545;
-        }
-
-        .helper-text {
-            display: block;
-            font-size: 0.8em;
-            color: #666;
-            margin-top: 4px;
-        }
-
-        .error-message {
-            display: none;
-            color: #dc3545;
-            font-size: 0.8em;
-            margin-top: 4px;
-        }
-
-        .error-message.visible {
-            display: block;
-        }
-
-        .required-fields {
-            font-size: 0.8em;
-            color: #666;
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        .side-image {
-            width: 400px;
-            height: auto;
-            object-fit: contain;
-            position: sticky;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-
-        .chat-container {
-            background-color: white;
-            border-radius: 10px;
-            padding: 40px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            width: 60%;
-            margin: 0 40px;
-            min-height: 80vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .chat-header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding: 0 40px;
-            color: #2c3e50;
-        }
-
-        .user-info {
-            text-align: right;
-            padding: 20px 40px;
-            color: #666;
-            font-size: 0.9em;
-            border-bottom: 1px solid #eee;
-            margin-bottom: 40px;
-        }
-
-        #chat-history {
-            flex-grow: 1;
-            overflow-y: auto;
-            margin: 40px 0;
-            padding: 0 40px;
-            background-color: #ffffff;
-        }
-
-        .message {
-            margin: 20px 0;
-            padding: 15px;
-            border-radius: 10px;
-            max-width: 80%;
-            position: relative;
-            background-color: #f8f9fa;
-        }
-
-        .user-message {
-            margin-left: auto;
-            color: #333;
-        }
-
-        .user-name {
-            font-weight: bold !important;
-            color: #28a745 !important;
-        }
-
-        .bot-name {
-            font-weight: bold;
-            color: #007bff;
-        }
-
-        .message-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 5px;
-        }
-
-        .message-time {
-            color: #666;
-            font-size: 0.8em;
-            margin-left: 10px;
-        }
-
-        .message-content {
-            margin-top: 5px;
-            line-height: 1.4;
-        }
-
-        .input-container {
-            display: flex;
-            gap: 10px;
-            padding: 15px;
-            border-top: 1px solid #eee;
-            background-color: white;
-            border-bottom-left-radius: 10px;
-            border-bottom-right-radius: 10px;
-            position: sticky;
-            bottom: 0;
-        }
-
-        #user-input {
-            flex-grow: 1;
-            padding: 12px 15px;
-            border: 2px solid #ddd;
-            border-radius: 5px;
-            font-size: 14px;
-            transition: border-color 0.3s ease;
-        }
-
-        #user-input:focus {
-            border-color: #007bff;
-            outline: none;
-        }
-
-        button {
-            padding: 12px 25px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: background-color 0.3s ease;
-        }
-
-        button:hover {
-            background-color: #0056b3;
-        }
-
-        button:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
-        }
-
-        .typing-indicator {
-            display: none;
-            padding: 15px;
-            background-color: #f1f0f0;
-            border-radius: 10px;
-            margin: 20px 0;
-        }
-    </style>
-</head>
-<body>
-    <img src="static/Logo1.png" alt="Dental Care" class="side-image">
+def find_best_match(user_question, qa_data):
+    if not qa_data or 'preguntas' not in qa_data:
+        print("Error: qa_data está vacío o no tiene el formato correcto")
+        return None
+        
+    questions = [q['pregunta'] for q in qa_data['preguntas']]
+    print(f"Preguntas disponibles: {questions}")  # Debug
+    print(f"Buscando coincidencia para: {user_question}")  # Debug
     
-    <div class="chat-container">
-        <div class="chat-header">
-            <h1>AI Doctor - Consultas Dentales</h1>
-            <p>Tu asistente dental virtual</p>
-        </div>
-
-        <div id="user-info" class="user-info hidden">
-            <span id="display-name"></span>
-        </div>
-
-        <div id="chat-history"></div>
-
-        <div class="typing-indicator">
-            <span>AI Doctor está escribiendo...</span>
-        </div>
-
-        <div class="input-container">
-            <input type="text" id="user-input" placeholder="Escribe tu mensaje..." disabled>
-            <button id="send-button" disabled>Enviar</button>
-        </div>
-    </div>
-
-    <img src="static/Logo2.png" alt="Dental Care" class="side-image">
-
-    <div id="welcome-modal" class="modal">
-        <div class="modal-content">
-            <h2>Bienvenido a AI Doctor</h2>
-            <p>Por favor, ingresa tus datos para comenzar:</p>
+    matches = get_close_matches(user_question.lower(), [q.lower() for q in questions], n=1, cutoff=0.6)
+    print(f"Coincidencias encontradas: {matches}")  # Debug
+    
+    if matches:
+        for qa in qa_data['preguntas']:
+            if qa['pregunta'].lower() == matches[0].lower():
+                print(f"Respuesta encontrada en preguntas.json")  # Debug
+                return qa['respuesta']
+    print("No se encontró coincidencia en preguntas.json")  # Debug
+    return None
+# Base de datos de clínicas
+CLINICAS = {
+    "san_cristobal": {
+        "nombre": "Clínica Dental San Cristóbal",
+        "web": "https://www.clinicasancristobal.cl/",
+        "comuna": "providencia",
+        "tratamientos": ["Odontología general", "Endodoncia", "Ortodoncia", "Implantes dentales", "Prótesis", "Blanqueamiento dental"],
+        "rango_precios": "20.000 - 500.000 CLP",
+        "descripcion": "Clínica con amplia experiencia en tratamientos dentales integrales."
+    },
+    "las_condes": {
+        "nombre": "Clínica Dental Las Condes",
+        "web": "https://www.clinicadental.cl/",
+        "comuna": "las condes",
+        "tratamientos": ["Odontología estética", "Implantes", "Ortodoncia", "Endodoncia", "Periodoncia", "Odontopediatría"],
+        "rango_precios": "30.000 - 300.000 CLP",
+        "descripcion": "Especialistas en odontología estética y tratamientos avanzados."
+    },
+    "providencia": {
+        "nombre": "Clínica Dental Providencia",
+        "web": "https://www.clinicadentalprovidencia.cl/",
+        "comuna": "providencia",
+        "tratamientos": ["Odontología general", "Implantes", "Ortodoncia", "Cirugía oral", "Periodoncia", "Odontopediatría"],
+        "rango_precios": "25.000 - 250.000 CLP",
+        "descripcion": "Atención integral para toda la familia con tecnología de punta."
+    },
+    "vitacura": {
+        "nombre": "Clínica Dental Vitacura",
+        "web": "https://www.clinicadentalvitacura.cl/",
+        "comuna": "vitacura",
+        "tratamientos": ["Odontología estética", "Implantes", "Ortodoncia invisible", "Blanqueamiento dental", "Endodoncia"],
+        "rango_precios": "35.000 - 400.000 CLP",
+        "descripcion": "Especialistas en estética dental y tratamientos invisibles."
+    },
+    "lo_barnechea": {
+        "nombre": "Clínica Dental Lo Barnechea",
+        "web": "https://www.clinicadentalbarnecheas.cl/",
+        "comuna": "lo barnechea",
+        "tratamientos": ["Odontología general", "Implantes", "Ortodoncia", "Odontopediatría", "Cirugía maxilofacial"],
+        "rango_precios": "20.000 - 350.000 CLP",
+        "descripcion": "Atención personalizada con los mejores especialistas."
+    },
+    "la_reina": {
+        "nombre": "Clínica Dental La Reina",
+        "web": "https://www.clinicadentallareina.cl/",
+        "comuna": "la reina",
+        "tratamientos": ["Odontología integral", "Implantes", "Ortodoncia", "Endodoncia", "Periodoncia", "Odontopediatría"],
+        "rango_precios": "25.000 - 400.000 CLP",
+        "descripcion": "Soluciones dentales integrales para toda la familia."
+    },
+    "nunoa": {
+        "nombre": "Clínica Dental Ñuñoa",
+        "web": "https://www.clinicadentalnunoa.cl/",
+        "comuna": "ñuñoa",
+        "tratamientos": ["Odontología general", "Implantes", "Ortodoncia", "Cirugía oral", "Blanqueamiento dental"],
+        "rango_precios": "20.000 - 300.000 CLP",
+        "descripcion": "Atención cercana y profesional en el corazón de Ñuñoa."
+    },
+    "unasalud": {
+        "nombre": "Unasalud",
+        "web": "https://unasalud.cl/",
+        "comuna": "santiago",
+        "tratamientos": ["Odontología general", "Implantes", "Ortodoncia", "Endodoncia", "Periodoncia", "Odontopediatría"],
+        "rango_precios": "20.000 - 350.000 CLP",
+        "descripcion": "Red de clínicas con cobertura en múltiples comunas."
+    },
+    "everest": {
+        "nombre": "Clínica Dental Everest",
+        "web": "https://www.clinicaeverest.cl/",
+        "comuna": "providencia",
+        "tratamientos": ["Odontología integral", "Implantes", "Ortodoncia", "Cirugía maxilofacial", "Odontopediatría"],
+        "rango_precios": "25.000 - 400.000 CLP",
+        "descripcion": "Tecnología de vanguardia y profesionales de excelencia."
+    },
+    "ino": {
+        "nombre": "INO.CL",
+        "web": "https://ino.cl/",
+        "comuna": "las condes",
+        "tratamientos": ["Odontología estética", "Implantes", "Ortodoncia invisible", "Blanqueamiento dental", "Odontopediatría"],
+        "rango_precios": "30.000 - 450.000 CLP",
+        "descripcion": "Especialistas en ortodoncia invisible y estética dental."
+    },
+    "dr_simple": {
+        "nombre": "Dr. Simple",
+        "web": "https://drsimple.cl/",
+        "comuna": "santiago",
+        "tratamientos": ["Odontología general", "Implantes", "Ortodoncia", "Endodoncia", "Blanqueamiento dental"],
+        "rango_precios": "20.000 - 300.000 CLP",
+        "descripcion": "Tratamientos accesibles con calidad garantizada."
+    },
+    "integramedica": {
+        "nombre": "Integramédica",
+        "web": "https://www.integramedica.cl/",
+        "comuna": "multiple",
+        "tratamientos": ["Odontología integral", "Implantes", "Ortodoncia", "Cirugía oral", "Periodoncia"],
+        "rango_precios": "25.000 - 450.000 CLP",
+        "descripcion": "Red de centros médicos y dentales en todo Santiago."
+    }
+}
+def load_qa_data():
+    try:
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        json_path = os.path.join(current_dir, 'preguntas.json')
+        
+        print(f"Intentando cargar JSON desde: {json_path}")  # Debug log
+        
+        with open(json_path, 'r', encoding='utf-8') as file:
+            data = json.load(file)
+            qa_list = []
             
-            <div class="form-group required">
-                <label for="user-nombre">Nombre</label>
-                <input type="text" id="user-nombre" placeholder="Tu nombre">
-                <span class="error-message"></span>
-            </div>
-
-            <div class="form-group required">
-                <label for="user-apellido">Apellido</label>
-                <input type="text" id="user-apellido" placeholder="Tu apellido">
-                <span class="error-message"></span>
-            </div>
-
-            <div class="form-group">
-                <label for="user-telefono">Teléfono</label>
-                <input type="tel" id="user-telefono" placeholder="+56912345678">
-                <span class="helper-text">Formato: +56912345678</span>
-                <span class="error-message"></span>
-            </div>
-
-            <div class="form-group">
-                <label for="user-email">Email</label>
-                <input type="email" id="user-email" placeholder="tucorreo@ejemplo.com">
-                <span class="error-message"></span>
-            </div>
-
-            <button onclick="startChat()">Comenzar Chat</button>
+            # Debug log
+            print(f"Categorías encontradas: {list(data['categorias'].keys())}")
             
-            <p class="required-fields">* Campos obligatorios</p>
-        </div>
-    </div>
-
-    <script>
-        let userName = '';
-        let userLastName = '';
-        let userPhone = '';
-        let userEmail = '';
-
-        function validateEmail(email) {
-            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-        }
-
-        function validatePhone(phone) {
-            return /^\+569\d{8}$/.test(phone);
-        }
-
-        function showError(fieldId, message) {
-            const field = document.getElementById(fieldId);
-            const errorSpan = field.nextElementSibling;
-            field.parentElement.classList.add('error');
-            errorSpan.textContent = message;
-            errorSpan.classList.add('visible');
-        }
-
-        function clearError(fieldId) {
-            const field = document.getElementById(fieldId);
-            field.parentElement.classList.remove('error');
-            const errorSpan = field.nextElementSibling;
-            errorSpan.classList.remove('visible');
-        }
-
-        function getCurrentTime() {
-            const now = new Date();
-            return now.toLocaleTimeString('es-CL', { hour: '2-digit', minute: '2-digit' });
-        }
-
-        function startChat() {
-            const nombre = document.getElementById('user-nombre').value.trim();
-            const apellido = document.getElementById('user-apellido').value.trim();
-            const telefono = document.getElementById('user-telefono').value.trim();
-            const email = document.getElementById('user-email').value.trim();
-            let isValid = true;
-
-            if (!nombre) {
-                showError('user-nombre', 'El nombre es obligatorio');
-                isValid = false;
-            }
-
-            if (!apellido) {
-                showError('user-apellido', 'El apellido es obligatorio');
-                isValid = false;
-            }
-
-            if (telefono && !validatePhone(telefono)) {
-                showError('user-telefono', 'Formato: +56912345678');
-                isValid = false;
-            }
-
-            if (email && !validateEmail(email)) {
-                showError('user-email', 'Ingresa un email válido');
-                isValid = false;
-            }
-
-            if (!isValid) return;
-
-            userName = nombre;
-            userLastName = apellido;
-            userPhone = telefono;
-            userEmail = email;
-
-            document.getElementById('welcome-modal').classList.add('hidden');
-            document.getElementById('user-info').classList.remove('hidden');
-            document.getElementById('display-name').textContent = `${nombre} ${apellido}`;
-            document.getElementById('user-input').disabled = false;
-            document.getElementById('send-button').disabled = false;
-            document.getElementById('user-input').focus();
-
-            // Mensaje de bienvenida
-            addMessage('¡Hola! ¿En qué te puedo ayudar con tu salud dental? Pregúntame cualquier duda que tengas sobre tus dientes.', false);
-        }
-
-        function showTypingIndicator() {
-            const typingIndicator = document.querySelector('.typing-indicator');
-            typingIndicator.style.display = 'block';
-        }
-
-        function hideTypingIndicator() {
-            const typingIndicator = document.querySelector('.typing-indicator');
-            typingIndicator.style.display = 'none';
-        }
-
-        function addMessage(message, isUser) {
-            const chatHistory = document.getElementById('chat-history');
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
-
-            const headerDiv = document.createElement('div');
-            headerDiv.className = 'message-header';
+            for categoria, preguntas in data['categorias'].items():
+                for qa_pair in preguntas:
+                    if isinstance(qa_pair['pregunta'], list):
+                        for pregunta in qa_pair['pregunta']:
+                            qa_list.append({
+                                'pregunta': pregunta.lower().strip(),
+                                'respuesta': qa_pair['respuesta']
+                            })
+                    else:
+                        qa_list.append({
+                            'pregunta': qa_pair['pregunta'].lower().strip(),
+                            'respuesta': qa_pair['respuesta']
+                        })
             
-            const nameSpan = document.createElement('span');
-            nameSpan.className = isUser ? 'user-name' : 'bot-name';
-            nameSpan.textContent = isUser ? `${userName} ${userLastName}` : 'AI Doctor';
+            # Debug log
+            print(f"Total de preguntas cargadas: {len(qa_list)}")
+            return qa_list
             
-            const timeSpan = document.createElement('span');
-            timeSpan.className = 'message-time';
-            timeSpan.textContent = getCurrentTime();
+    except Exception as e:
+        print(f"Error al cargar JSON: {e}")
+        return []
 
-            headerDiv.appendChild(nameSpan);
-            headerDiv.appendChild(timeSpan);
+# ... rest of the code ...
 
-            const contentDiv = document.createElement('div');
-            contentDiv.className = 'message-content';
-            contentDiv.textContent = message;
+def find_best_match(user_input, qa_data):
+    user_input = user_input.lower().strip()
+    best_match = None
+    highest_similarity = 0
 
-            messageDiv.appendChild(headerDiv);
-            messageDiv.appendChild(contentDiv);
-            
-            chatHistory.appendChild(messageDiv);
-            chatHistory.scrollTop = chatHistory.scrollHeight;
-        }
+    # Primero buscar coincidencia exacta
+    for qa in qa_data:
+        if user_input == qa['pregunta']:
+            return qa['respuesta']
 
-        async function sendMessage() {
-            const input = document.getElementById('user-input');
-            const sendButton = document.getElementById('send-button');
-            const message = input.value.trim();
-            
-            if (!message) return;
+    # Si no hay coincidencia exacta, usar similitud
+    for qa in qa_data:
+        # Calcular similitud usando difflib
+        similarity = difflib.SequenceMatcher(None, user_input, qa['pregunta']).ratio()
+        
+        # Si la similitud es mayor a 0.8 (80%), consideramos que es una buena coincidencia
+        if similarity > 0.8:
+            return qa['respuesta']
+        
+        # Actualizar la mejor coincidencia si encontramos una similitud mayor
+        if similarity > highest_similarity:
+            highest_similarity = similarity
+            best_match = qa['respuesta']
 
-            addMessage(message, true);
-            input.value = '';
-            input.disabled = true;
-            sendButton.disabled = true;
-            showTypingIndicator();
+    # Si encontramos una coincidencia con al menos 60% de similitud
+    if highest_similarity > 0.6:
+        return best_match
 
-            try {
-                const response = await fetch('/chat', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ 
-                        message: message,
-                        userName: userName,
-                        userLastName: userLastName,
-                        userPhone: userPhone,
-                        userEmail: userEmail
-                    })
-                });
+    # Si no encontramos ninguna coincidencia buena
+    return None
 
-                const data = await response.json();
-                hideTypingIndicator();
-                addMessage(data.response, false);
-            } catch (error) {
-                console.error('Error:', error);
-                hideTypingIndicator();
-                addMessage('Lo siento, ocurrió un error al procesar tu mensaje. Por favor, intenta nuevamente.', false);
-            } finally {
-                input.disabled = false;
-                sendButton.disabled = false;
-                input.focus();
-            }
-        }
+def get_clinic_recommendations(user_message):
+    user_message = user_message.lower()
+    
+    # Detectar comuna
+    comunas = ["las condes", "providencia", "vitacura", "lo barnechea", "la reina", "ñuñoa", "santiago"]
+    comuna_mencionada = next((comuna for comuna in comunas if comuna in user_message), None)
+    
+    # Detectar tipo de tratamiento
+    tratamientos = {
+        "ortodoncia": ["ortodoncia", "brackets", "frenillos"],
+        "implantes": ["implantes", "implante dental"],
+        "estetica": ["estética", "blanqueamiento", "carillas"],
+        "general": ["general", "limpieza", "caries"]
+    }
+    
+    tratamiento_buscado = None
+    for tipo, keywords in tratamientos.items():
+        if any(keyword in user_message for keyword in keywords):
+            tratamiento_buscado = tipo
+            break
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const sendButton = document.getElementById('send-button');
-            const userInput = document.getElementById('user-input');
+    # Filtrar clínicas
+    clinicas_filtradas = CLINICAS.copy()
+    
+    if comuna_mencionada:
+        clinicas_filtradas = {k: v for k, v in clinicas_filtradas.items() 
+                            if v['comuna'] == comuna_mencionada or v['comuna'] == 'multiple'}
+    
+    if tratamiento_buscado:
+        if tratamiento_buscado == "ortodoncia":
+            clinicas_filtradas = {k: v for k, v in clinicas_filtradas.items() 
+                                if any("ortodoncia" in t.lower() for t in v['tratamientos'])}
+        elif tratamiento_buscado == "implantes":
+            clinicas_filtradas = {k: v for k, v in clinicas_filtradas.items() 
+                                if any("implantes" in t.lower() for t in v['tratamientos'])}
+        elif tratamiento_buscado == "estetica":
+            clinicas_filtradas = {k: v for k, v in clinicas_filtradas.items() 
+                                if any(t.lower() in ["odontología estética", "blanqueamiento dental"] for t in v['tratamientos'])}
 
-            sendButton.addEventListener('click', function(e) {
-                e.preventDefault();
-                sendMessage();
-            });
+    # Si no hay filtros o no hay resultados, seleccionar 3 clínicas al azar
+    if not clinicas_filtradas:
+        selected_clinics = dict(random.sample(list(CLINICAS.items()), 3))
+    else:
+        # Si hay más de 3 clínicas filtradas, seleccionar 3 al azar
+        if len(clinicas_filtradas) > 3:
+            selected_clinics = dict(random.sample(list(clinicas_filtradas.items()), 3))
+        else:
+            selected_clinics = clinicas_filtradas
 
-            sendButton.addEventListener('touchend', function(e) {
-                e.preventDefault();
-                sendMessage();
-            });
+    return format_clinic_response(selected_clinics, comuna_mencionada, tratamiento_buscado)
 
-            userInput.addEventListener('keypress', function(e) {
-                if (e.key === 'Enter' && !e.shiftKey && !this.disabled) {
-                    e.preventDefault();
-                    sendMessage();
-                }
-            });
-        });
+def format_clinic_response(clinicas, comuna=None, tratamiento=None):
+    intro = "Te recomiendo estas clínicas dentales"
+    if comuna:
+        intro += f" en {comuna.title()}"
+    if tratamiento:
+        intro += f" especializadas en {tratamiento}"
+    intro += ":\n\n"
+    
+    response = intro
+    for clinica in clinicas.values():
+        response += f"🏥 {clinica['nombre']}\n"
+        response += f"📍 Comuna: {clinica['comuna'].title()}\n"
+        response += f"🌐 Web: {clinica['web']}\n"
+        response += f"🦷 Tratamientos principales: {', '.join(clinica['tratamientos'][:3])}\n"
+        response += f"💰 Rango de precios: {clinica['rango_precios']}\n"
+        response += f"ℹ️ {clinica['descripcion']}\n\n"
+    
+    response += "💡 Te recomiendo contactar directamente con las clínicas para obtener presupuestos actualizados y confirmar disponibilidad."
+    
+    return response
 
-        document.getElementById('user-nombre').addEventListener('input', function() {
-            this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
-            if (this.value.trim()) {
-                clearError('user-nombre');
-            }
-        });
+@app.route('/')
+def home():
+    return render_template('index.html')
 
-        document.getElementById('user-apellido').addEventListener('input', function() {
-            this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
-            if (this.value.trim()) {
-                clearError('user-apellido');
-            }
-        });
+@app.route('/health')
+def health_check():
+    """Endpoint para verificar que la aplicación está funcionando"""
+    return jsonify({
+        'status': 'healthy',
+        'timestamp': datetime.now().isoformat()
+    })
 
-        document.getElementById('user-telefono').addEventListener('input', function() {
-            this.value = this.value.replace(/[^0-9+]/g, '');
-            if (this.value && !validatePhone(this.value)) {
-                showError('user-telefono', 'Formato: +56912345678');
-            } else {
-                clearError('user-telefono');
-            }
-        });
+@app.errorhandler(404)
+def not_found_error(error):
+    return jsonify({'error': 'Página no encontrada'}), 404
 
-        document.getElementById('user-email').addEventListener('input', function() {
-            if (this.value && !validateEmail(this.value)) {
-                showError('user-email', 'Ingresa un email válido');
-            } else {
-                clearError('user-email');
-            }
-        });
+@app.errorhandler(500)
+def internal_error(error):
+    return jsonify({'error': 'Error interno del servidor'}), 500
 
-        window.onload = function() {
-            document.getElementById('user-nombre').focus();
-        };
-    </script>
-</body>
-</html>
+@app.route('/chat', methods=['POST'])
+def chat():
+    try:
+        data = request.json
+        user_message = data.get('message', '').strip()
+        user_name = data.get('userName', '')
+        user_last_name = data.get('userLastName', '')
+        timestamp = datetime.now().strftime("%H:%M")
+
+        # Primero intentar con preguntas predefinidas
+        qa_data = load_qa_data()
+        print(f"Buscando coincidencia para: {user_message}")  # Debug log
+        best_match = find_best_match(user_message, qa_data)
+        
+        if best_match:
+            print("Usando respuesta predefinida")  # Debug log
+            return jsonify({
+                'response': best_match,
+                'timestamp': timestamp
+            })
+
+        # Si no hay coincidencia, usar Cohere
+        print("No se encontró respuesta predefinida, usando Cohere")  # Debug log
+        try:
+            response = co.generate(
+                model='command',
+                prompt=f"""Eres un dentista profesional chileno respondiendo en español chileno informal.
+                          IMPORTANTE: SIEMPRE debes responder en español chileno, NUNCA en inglés.
+                          
+                          Nombre del paciente: {user_name} {user_last_name}
+                          Pregunta del paciente: {user_message}
+                          
+                          Responde como dentista profesional, incluyendo:
+                          1. Reconocimiento del problema o consulta
+                          2. Explicación clara y sencilla en español chileno
+                          3. Recomendaciones específicas
+                          4. Sugerencia de consultar a un profesional si es necesario""",
+                max_tokens=500,
+                temperature=0.7,
+                k=0,
+                stop_sequences=[],
+                return_likelihoods='NONE'
+            )
+            return jsonify({
+                'response': response.generations[0].text.strip(),
+                'timestamp': timestamp
+            })
+        except Exception as e:
+            print(f"Error con Cohere: {e}")
+            return jsonify({
+                'response': f'Pucha {user_name}, tuve un problema para procesar tu consulta. ¿Podrías reformularla de otra manera?',
+                'timestamp': timestamp
+            })
+
+    except Exception as e:
+        print(f"Error en chat: {e}")
+        return jsonify({
+            'response': 'Lo siento, ocurrió un error. Por favor, intenta de nuevo.',
+            'timestamp': timestamp
+        })

@@ -146,6 +146,48 @@
             background-color: #ffffff;
         }
 
+        .message {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 10px;
+            max-width: 80%;
+            position: relative;
+            background-color: #f8f9fa;
+        }
+
+        .user-message {
+            margin-left: auto;
+            color: #333;
+        }
+
+        .user-name {
+            font-weight: bold !important;
+            color: #28a745 !important;
+        }
+
+        .bot-name {
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .message-time {
+            color: #666;
+            font-size: 0.8em;
+            margin-left: 10px;
+        }
+
+        .message-content {
+            margin-top: 5px;
+            line-height: 1.4;
+        }
+
         .input-container {
             display: flex;
             gap: 10px;
@@ -192,273 +234,92 @@
             cursor: not-allowed;
         }
 
-        <style>
-    // ... otros estilos ...
-
-    .message {
-        margin: 20px 0;
-        padding: 15px;
-        border-radius: 10px;
-        max-width: 80%;
-        position: relative;
-        background-color: #f8f9fa;
-    }
-
-    .user-message {
-        margin-left: auto;
-        color: #333;
-    }
-
-    .user-name {
-        font-weight: bold !important;
-        color: #28a745 !important;
-    }
-
-    .bot-name {
-        font-weight: bold;
-        color: #007bff;
-    }
-
-    .message-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 5px;
-    }
-
-    .message-time {
-        color: #666;
-        font-size: 0.8em;
-        margin-left: 10px;
-    }
-
-    .message-content {
-        margin-top: 5px;
-        line-height: 1.4;
-    }
-
-    // ... otros estilos ...
-</style>
-}
-
-
-        .bot-message {
-            background-color: #f1f0f0;
-            color: #333;
-            margin-right: auto;
-            white-space: pre-line;
-        }
-
-        .bot-message .message-content {
-            white-space: pre-line;
-        }
-
         .typing-indicator {
             display: none;
             padding: 15px;
             background-color: #f1f0f0;
             border-radius: 10px;
             margin: 20px 0;
-            width: fit-content;
-        }
-
-        .typing-indicator span {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            background-color: #666;
-            border-radius: 50%;
-            margin-right: 5px;
-            animation: typing 1s infinite;
-        }
-
-        .typing-indicator span:nth-child(2) {
-            animation-delay: 0.2s;
-        }
-
-        .typing-indicator span:nth-child(3) {
-            animation-delay: 0.4s;
-            margin-right: 0;
-        }
-
-        @keyframes typing {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-5px);
-            }
-        }
-
-        @media (max-width: 1200px) {
-            .side-image {
-                width: 300px;
-            }
-
-            .chat-container {
-                padding: 30px;
-            }
-
-            .input-container {
-                padding: 30px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            body {
-                flex-direction: column;
-                padding: 10px;
-                position: relative;
-                overflow-x: hidden;
-            }
-
-            .side-image {
-                position: static;
-                width: 120px;
-                transform: none;
-            }
-
-            .side-image:first-of-type {
-                order: 1;
-                margin: 120px auto 30px auto;
-                display: block;
-                position: relative;
-                top: 0;
-            }
-
-            .chat-container {
-                order: 2;
-                width: 100%;
-                margin: 20px 0;
-                min-height: 60vh;
-                padding: 20px;
-            }
-
-            .side-image:last-of-type {
-                order: 3;
-                margin: 30px auto 120px auto;
-                display: block;
-                background-color: #f0f2f5;
-            }
-
-            .message {
-                max-width: 85%;
-            }
-
-            .modal-content {
-                width: 95%;
-                padding: 20px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .side-image:first-of-type {
-                margin: 100px auto 30px auto;
-            }
-
-            .side-image:last-of-type {
-                margin: 30px auto 100px auto;
-            }
-
-            .chat-container {
-                padding: 15px;
-            }
-        }
-
-        @media (hover: none) {
-            #user-input,
-            button#send-button {
-                touch-action: manipulation;
-                -webkit-tap-highlight-color: transparent;
-            }
-
-            button#send-button:active {
-                background-color: #0056b3;
-            }
         }
     </style>
 </head>
 <body>
-    <img src="https://static.vecteezy.com/system/resources/previews/022/665/480/non_2x/adorable-and-skilled-dentist-women-engaging-and-compassionate-characters-for-oral-health-media-transparent-background-free-png.png" alt="Logo" class="side-image">
+    <img src="static/Logo1.png" alt="Dental Care" class="side-image">
     
     <div class="chat-container">
         <div class="chat-header">
-            <h1>AI Doctor - Asistente Dental Virtual</h1>
+            <h1>AI Doctor - Consultas Dentales</h1>
+            <p>Tu asistente dental virtual</p>
         </div>
 
-        <div id="welcome-modal" class="modal">
-            <div class="modal-content">
-                <h2 style="text-align: center; margin-bottom: 30px;">Bienvenido a AI Doctor</h2>
-                
-                <div class="form-group required">
-                    <label for="user-nombre">Nombre</label>
-                    <input type="text" id="user-nombre" placeholder="Ingresa tu nombre">
-                    <span class="error-message"></span>
-                </div>
-
-                <div class="form-group required">
-                    <label for="user-apellido">Apellido</label>
-                    <input type="text" id="user-apellido" placeholder="Ingresa tu apellido">
-                    <span class="error-message"></span>
-                </div>
-
-                <div class="form-group">
-                    <label for="user-telefono">Teléfono</label>
-                    <input type="tel" id="user-telefono" placeholder="+56912345678">
-                    <span class="helper-text">Formato: +56912345678</span>
-                    <span class="error-message"></span>
-                </div>
-
-                <div class="form-group">
-                    <label for="user-email">Email</label>
-                    <input type="email" id="user-email" placeholder="ejemplo@correo.com">
-                    <span class="error-message"></span>
-                </div>
-
-                <button onclick="startChat()" style="width: 100%; margin-top: 20px;">
-                    Comenzar Chat
-                </button>
-
-                <div class="required-fields">
-                    * Campos obligatorios
-                </div>
-            </div>
-        </div>
-
-        <div class="user-info hidden">
+        <div id="user-info" class="user-info hidden">
             <span id="display-name"></span>
         </div>
 
         <div id="chat-history"></div>
 
         <div class="typing-indicator">
-            <span></span>
-            <span></span>
-            <span></span>
+            <span>AI Doctor está escribiendo...</span>
         </div>
 
         <div class="input-container">
             <input type="text" id="user-input" placeholder="Escribe tu mensaje..." disabled>
-            <button id="send-button" onclick="sendMessage()" disabled>Enviar</button>
+            <button id="send-button" disabled>Enviar</button>
         </div>
     </div>
 
-    <img src="{{ url_for('static', filename='logo2.png') }}" alt="Logo" class="side-image">
+    <img src="static/Logo2.png" alt="Dental Care" class="side-image">
+
+    <div id="welcome-modal" class="modal">
+        <div class="modal-content">
+            <h2>Bienvenido a AI Doctor</h2>
+            <p>Por favor, ingresa tus datos para comenzar:</p>
+            
+            <div class="form-group required">
+                <label for="user-nombre">Nombre</label>
+                <input type="text" id="user-nombre" placeholder="Tu nombre">
+                <span class="error-message"></span>
+            </div>
+
+            <div class="form-group required">
+                <label for="user-apellido">Apellido</label>
+                <input type="text" id="user-apellido" placeholder="Tu apellido">
+                <span class="error-message"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="user-telefono">Teléfono</label>
+                <input type="tel" id="user-telefono" placeholder="+56912345678">
+                <span class="helper-text">Formato: +56912345678</span>
+                <span class="error-message"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="user-email">Email</label>
+                <input type="email" id="user-email" placeholder="tucorreo@ejemplo.com">
+                <span class="error-message"></span>
+            </div>
+
+            <button onclick="startChat()">Comenzar Chat</button>
+            
+            <p class="required-fields">* Campos obligatorios</p>
+        </div>
+    </div>
 
     <script>
         let userName = '';
         let userLastName = '';
         let userPhone = '';
         let userEmail = '';
-    
+
         function validateEmail(email) {
             return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
         }
-    
+
         function validatePhone(phone) {
             return /^\+569\d{8}$/.test(phone);
         }
-    
+
         function showError(fieldId, message) {
             const field = document.getElementById(fieldId);
             const errorSpan = field.nextElementSibling;
@@ -466,79 +327,79 @@
             errorSpan.textContent = message;
             errorSpan.classList.add('visible');
         }
-    
+
         function clearError(fieldId) {
             const field = document.getElementById(fieldId);
             field.parentElement.classList.remove('error');
             const errorSpan = field.nextElementSibling;
             errorSpan.classList.remove('visible');
         }
-    
+
         function getCurrentTime() {
             const now = new Date();
             return now.toLocaleTimeString('es-CL', { hour: '2-digit', minute: '2-digit' });
         }
-    
+
         function startChat() {
             const nombre = document.getElementById('user-nombre').value.trim();
             const apellido = document.getElementById('user-apellido').value.trim();
             const telefono = document.getElementById('user-telefono').value.trim();
             const email = document.getElementById('user-email').value.trim();
             let isValid = true;
-    
+
             if (!nombre) {
                 showError('user-nombre', 'El nombre es obligatorio');
                 isValid = false;
             }
-    
+
             if (!apellido) {
                 showError('user-apellido', 'El apellido es obligatorio');
                 isValid = false;
             }
-    
+
             if (telefono && !validatePhone(telefono)) {
                 showError('user-telefono', 'Formato: +56912345678');
                 isValid = false;
             }
-    
+
             if (email && !validateEmail(email)) {
                 showError('user-email', 'Ingresa un email válido');
                 isValid = false;
             }
-    
+
             if (!isValid) return;
-    
+
             userName = nombre;
             userLastName = apellido;
             userPhone = telefono;
             userEmail = email;
-    
+
             document.getElementById('welcome-modal').classList.add('hidden');
             document.getElementById('user-info').classList.remove('hidden');
             document.getElementById('display-name').textContent = `${nombre} ${apellido}`;
             document.getElementById('user-input').disabled = false;
             document.getElementById('send-button').disabled = false;
             document.getElementById('user-input').focus();
-    
+
             // Mensaje de bienvenida
             addMessage('¡Hola! ¿En qué te puedo ayudar con tu salud dental? Pregúntame cualquier duda que tengas sobre tus dientes.', false);
         }
-    
+
         function showTypingIndicator() {
             const typingIndicator = document.querySelector('.typing-indicator');
             typingIndicator.style.display = 'block';
         }
-    
+
         function hideTypingIndicator() {
             const typingIndicator = document.querySelector('.typing-indicator');
             typingIndicator.style.display = 'none';
         }
-    
+
         function addMessage(message, isUser) {
             const chatHistory = document.getElementById('chat-history');
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
-    
+
             const headerDiv = document.createElement('div');
             headerDiv.className = 'message-header';
             
@@ -549,34 +410,34 @@
             const timeSpan = document.createElement('span');
             timeSpan.className = 'message-time';
             timeSpan.textContent = getCurrentTime();
-    
+
             headerDiv.appendChild(nameSpan);
             headerDiv.appendChild(timeSpan);
-    
+
             const contentDiv = document.createElement('div');
             contentDiv.className = 'message-content';
             contentDiv.textContent = message;
-    
+
             messageDiv.appendChild(headerDiv);
             messageDiv.appendChild(contentDiv);
             
             chatHistory.appendChild(messageDiv);
             chatHistory.scrollTop = chatHistory.scrollHeight;
         }
-    
+
         async function sendMessage() {
             const input = document.getElementById('user-input');
             const sendButton = document.getElementById('send-button');
             const message = input.value.trim();
             
             if (!message) return;
-    
+
             addMessage(message, true);
             input.value = '';
             input.disabled = true;
             sendButton.disabled = true;
             showTypingIndicator();
-    
+
             try {
                 const response = await fetch('/chat', {
                     method: 'POST',
@@ -591,7 +452,7 @@
                         userEmail: userEmail
                     })
                 });
-    
+
                 const data = await response.json();
                 hideTypingIndicator();
                 addMessage(data.response, false);
@@ -605,21 +466,21 @@
                 input.focus();
             }
         }
-    
+
         document.addEventListener('DOMContentLoaded', function() {
             const sendButton = document.getElementById('send-button');
             const userInput = document.getElementById('user-input');
-    
+
             sendButton.addEventListener('click', function(e) {
                 e.preventDefault();
                 sendMessage();
             });
-    
+
             sendButton.addEventListener('touchend', function(e) {
                 e.preventDefault();
                 sendMessage();
             });
-    
+
             userInput.addEventListener('keypress', function(e) {
                 if (e.key === 'Enter' && !e.shiftKey && !this.disabled) {
                     e.preventDefault();
@@ -627,21 +488,21 @@
                 }
             });
         });
-    
+
         document.getElementById('user-nombre').addEventListener('input', function() {
             this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
             if (this.value.trim()) {
                 clearError('user-nombre');
             }
         });
-    
+
         document.getElementById('user-apellido').addEventListener('input', function() {
             this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
             if (this.value.trim()) {
                 clearError('user-apellido');
             }
         });
-    
+
         document.getElementById('user-telefono').addEventListener('input', function() {
             this.value = this.value.replace(/[^0-9+]/g, '');
             if (this.value && !validatePhone(this.value)) {
@@ -650,7 +511,7 @@
                 clearError('user-telefono');
             }
         });
-    
+
         document.getElementById('user-email').addEventListener('input', function() {
             if (this.value && !validateEmail(this.value)) {
                 showError('user-email', 'Ingresa un email válido');
@@ -658,7 +519,7 @@
                 clearError('user-email');
             }
         });
-    
+
         window.onload = function() {
             document.getElementById('user-nombre').focus();
         };

@@ -1,106 +1,27 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Doctor - Consultas Dentales</title>
     <style>
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
-    
+
         body {
             font-family: Arial, sans-serif;
             display: flex;
-            flex-direction: column;
-            padding: 20px;
+            justify-content: space-between;
+            align-items: center;
+            padding: 40px;
             background-color: #f0f2f5;
             min-height: 100vh;
             margin: 0;
         }
-    
-        .side-image {
-            width: 100%;
-            max-width: 200px;
-            height: auto;
-            margin: 10px auto;
-        }
-    
-        .chat-container {
-            background-color: white;
-            border-radius: 10px;
-            padding: 15px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            width: 100%;
-            margin: 10px 0;
-            min-height: 70vh;
-            display: flex;
-            flex-direction: column;
-        }
-    
-        .chat-header {
-            text-align: center;
-            margin-bottom: 20px;
-            padding: 0 10px;
-        }
-    
-        .chat-header h1 {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-        }
-    
-        .user-info {
-            font-size: 0.8rem;
-            padding: 10px;
-        }
-    
-        #chat-history {
-            flex-grow: 1;
-            overflow-y: auto;
-            margin: 10px 0;
-            padding: 10px;
-        }
-    
-        .input-container {
-            display: flex;
-            gap: 10px;
-            padding: 10px;
-            border-top: 1px solid #eee;
-        }
-    
-        #user-input {
-            flex-grow: 1;
-            padding: 12px;
-            font-size: 14px;
-        }
-    
-        button {
-            padding: 12px 20px;
-            font-size: 14px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-    
-        button:hover {
-            background-color: #0056b3;
-        }
-    
-        button:disabled {
-            background-color: #cccccc;
-            cursor: not-allowed;
-        }
-    
-        .message {
-            margin: 10px 0;
-            padding: 12px;
-            border-radius: 8px;
-            max-width: 90%;
-            font-size: 14px;
-        }
-    
+
         .modal {
             display: flex;
             position: fixed;
@@ -113,88 +34,276 @@
             align-items: center;
             z-index: 1000;
         }
-    
+
         .modal-content {
-            width: 95%;
-            max-width: 350px;
-            padding: 20px;
             background-color: white;
+            padding: 40px;
             border-radius: 10px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 400px;
         }
-    
+
         .form-group {
             margin: 20px 0;
             position: relative;
         }
-    
+
+        .form-group.required label::after {
+            content: " *";
+            color: #dc3545;
+        }
+
         .form-group input {
             width: 100%;
-            padding: 10px;
-            font-size: 14px;
+            padding: 12px;
             border: 2px solid #ddd;
             border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
         }
-    
+
+        .form-group input:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        .form-group.error input {
+            border-color: #dc3545;
+        }
+
+        .helper-text {
+            display: block;
+            font-size: 0.8em;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        .error-message {
+            display: none;
+            color: #dc3545;
+            font-size: 0.8em;
+            margin-top: 4px;
+        }
+
+        .error-message.visible {
+            display: block;
+        }
+
+        .required-fields {
+            font-size: 0.8em;
+            color: #666;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .side-image {
+            width: 400px;
+            height: auto;
+            object-fit: contain;
+            position: sticky;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .chat-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 40px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            width: 60%;
+            margin: 0 40px;
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 0 40px;
+            color: #2c3e50;
+        }
+
+        .user-info {
+            text-align: right;
+            padding: 20px 40px;
+            color: #666;
+            font-size: 0.9em;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 40px;
+        }
+
+        #chat-history {
+            flex-grow: 1;
+            overflow-y: auto;
+            margin: 40px 0;
+            padding: 0 40px;
+            background-color: #ffffff;
+        }
+
+        .input-container {
+            display: flex;
+            gap: 20px;
+            padding: 40px;
+            border-top: 1px solid #eee;
+            margin-top: auto;
+        }
+
+        #user-input {
+            flex-grow: 1;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        #user-input:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        button {
+            padding: 15px 30px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+            transform: translateY(-1px);
+        }
+
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .message {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 10px;
+            max-width: 80%;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+
+        .user-name {
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .bot-name {
+            font-weight: bold;
+            color: #28a745;
+        }
+
+        .message-time {
+            color: #666;
+            font-size: 0.8em;
+            margin-left: 10px;
+        }
+
+        .message-content {
+            line-height: 1.6;
+            word-wrap: break-word;
+        }
+
         .user-message {
             background-color: #e3f2fd;
             margin-left: auto;
             text-align: right;
+            border-bottom-right-radius: 5px;
         }
-    
+
         .bot-message {
             background-color: #f8f9fa;
             margin-right: auto;
             text-align: left;
+            border-bottom-left-radius: 5px;
         }
-    
-        .hidden {
-            display: none !important;
+
+        .bot-message .message-content {
+            white-space: pre-line;
         }
-    
-        /* Media queries para tablets y escritorio */
-        @media (min-width: 768px) {
-            body {
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
-                padding: 40px;
-            }
-    
+
+        .typing-indicator {
+            padding: 20px;
+            display: none;
+            align-items: center;
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .typing-indicator span {
+            animation: blink 1s infinite;
+            margin-left: 5px;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        @media (max-width: 1200px) {
             .side-image {
                 width: 300px;
-                position: sticky;
-                top: 50%;
-                transform: translateY(-50%);
             }
-    
+
             .chat-container {
-                width: 60%;
-                margin: 0 40px;
-                padding: 40px;
+                padding: 30px;
             }
-    
-            .chat-header h1 {
-                font-size: 2rem;
+
+            .input-container {
+                padding: 30px;
             }
-    
+        }
+
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+                padding: 20px;
+            }
+
+            .side-image {
+                width: 200px;
+                position: static;
+                transform: none;
+                margin: 20px 0;
+            }
+
+            .chat-container {
+                width: 95%;
+                margin: 10px 0;
+                padding: 20px;
+            }
+
             .input-container {
                 padding: 20px;
             }
-    
-            #user-input {
-                padding: 15px;
-                font-size: 16px;
-            }
-    
-            button {
-                padding: 15px 30px;
-                font-size: 16px;
-            }
-    
+
             .message {
-                max-width: 80%;
-                font-size: 16px;
+                max-width: 90%;
             }
         }
     </style>
@@ -331,7 +440,7 @@
             document.getElementById('send-button').disabled = false;
             document.getElementById('user-input').focus();
             
-            addMessage(`¡Hola ${nombre}! Soy tu asistente dental virtual. ¿En qué te puedo ayudar? Puedes preguntarme sobre:\n\n• Tratamientos dentales\n• Recomendación de clínicas\n• Consejos de higiene dental\n• Urgencias dentales\n• Y mucho más...`, false);
+            addMessage(`Estimado/a ${nombre}: \n\nSoy su asistente dental virtual. ¿En qué puedo ayudarle? Puede consultarme sobre:\n\n• Tratamientos dentales\n• Recomendación de clínicas\n• Consejos de higiene dental\n• Urgencias dentales\n• Y otros temas relacionados con la salud dental`, false);
         }
 
         function getCurrentTime() {
@@ -463,4 +572,5 @@
         };
     </script>
 </body>
+</html>
 </html>

@@ -18,6 +18,57 @@ DEBUG = os.environ.get('FLASK_ENV') != 'production'
 
 co = cohere.Client(os.getenv('COHERE_API_KEY'))
 
+def load_qa_data():
+    try:
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        json_path = os.path.join(current_dir, 'preguntas.json')
+        
+        with open(json_path, 'r', encoding='utf-8') as file:
+            data = json.load(file)
+            qa_list = []
+            for categoria, preguntas in data['categorias'].items():
+                for qa_pair in preguntas:
+                    if isinstance(qa_pair['pregunta'], list):
+                        for pregunta in qa_pair['pregunta']:
+                            qa_list.append({
+                                'pregunta': pregunta.lower().strip(),
+                                'respuesta': qa_pair['respuesta']
+                            })
+                    else:
+                        qa_list.append({
+                            'pregunta': qa_pair['pregunta'].lower().strip(),
+                            'respuesta': qa_pair['respuesta']
+                        })
+            return qa_list
+    except Exception as e:
+        print(f"Error al cargar JSON: {e}")
+        return []
+def find_best_match(user_input, qa_data):
+    user_input = user_input.lower().strip()
+    
+    # Primero buscar coincidencia exacta
+    for qa in qa_data:
+        if user_input == qa['pregunta']:
+            return qa['respuesta']
+
+    # Si no hay coincidencia exacta, buscar palabras clave
+    user_words = set(user_input.split())
+    best_match = None
+    max_words_matched = 0
+
+    for qa in qa_data:
+        qa_words = set(qa['pregunta'].split())
+        words_matched = len(user_words.intersection(qa_words))
+        
+        if words_matched > max_words_matched:
+            max_words_matched = words_matched
+            best_match = qa['respuesta']
+
+    # Solo retornar si hay suficiente coincidencia
+    if max_words_matched >= 2:
+        return best_match
+
+    return None
 # Base de datos de clínicas
 CLINICAS = {
     "san_cristobal": {
@@ -281,66 +332,51 @@ def chat():
         user_last_name = data.get('userLastName', '')
         timestamp = datetime.now().strftime("%H:%M")
         
-        if not user_message:
-            return jsonify({
-                'response': f'¡Hola {user_name}! ¿En qué te puedo ayudar con tu salud dental? Pregúntame cualquier duda que tengas sobre tus dientes.',
-                'timestamp': timestamp
-            })
+        # Estructura de respuesta consistente
+        response_template = {
+            'response': '',
+            'timestamp': timestamp,
+            'user': f'**{user_name} {user_last_name}**',
+            'ai': '**AI Doctor**'
+        }
 
-        # Intentar primero con preguntas predefinidas
+        # Primero intentar con preguntas predefinidas
         qa_data = load_qa_data()
         best_match = find_best_match(user_message, qa_data)
         
         if best_match:
-            return jsonify({
-                'response': best_match,
-                'timestamp': timestamp
-            })
-
-        # Si es consulta sobre clínicas
-        if any(keyword in user_message.lower() for keyword in ["clinica", "donde", "atender", "consulta", "recomend"]):
-            response = get_clinic_recommendations(user_message)
-            return jsonify({
-                'response': response,
-                'timestamp': timestamp
-            })
+            response_template['response'] = best_match
+            return jsonify(response_template)
 
         # Si no hay coincidencia, usar Cohere
         try:
             response = co.generate(
                 model='command',
-                prompt=f"""Eres un dentista profesional respondiendo en español chileno informal.
-                          Debes responder de manera clara y amigable, usando términos que cualquier 
-                          persona pueda entender. Usa modismos chilenos ocasionalmente.
+                prompt=f"""Eres un dentista profesional. Debes:
+                          1. Preguntar primero por los síntomas o el problema específico
+                          2. No dar información hasta que el paciente describa su problema
+                          3. Usar español latinoamericano formal
+                          4. Ser breve y directo
                           
-                          Nombre del paciente: {user_name} {user_last_name}
-                          Pregunta del paciente: {user_message}
+                          Mensaje del paciente: {user_message}
                           
-                          Responde como dentista profesional, incluyendo:
-                          1. Reconocimiento del problema o consulta
-                          2. Explicación clara y sencilla
-                          3. Recomendaciones específicas
-                          4. Sugerencia de consultar a un profesional si es necesario""",
-                max_tokens=500,
-                temperature=0.7,
-                k=0,
-                stop_sequences=[],
-                return_likelihoods='NONE'
+                          Responde preguntando por los síntomas específicos.""",
+                max_tokens=100,
+                temperature=0.7
             )
-            return jsonify({
-                'response': response.generations[0].text.strip(),
-                'timestamp': timestamp
-            })
+            response_template['response'] = response.generations[0].text.strip()
+            return jsonify(response_template)
+            
         except Exception as e:
             print(f"Error con Cohere: {e}")
-            return jsonify({
-                'response': f'Pucha {user_name}, tuve un problema para procesar tu consulta. ¿Podrías reformularla de otra manera?',
-                'timestamp': timestamp
-            })
+            response_template['response'] = 'Disculpa, ¿podrías describir tu problema o molestia dental?'
+            return jsonify(response_template)
 
     except Exception as e:
         print(f"Error en chat: {e}")
         return jsonify({
             'response': 'Lo siento, ocurrió un error. Por favor, intenta de nuevo.',
-            'timestamp': timestamp
+            'timestamp': timestamp,
+            'user': f'**{user_name} {user_last_name}**',
+            'ai': '**AI Doctor**'
         })

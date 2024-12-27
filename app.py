@@ -47,38 +47,44 @@ def load_qa_data():
 
 def find_best_match(user_input, qa_data):
     user_input = user_input.lower().strip()
+    
+    # Debug log
+    print(f"Buscando coincidencia para: {user_input}")
+    print(f"Total de preguntas disponibles: {len(qa_data)}")
+
+    # 1. Buscar coincidencia exacta
+    for qa in qa_data:
+        if user_input == qa['pregunta']:
+            print("¡Coincidencia exacta encontrada!")
+            return qa['respuesta']
+
+    # 2. Buscar coincidencia por palabras clave
+    user_words = set(user_input.split())
+    for qa in qa_data:
+        question_words = set(qa['pregunta'].split())
+        common_words = user_words.intersection(question_words)
+        # Si comparten al menos 2 palabras significativas
+        if len(common_words) >= 2:
+            print(f"Coincidencia por palabras clave: {common_words}")
+            return qa['respuesta']
+
+    # 3. Buscar por similitud
     best_match = None
     highest_similarity = 0
-
-    # Primero buscar coincidencias parciales de palabras clave
-    user_words = set(user_input.split())
     
     for qa in qa_data:
-        if user_input == qa['pregunta']:  # Coincidencia exacta
-            return qa['respuesta']
-            
-        question_words = set(qa['pregunta'].split())
-        # Si hay al menos 2 palabras clave en común
-        common_words = user_words.intersection(question_words)
-        if len(common_words) >= 2:
-            return qa['respuesta']
-
-    # Si no hay coincidencias por palabras clave, usar similitud
-    for qa in qa_data:
         similarity = difflib.SequenceMatcher(None, user_input, qa['pregunta']).ratio()
+        print(f"Similitud con '{qa['pregunta']}': {similarity}")
         
-        if similarity > 0.7:  # Coincidencia del 70% o más
+        if similarity > 0.6:  # Aumentamos el umbral a 0.6
+            print(f"¡Coincidencia por similitud encontrada! ({similarity})")
             return qa['respuesta']
         
         if similarity > highest_similarity:
             highest_similarity = similarity
             best_match = qa['respuesta']
 
-    # Si encontramos una coincidencia con al menos 50% de similitud
-    if highest_similarity > 0.5:
-        return best_match
-
-    # Si no encontramos ninguna coincidencia buena
+    print("No se encontró coincidencia suficientemente buena")
     return None
 # Base de datos de clínicas
 CLINICAS = {
@@ -349,51 +355,67 @@ def chat():
         user_last_name = data.get('userLastName', '')
         timestamp = datetime.now().strftime("%H:%M")
         
-        # Estructura de respuesta consistente
-        response_template = {
-            'response': '',
-            'timestamp': timestamp,
-            'user': f'**{user_name} {user_last_name}**',
-            'ai': '**AI Doctor**'
-        }
+        if not user_message:
+            return jsonify({
+                'response': f'¡Hola {user_name}! ¿En qué te puedo ayudar con tu salud dental? Pregúntame cualquier duda que tengas sobre tus dientes.',
+                'timestamp': timestamp
+            })
 
-        # Primero intentar con preguntas predefinidas
+        # Intentar primero con preguntas predefinidas
         qa_data = load_qa_data()
         best_match = find_best_match(user_message, qa_data)
         
         if best_match:
-            response_template['response'] = best_match
-            return jsonify(response_template)
+            return jsonify({
+                'response': best_match,
+                'timestamp': timestamp
+            })
+
+        # Si es consulta sobre clínicas
+        if any(keyword in user_message.lower() for keyword in ["clinica", "donde", "atender", "consulta", "recomend"]):
+            response = get_clinic_recommendations(user_message)
+            return jsonify({
+                'response': response,
+                'timestamp': timestamp
+            })
 
         # Si no hay coincidencia, usar Cohere
         try:
             response = co.generate(
                 model='command',
-                prompt=f"""Eres un dentista profesional. Debes:
-                          1. Preguntar primero por los síntomas o el problema específico
-                          2. No dar información hasta que el paciente describa su problema
-                          3. Usar español latinoamericano formal
-                          4. Ser breve y directo
+                prompt=f"""Eres un dentista profesional chileno respondiendo en español chileno informal.
+                          IMPORTANTE: SIEMPRE debes responder en español chileno, NUNCA en inglés.
+                          Debes responder de manera clara y amigable, usando términos que cualquier 
+                          persona pueda entender. Usa modismos chilenos ocasionalmente.
                           
-                          Mensaje del paciente: {user_message}
+                          Nombre del paciente: {user_name} {user_last_name}
+                          Pregunta del paciente: {user_message}
                           
-                          Responde preguntando por los síntomas específicos.""",
-                max_tokens=100,
-                temperature=0.7
+                          Responde como dentista profesional, incluyendo:
+                          1. Reconocimiento del problema o consulta
+                          2. Explicación clara y sencilla en español chileno
+                          3. Recomendaciones específicas
+                          4. Sugerencia de consultar a un profesional si es necesario""",
+                max_tokens=500,
+                temperature=0.7,
+                k=0,
+                stop_sequences=[],
+                return_likelihoods='NONE'
             )
-            response_template['response'] = response.generations[0].text.strip()
-            return jsonify(response_template)
-            
+            return jsonify({
+                'response': response.generations[0].text.strip(),
+                'timestamp': timestamp
+            })
         except Exception as e:
             print(f"Error con Cohere: {e}")
-            response_template['response'] = 'Disculpa, ¿podrías describir tu problema o molestia dental?'
-            return jsonify(response_template)
+            return jsonify({
+                'response': f'Pucha {user_name}, tuve un problema para procesar tu consulta. ¿Podrías reformularla de otra manera?',
+                'timestamp': timestamp
+            })
 
     except Exception as e:
         print(f"Error en chat: {e}")
         return jsonify({
             'response': 'Lo siento, ocurrió un error. Por favor, intenta de nuevo.',
-            'timestamp': timestamp,
-            'user': f'**{user_name} {user_last_name}**',
-            'ai': '**AI Doctor**'
+            'timestamp': timestamp
         })

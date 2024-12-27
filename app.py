@@ -126,18 +126,24 @@ def load_qa_data():
         with open(json_path, 'r', encoding='utf-8') as file:
             data = json.load(file)
             qa_list = []
-            # Recorremos todas las categorías
-            for categoria, preguntas in data.items():
+            # Recorremos las categorías
+            for categoria, preguntas in data['categorias'].items():  # Añadido 'categorias'
                 for qa_pair in preguntas:
-                    for pregunta in qa_pair['pregunta']:
+                    if isinstance(qa_pair['pregunta'], list):
+                        for pregunta in qa_pair['pregunta']:
+                            qa_list.append({
+                                'pregunta': pregunta.lower().strip(),
+                                'respuesta': qa_pair['respuesta']
+                            })
+                    else:
                         qa_list.append({
-                            'pregunta': pregunta.lower().strip(),
+                            'pregunta': qa_pair['pregunta'].lower().strip(),
                             'respuesta': qa_pair['respuesta']
                         })
             return qa_list
     except Exception as e:
         print(f"Error al cargar JSON: {e}")
-        return None
+        return []  # Retornar lista vacía en lugar de None
 
 def find_best_match(user_question, questions):
     user_question = user_question.lower().strip()
@@ -255,30 +261,45 @@ def internal_error(error):
 def chat():
     try:
         user_message = request.json.get('message', '').strip()
+        timestamp = datetime.now().strftime("%H:%M")
         
         if not user_message:
-            return jsonify({'response': '¿En qué puedo ayudarte con tu consulta dental?'})
-
-        # Verificar si es una consulta sobre clínicas
-        if any(keyword in user_message.lower() for keyword in ["clinica", "donde", "atender", "consulta", "recomend"]):
-            response = get_clinic_recommendations(user_message)
-            return jsonify({'response': response})
+            return jsonify({
+                'response': '¡Hola! ¿En qué te puedo ayudar con tu salud dental? Pregúntame cualquier duda que tengas sobre tus dientes.',
+                'timestamp': timestamp,
+                'user': 'Usuario',
+                'ai': 'AI Doctor'
+            })
 
         # Intentar primero con preguntas predefinidas
         qa_data = load_qa_data()
-        if qa_data:
-            best_match = find_best_match(user_message, qa_data)
-            if best_match:
-                return jsonify({'response': best_match})
+        best_match = find_best_match(user_message, qa_data)
+        
+        if best_match:
+            return jsonify({
+                'response': best_match,
+                'timestamp': timestamp,
+                'user': 'Usuario',
+                'ai': 'AI Doctor'
+            })
 
-        # Si no hay coincidencia en preguntas predefinidas, usar Cohere
+        # Si es consulta sobre clínicas
+        if any(keyword in user_message.lower() for keyword in ["clinica", "donde", "atender", "consulta", "recomend"]):
+            response = get_clinic_recommendations(user_message)
+            return jsonify({
+                'response': response,
+                'timestamp': timestamp,
+                'user': 'Usuario',
+                'ai': 'AI Doctor'
+            })
+
+        # Si no hay coincidencia, usar Cohere
         try:
             response = co.generate(
                 model='command',
-                prompt=f"""Eres un dentista profesional respondiendo en español latinoamericano.
-                          Debes responder de manera clara, empática y profesional, usando términos que cualquier 
-                          persona pueda entender. Si el paciente menciona dolor o molestias, muestra comprensión 
-                          y ofrece recomendaciones temporales, clinicas o presupuestos aproximados.
+                prompt=f"""Eres un dentista profesional respondiendo en español chileno informal.
+                          Debes responder de manera clara y amigable, usando términos que cualquier 
+                          persona pueda entender. Usa modismos chilenos ocasionalmente.
                           
                           Pregunta del paciente: {user_message}
                           
@@ -286,28 +307,33 @@ def chat():
                           1. Reconocimiento del problema o consulta
                           2. Explicación clara y sencilla
                           3. Recomendaciones específicas
-                          4. Sugerencia de consultar a un profesional si es necesario
-                          
-                          Usa un tono amable y profesional, y asegúrate de que la respuesta sea útil y práctica.""",
+                          4. Sugerencia de consultar a un profesional si es necesario""",
                 max_tokens=500,
                 temperature=0.7,
                 k=0,
                 stop_sequences=[],
                 return_likelihoods='NONE'
             )
-            return jsonify({'response': response.generations[0].text.strip()})
+            return jsonify({
+                'response': response.generations[0].text.strip(),
+                'timestamp': timestamp,
+                'user': 'Usuario',
+                'ai': 'AI Doctor'
+            })
         except Exception as e:
             print(f"Error con Cohere: {e}")
-            # Respuesta de respaldo profesional
-            return jsonify({'response': 'Entiendo tu consulta dental. Como profesional de la salud dental, te recomiendo programar una cita con un dentista para una evaluación adecuada. Mientras tanto, si experimentas dolor, puedes tomar un analgésico de venta libre y evitar alimentos muy fríos o calientes. La salud dental es importante y requiere atención profesional para un diagnóstico preciso.'})
+            return jsonify({
+                'response': 'Pucha, tuve un problema para procesar tu consulta. ¿Podrías reformularla de otra manera?',
+                'timestamp': timestamp,
+                'user': 'Usuario',
+                'ai': 'AI Doctor'
+            })
 
     except Exception as e:
         print(f"Error en chat: {e}")
-        return jsonify({'response': 'Lo siento, ocurrió un error. Por favor, intenta reformular tu pregunta.'})
-
-if __name__ == '__main__':
-    app.run(
-        host='0.0.0.0',
-        port=PORT,
-        debug=DEBUG
-    )
+        return jsonify({
+            'response': 'Lo siento, ocurrió un error. Por favor, intenta de nuevo.',
+            'timestamp': timestamp,
+            'user': 'Usuario',
+            'ai': 'AI Doctor'
+        })

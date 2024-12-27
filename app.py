@@ -120,7 +120,12 @@ CLINICAS = {
 
 def load_qa_data():
     try:
-        with open('preguntas.json', 'r', encoding='utf-8') as file:
+        # Obtener la ruta del directorio actual
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        # Construir la ruta completa al archivo
+        json_path = os.path.join(current_dir, 'preguntas.json')
+        
+        with open(json_path, 'r', encoding='utf-8') as file:
             data = json.load(file)
             qa_list = []
             for categoria in data['categorias'].values():
@@ -265,24 +270,29 @@ def chat():
 
         # Cargar datos del JSON
         qa_data = load_qa_data()
-        if not qa_data:
-            return jsonify({'response': 'Lo siento, hay un problema con la base de datos de preguntas.'})
-
-        # Buscar la mejor coincidencia
-        best_match = find_best_match(user_message, qa_data)
-        if best_match:
-            return jsonify({'response': best_match})
+        
+        # Intentar encontrar respuesta en el JSON
+        if qa_data:
+            best_match = find_best_match(user_message, qa_data)
+            if best_match:
+                return jsonify({'response': best_match})
 
         # Si no se encuentra en el JSON, usar Cohere
         try:
             response = co.generate(
                 model='command',
                 prompt=f"""Eres un asistente dental profesional que responde en español latinoamericano.
-                          Debes responder de manera clara y profesional, usando términos que cualquier 
-                          persona pueda entender. Si no estás seguro de una respuesta, indica que es 
-                          mejor consultar directamente con un dentista.
+                          Debes responder de manera clara, empática y profesional, usando términos que cualquier 
+                          persona pueda entender. Si el paciente menciona dolor o molestias, muestra comprensión 
+                          y ofrece recomendaciones temporales, pero siempre sugiere consultar a un dentista.
                           
-                          Pregunta del usuario: {user_message}""",
+                          Pregunta del paciente: {user_message}
+                          
+                          Responde de manera empática y profesional, incluyendo:
+                          1. Reconocimiento del problema
+                          2. Posibles causas
+                          3. Recomendaciones temporales si aplica
+                          4. Sugerencia de consultar a un profesional""",
                 max_tokens=500,
                 temperature=0.7,
                 k=0,
@@ -292,11 +302,16 @@ def chat():
             return jsonify({'response': response.generations[0].text.strip()})
         except Exception as e:
             print(f"Error con Cohere: {e}")
-            return jsonify({'response': 'Lo siento, no pude entender tu pregunta. ¿Podrías reformularla?'})
+            # Si Cohere falla, dar una respuesta genérica profesional
+            return jsonify({'response': 'Entiendo tu consulta sobre el dolor dental. El dolor dental puede tener diversas causas y es importante que sea evaluado por un profesional. Te recomiendo consultar con un dentista lo antes posible para un diagnóstico preciso y tratamiento adecuado. Mientras tanto, puedes tomar un analgésico de venta libre y evitar alimentos muy fríos o calientes.'})
 
     except Exception as e:
         print(f"Error en chat: {e}")
-        return jsonify({'response': 'Lo siento, ocurrió un error en el servidor.'})
+        return jsonify({'response': 'Lo siento, ocurrió un error. Por favor, intenta reformular tu pregunta.'})
+
+    except Exception as e:
+        print(f"Error en chat: {e}")
+        return jsonify({'response': 'Lo siento, ocurrió un error. Por favor, intenta nuevamente.'})
 
 if __name__ == '__main__':
     # Configuración para desarrollo local y producción

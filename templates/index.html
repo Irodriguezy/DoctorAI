@@ -292,40 +292,40 @@
                 height: auto;
             }
 
-            .side-image {
-                width: 200px;
-                position: static;
-                transform: none;
-                margin: 20px 0;
+            .side-image:first-of-type {
+                order: 1;
+                margin: 10px auto;
             }
 
             .chat-container {
                 order: 2;
                 width: 100%;
-                margin: 20px 0;
+                margin: 10px 0;
                 min-height: 400px;
                 max-height: 70vh;
+            }
+
+            .side-image:last-of-type {
+                order: 3;
+                margin: 10px auto;
             }
 
             #chat-history {
                 flex: 1;
                 overflow-y: auto;
                 max-height: calc(70vh - 150px);
-                padding: 10px;
             }
 
             .input-container {
-                padding: 10px;
-                gap: 8px;
-            }
-
-            .message {
-                margin: 8px 0;
-                padding: 10px;
-                max-width: 85%;
+                position: relative;
+                bottom: 0;
+                width: 100%;
+                background-color: white;
+                z-index: 10;
             }
 
             #user-input {
+                width: 100%;
                 padding: 10px;
                 font-size: 14px;
             }
@@ -334,6 +334,20 @@
                 padding: 10px 20px;
                 min-width: 80px;
                 font-size: 14px;
+                pointer-events: auto;
+                touch-action: manipulation;
+            }
+        }
+
+        @media (hover: none) {
+            #user-input,
+            button#send-button {
+                touch-action: manipulation;
+                -webkit-tap-highlight-color: transparent;
+            }
+
+            button#send-button:active {
+                background-color: #0056b3;
             }
         }
 
@@ -579,11 +593,29 @@
             }
         }
 
-        document.getElementById('user-input').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter' && !e.shiftKey && !this.disabled) {
+        document.addEventListener('DOMContentLoaded', function() {
+            const sendButton = document.getElementById('send-button');
+            const userInput = document.getElementById('user-input');
+
+            // Click event
+            sendButton.addEventListener('click', function(e) {
                 e.preventDefault();
                 sendMessage();
-            }
+            });
+
+            // Touch event
+            sendButton.addEventListener('touchend', function(e) {
+                e.preventDefault();
+                sendMessage();
+            });
+
+            // Enter key event
+            userInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && !e.shiftKey && !this.disabled) {
+                    e.preventDefault();
+                    sendMessage();
+                }
+            });
         });
 
         document.getElementById('user-nombre').addEventListener('input', function() {

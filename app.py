@@ -120,48 +120,44 @@ CLINICAS = {
 
 def load_qa_data():
     try:
-        # Obtener la ruta del directorio actual
         current_dir = os.path.dirname(os.path.abspath(__file__))
-        # Construir la ruta completa al archivo
         json_path = os.path.join(current_dir, 'preguntas.json')
         
         with open(json_path, 'r', encoding='utf-8') as file:
             data = json.load(file)
             qa_list = []
-            for categoria in data['categorias'].values():
-                for qa in categoria:
-                    for pregunta in qa['pregunta']:
+            # Recorremos todas las categorías
+            for categoria, preguntas in data.items():
+                for qa_pair in preguntas:
+                    for pregunta in qa_pair['pregunta']:
                         qa_list.append({
                             'pregunta': pregunta.lower().strip(),
-                            'respuesta': qa['respuesta']
+                            'respuesta': qa_pair['respuesta']
                         })
             return qa_list
     except Exception as e:
-        print(f"Error al cargar el archivo JSON: {e}")
+        print(f"Error al cargar JSON: {e}")
         return None
 
 def find_best_match(user_question, questions):
     user_question = user_question.lower().strip()
     
-    # Buscar coincidencia exacta
+    # Buscar coincidencia exacta primero
     for qa in questions:
-        if user_question == qa['pregunta']:
+        if user_question in qa['pregunta']:
             return qa['respuesta']
     
-    # Buscar coincidencia parcial
-    best_matches = difflib.get_close_matches(
-        user_question,
-        [q['pregunta'] for q in questions],
-        n=1,
-        cutoff=0.6
-    )
+    # Si no hay coincidencia exacta, buscar coincidencia parcial
+    best_match = None
+    highest_ratio = 0
     
-    if best_matches:
-        for qa in questions:
-            if qa['pregunta'] == best_matches[0]:
-                return qa['respuesta']
+    for qa in questions:
+        ratio = difflib.SequenceMatcher(None, user_question, qa['pregunta']).ratio()
+        if ratio > highest_ratio and ratio > 0.6:  # Umbral de coincidencia del 60%
+            highest_ratio = ratio
+            best_match = qa['respuesta']
     
-    return None
+    return best_match
 
 def get_clinic_recommendations(user_message):
     user_message = user_message.lower()
@@ -268,31 +264,31 @@ def chat():
             response = get_clinic_recommendations(user_message)
             return jsonify({'response': response})
 
-        # Cargar datos del JSON
+        # Intentar primero con preguntas predefinidas
         qa_data = load_qa_data()
-        
-        # Intentar encontrar respuesta en el JSON
         if qa_data:
             best_match = find_best_match(user_message, qa_data)
             if best_match:
                 return jsonify({'response': best_match})
 
-        # Si no se encuentra en el JSON, usar Cohere
+        # Si no hay coincidencia en preguntas predefinidas, usar Cohere
         try:
             response = co.generate(
                 model='command',
-                prompt=f"""Eres un asistente dental profesional que responde en español latinoamericano.
+                prompt=f"""Eres un dentista profesional respondiendo en español latinoamericano.
                           Debes responder de manera clara, empática y profesional, usando términos que cualquier 
                           persona pueda entender. Si el paciente menciona dolor o molestias, muestra comprensión 
-                          y ofrece recomendaciones temporales, pero siempre sugiere consultar a un dentista.
+                          y ofrece recomendaciones temporales, clinicas o presupuestos aproximados.
                           
                           Pregunta del paciente: {user_message}
                           
-                          Responde de manera empática y profesional, incluyendo:
-                          1. Reconocimiento del problema
-                          2. Posibles causas
-                          3. Recomendaciones temporales si aplica
-                          4. Sugerencia de consultar a un profesional""",
+                          Responde como dentista profesional, incluyendo:
+                          1. Reconocimiento del problema o consulta
+                          2. Explicación clara y sencilla
+                          3. Recomendaciones específicas
+                          4. Sugerencia de consultar a un profesional si es necesario
+                          
+                          Usa un tono amable y profesional, y asegúrate de que la respuesta sea útil y práctica.""",
                 max_tokens=500,
                 temperature=0.7,
                 k=0,
@@ -302,21 +298,16 @@ def chat():
             return jsonify({'response': response.generations[0].text.strip()})
         except Exception as e:
             print(f"Error con Cohere: {e}")
-            # Si Cohere falla, dar una respuesta genérica profesional
-            return jsonify({'response': 'Entiendo tu consulta sobre el dolor dental. El dolor dental puede tener diversas causas y es importante que sea evaluado por un profesional. Te recomiendo consultar con un dentista lo antes posible para un diagnóstico preciso y tratamiento adecuado. Mientras tanto, puedes tomar un analgésico de venta libre y evitar alimentos muy fríos o calientes.'})
+            # Respuesta de respaldo profesional
+            return jsonify({'response': 'Entiendo tu consulta dental. Como profesional de la salud dental, te recomiendo programar una cita con un dentista para una evaluación adecuada. Mientras tanto, si experimentas dolor, puedes tomar un analgésico de venta libre y evitar alimentos muy fríos o calientes. La salud dental es importante y requiere atención profesional para un diagnóstico preciso.'})
 
     except Exception as e:
         print(f"Error en chat: {e}")
         return jsonify({'response': 'Lo siento, ocurrió un error. Por favor, intenta reformular tu pregunta.'})
 
-    except Exception as e:
-        print(f"Error en chat: {e}")
-        return jsonify({'response': 'Lo siento, ocurrió un error. Por favor, intenta nuevamente.'})
-
 if __name__ == '__main__':
-    # Configuración para desarrollo local y producción
     app.run(
-        host='0.0.0.0',  # Necesario para Render
+        host='0.0.0.0',
         port=PORT,
         debug=DEBUG
     )

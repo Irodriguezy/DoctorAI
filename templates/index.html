@@ -192,61 +192,53 @@
             cursor: not-allowed;
         }
 
-        .message {
-            margin: 20px 0;
-            padding: 15px;
-            border-radius: 10px;
-            max-width: 80%;
-            position: relative;
-        }
+        <style>
+    // ... otros estilos ...
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+    .message {
+        margin: 20px 0;
+        padding: 15px;
+        border-radius: 10px;
+        max-width: 80%;
+        position: relative;
+        background-color: #f8f9fa;
+    }
 
-        .message-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 5px;
-        }
+    .user-message {
+        margin-left: auto;
+        color: #333;
+    }
 
-       // ... existing code ...
+    .user-name {
+        font-weight: bold !important;
+        color: #28a745 !important;
+    }
 
-.user-name {
-    font-weight: bold;
-    color: #28a745;  /* Cambiado a verde */
-}
+    .bot-name {
+        font-weight: bold;
+        color: #007bff;
+    }
 
-.bot-name {
-    font-weight: bold;
-    color: #007bff;  /* Azul para el bot */
-}
+    .message-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 5px;
+    }
 
-.message-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 5px;
-}
+    .message-time {
+        color: #666;
+        font-size: 0.8em;
+        margin-left: 10px;
+    }
 
-.message-time {
-    color: #666;
-    font-size: 0.8em;
-    margin-left: 10px;
-}
+    .message-content {
+        margin-top: 5px;
+        line-height: 1.4;
+    }
 
-// ... existing code ...
-
-.user-message {
-    background-color: #007bff;
-    color: white;
-    margin-left: auto;
-}
-
-.user-message .user-name {
-    color: #ffffff;  /* Nombre en blanco para mensajes del usuario */
-    font-weight: bold;
+    // ... otros estilos ...
+</style>
 }
 
 
@@ -574,37 +566,41 @@
             document.querySelector('.typing-indicator').style.display = 'none';
         }
 
-        function addMessage(message, isUser) {
-    const chatHistory = document.getElementById('chat-history');
-    const messageDiv = document.createElement('div');
-    messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
-    messageDiv.style.animation = 'fadeIn 0.5s ease';
+        <script>
+    // ... otro código JavaScript ...
 
-    const headerDiv = document.createElement('div');
-    headerDiv.className = 'message-header';
-    
-    const nameSpan = document.createElement('span');
-    nameSpan.className = isUser ? 'user-name' : 'bot-name';
-    nameSpan.textContent = isUser ? `${userName} ${userLastName}` : 'AI Doctor';
-    
-    const timeSpan = document.createElement('span');
-    timeSpan.className = 'message-time';
-    timeSpan.textContent = getCurrentTime();
+    function addMessage(message, isUser) {
+        const chatHistory = document.getElementById('chat-history');
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
 
-    headerDiv.appendChild(nameSpan);
-    headerDiv.appendChild(timeSpan);
+        const headerDiv = document.createElement('div');
+        headerDiv.className = 'message-header';
+        
+        const nameSpan = document.createElement('span');
+        nameSpan.className = isUser ? 'user-name' : 'bot-name';
+        nameSpan.textContent = isUser ? `${userName} ${userLastName}` : 'AI Doctor';
+        
+        const timeSpan = document.createElement('span');
+        timeSpan.className = 'message-time';
+        timeSpan.textContent = getCurrentTime();
 
-    const contentDiv = document.createElement('div');
-    contentDiv.className = 'message-content';
-    contentDiv.textContent = message;
+        headerDiv.appendChild(nameSpan);
+        headerDiv.appendChild(timeSpan);
 
-    messageDiv.appendChild(headerDiv);
-    messageDiv.appendChild(contentDiv);
-    
-    chatHistory.appendChild(messageDiv);
-    chatHistory.scrollTop = chatHistory.scrollHeight;
-}
+        const contentDiv = document.createElement('div');
+        contentDiv.className = 'message-content';
+        contentDiv.textContent = message;
 
+        messageDiv.appendChild(headerDiv);
+        messageDiv.appendChild(contentDiv);
+        
+        chatHistory.appendChild(messageDiv);
+        chatHistory.scrollTop = chatHistory.scrollHeight;
+    }
+
+    // ... otro código JavaScript ...
+</script>
         async function sendMessage() {
             const input = document.getElementById('user-input');
             const sendButton = document.getElementById('send-button');

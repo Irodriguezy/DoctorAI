@@ -12,6 +12,10 @@ app = Flask(__name__)
 CORS(app)
 load_dotenv()
 
+# Configuración para producción
+PORT = int(os.environ.get('PORT', 5000))
+DEBUG = os.environ.get('FLASK_ENV') != 'production'
+
 co = cohere.Client(os.getenv('COHERE_API_KEY'))
 
 # Base de datos de clínicas
@@ -230,6 +234,22 @@ def format_clinic_response(clinicas, comuna=None, tratamiento=None):
 def home():
     return render_template('index.html')
 
+@app.route('/health')
+def health_check():
+    """Endpoint para verificar que la aplicación está funcionando"""
+    return jsonify({
+        'status': 'healthy',
+        'timestamp': datetime.now().isoformat()
+    })
+
+@app.errorhandler(404)
+def not_found_error(error):
+    return jsonify({'error': 'Página no encontrada'}), 404
+
+@app.errorhandler(500)
+def internal_error(error):
+    return jsonify({'error': 'Error interno del servidor'}), 500
+
 @app.route('/chat', methods=['POST'])
 def chat():
     try:
@@ -279,4 +299,9 @@ def chat():
         return jsonify({'response': 'Lo siento, ocurrió un error en el servidor.'})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # Configuración para desarrollo local y producción
+    app.run(
+        host='0.0.0.0',  # Necesario para Render
+        port=PORT,
+        debug=DEBUG
+    )

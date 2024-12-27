@@ -315,22 +315,22 @@ def chat():
         user_last_name = data.get('userLastName', '')
         timestamp = datetime.now().strftime("%H:%M")
 
-        # Primero intentar con preguntas predefinidas
+        # Primero buscar en preguntas.json
         qa_data = load_qa_data()
-        print(f"Buscando coincidencia para: {user_message}")  # Debug log
-        best_match = find_best_match(user_message, qa_data)
+        print(f"\n--- Procesando mensaje: '{user_message}' ---")  # Debug log
         
-        if best_match:
-            print("Usando respuesta predefinida")  # Debug log
+        predefined_response = find_best_match(user_message, qa_data)
+        if predefined_response:
+            print("Usando respuesta predefinida de preguntas.json")  # Debug log
             return jsonify({
-                'response': best_match,
+                'response': predefined_response,
                 'timestamp': timestamp
             })
-
-        # Si no hay coincidencia, usar Cohere
+        
         print("No se encontró respuesta predefinida, usando Cohere")  # Debug log
+        # Si no se encontró respuesta predefinida, usar Cohere
         try:
-            response = co.generate(
+            cohere_response = co.generate(
                 model='command',
                 prompt=f"""Eres un dentista profesional chileno respondiendo en español chileno informal.
                           IMPORTANTE: SIEMPRE debes responder en español chileno, NUNCA en inglés.
@@ -342,7 +342,9 @@ def chat():
                           1. Reconocimiento del problema o consulta
                           2. Explicación clara y sencilla en español chileno
                           3. Recomendaciones específicas
-                          4. Sugerencia de consultar a un profesional si es necesario""",
+                          5. No hablar tanto si no es necesario
+                          4. Sugerencia de clinicas dentales de Chile con número de telefono y costo apróximado
+                          5. Sugerencia de consultar a un profesional si es necesario""",
                 max_tokens=500,
                 temperature=0.7,
                 k=0,
@@ -350,18 +352,18 @@ def chat():
                 return_likelihoods='NONE'
             )
             return jsonify({
-                'response': response.generations[0].text.strip(),
+                'response': cohere_response.generations[0].text.strip(),
                 'timestamp': timestamp
             })
         except Exception as e:
-            print(f"Error con Cohere: {e}")
+            print(f"Error with Cohere: {e}")
             return jsonify({
-                'response': f'Pucha {user_name}, tuve un problema para procesar tu consulta. ¿Podrías reformularla de otra manera?',
+                'response': f'Disculpa {user_name}, tuve un problema para procesar tu consulta. ¿Podrías reformularla de otra manera?',
                 'timestamp': timestamp
             })
 
     except Exception as e:
-        print(f"Error en chat: {e}")
+        print(f"Error in chat: {e}")
         return jsonify({
             'response': 'Lo siento, ocurrió un error. Por favor, intenta de nuevo.',
             'timestamp': timestamp

@@ -1,337 +1,82 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify
 from flask_cors import CORS
-import json
-import difflib
-import os
-from dotenv import load_dotenv
 import cohere
+import json
+from difflib import get_close_matches
 from datetime import datetime
-import random
 
 app = Flask(__name__)
 CORS(app)
-load_dotenv()
 
-# Configuración para producción
-PORT = int(os.environ.get('PORT', 5000))
-DEBUG = os.environ.get('FLASK_ENV') != 'production'
-
-co = cohere.Client(os.getenv('COHERE_API_KEY'))
-
-def find_best_match(user_question, qa_data):
-    if not qa_data or 'categorias' not in qa_data:
-        print("Error: qa_data está vacío o no tiene el formato correcto")
-        return None
-    
-    user_question = user_question.lower().strip()
-    print(f"\nBuscando coincidencia para: '{user_question}'")
-    
-    # Buscar en todas las categorías
-    for categoria_nombre, categoria_data in qa_data['categorias'].items():
-        print(f"Revisando categoría: {categoria_nombre}")
-        for qa_item in categoria_data:
-            for variant in qa_item['pregunta']:
-                variant = variant.lower().strip()
-                print(f"Comparando '{user_question}' con '{variant}'")
-                if user_question == variant or user_question in variant or variant in user_question:
-                    print(f"¡Coincidencia encontrada en {categoria_nombre}!")
-                    return qa_item['respuesta']
-    
-    print("No se encontró coincidencia en preguntas.json")
-    return None
+# Inicializar el cliente de Cohere
+co = cohere.Client('V05CQ6r3ccHNQkVOulCVXM1jrWkS7XfYEdgAFwD9')
 
 def load_qa_data():
     try:
         with open('preguntas.json', 'r', encoding='utf-8') as file:
             data = json.load(file)
-            print("Archivo preguntas.json cargado correctamente")
+            print("✓ Archivo preguntas.json cargado correctamente")
             return data
     except Exception as e:
-        print(f"Error loading preguntas.json: {e}")
+        print(f"✗ Error loading preguntas.json: {e}")
         return {}
-# Base de datos de clínicas
-CLINICAS = {
-    "san_cristobal": {
-        "nombre": "Clínica Dental San Cristóbal",
-        "web": "https://www.clinicasancristobal.cl/",
-        "comuna": "providencia",
-        "tratamientos": ["Odontología general", "Endodoncia", "Ortodoncia", "Implantes dentales", "Prótesis", "Blanqueamiento dental"],
-        "rango_precios": "20.000 - 500.000 CLP",
-        "descripcion": "Clínica con amplia experiencia en tratamientos dentales integrales."
-    },
-    "las_condes": {
-        "nombre": "Clínica Dental Las Condes",
-        "web": "https://www.clinicadental.cl/",
-        "comuna": "las condes",
-        "tratamientos": ["Odontología estética", "Implantes", "Ortodoncia", "Endodoncia", "Periodoncia", "Odontopediatría"],
-        "rango_precios": "30.000 - 300.000 CLP",
-        "descripcion": "Especialistas en odontología estética y tratamientos avanzados."
-    },
-    "providencia": {
-        "nombre": "Clínica Dental Providencia",
-        "web": "https://www.clinicadentalprovidencia.cl/",
-        "comuna": "providencia",
-        "tratamientos": ["Odontología general", "Implantes", "Ortodoncia", "Cirugía oral", "Periodoncia", "Odontopediatría"],
-        "rango_precios": "25.000 - 250.000 CLP",
-        "descripcion": "Atención integral para toda la familia con tecnología de punta."
-    },
-    "vitacura": {
-        "nombre": "Clínica Dental Vitacura",
-        "web": "https://www.clinicadentalvitacura.cl/",
-        "comuna": "vitacura",
-        "tratamientos": ["Odontología estética", "Implantes", "Ortodoncia invisible", "Blanqueamiento dental", "Endodoncia"],
-        "rango_precios": "35.000 - 400.000 CLP",
-        "descripcion": "Especialistas en estética dental y tratamientos invisibles."
-    },
-    "lo_barnechea": {
-        "nombre": "Clínica Dental Lo Barnechea",
-        "web": "https://www.clinicadentalbarnecheas.cl/",
-        "comuna": "lo barnechea",
-        "tratamientos": ["Odontología general", "Implantes", "Ortodoncia", "Odontopediatría", "Cirugía maxilofacial"],
-        "rango_precios": "20.000 - 350.000 CLP",
-        "descripcion": "Atención personalizada con los mejores especialistas."
-    },
-    "la_reina": {
-        "nombre": "Clínica Dental La Reina",
-        "web": "https://www.clinicadentallareina.cl/",
-        "comuna": "la reina",
-        "tratamientos": ["Odontología integral", "Implantes", "Ortodoncia", "Endodoncia", "Periodoncia", "Odontopediatría"],
-        "rango_precios": "25.000 - 400.000 CLP",
-        "descripcion": "Soluciones dentales integrales para toda la familia."
-    },
-    "nunoa": {
-        "nombre": "Clínica Dental Ñuñoa",
-        "web": "https://www.clinicadentalnunoa.cl/",
-        "comuna": "ñuñoa",
-        "tratamientos": ["Odontología general", "Implantes", "Ortodoncia", "Cirugía oral", "Blanqueamiento dental"],
-        "rango_precios": "20.000 - 300.000 CLP",
-        "descripcion": "Atención cercana y profesional en el corazón de Ñuñoa."
-    },
-    "unasalud": {
-        "nombre": "Unasalud",
-        "web": "https://unasalud.cl/",
-        "comuna": "santiago",
-        "tratamientos": ["Odontología general", "Implantes", "Ortodoncia", "Endodoncia", "Periodoncia", "Odontopediatría"],
-        "rango_precios": "20.000 - 350.000 CLP",
-        "descripcion": "Red de clínicas con cobertura en múltiples comunas."
-    },
-    "everest": {
-        "nombre": "Clínica Dental Everest",
-        "web": "https://www.clinicaeverest.cl/",
-        "comuna": "providencia",
-        "tratamientos": ["Odontología integral", "Implantes", "Ortodoncia", "Cirugía maxilofacial", "Odontopediatría"],
-        "rango_precios": "25.000 - 400.000 CLP",
-        "descripcion": "Tecnología de vanguardia y profesionales de excelencia."
-    },
-    "ino": {
-        "nombre": "INO.CL",
-        "web": "https://ino.cl/",
-        "comuna": "las condes",
-        "tratamientos": ["Odontología estética", "Implantes", "Ortodoncia invisible", "Blanqueamiento dental", "Odontopediatría"],
-        "rango_precios": "30.000 - 450.000 CLP",
-        "descripcion": "Especialistas en ortodoncia invisible y estética dental."
-    },
-    "dr_simple": {
-        "nombre": "Dr. Simple",
-        "web": "https://drsimple.cl/",
-        "comuna": "santiago",
-        "tratamientos": ["Odontología general", "Implantes", "Ortodoncia", "Endodoncia", "Blanqueamiento dental"],
-        "rango_precios": "20.000 - 300.000 CLP",
-        "descripcion": "Tratamientos accesibles con calidad garantizada."
-    },
-    "integramedica": {
-        "nombre": "Integramédica",
-        "web": "https://www.integramedica.cl/",
-        "comuna": "multiple",
-        "tratamientos": ["Odontología integral", "Implantes", "Ortodoncia", "Cirugía oral", "Periodoncia"],
-        "rango_precios": "25.000 - 450.000 CLP",
-        "descripcion": "Red de centros médicos y dentales en todo Santiago."
-    }
-}
-def load_qa_data():
-    try:
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        json_path = os.path.join(current_dir, 'preguntas.json')
-        
-        print(f"Intentando cargar JSON desde: {json_path}")  # Debug log
-        
-        with open(json_path, 'r', encoding='utf-8') as file:
-            data = json.load(file)
-            qa_list = []
-            
-            # Debug log
-            print(f"Categorías encontradas: {list(data['categorias'].keys())}")
-            
-            for categoria, preguntas in data['categorias'].items():
-                for qa_pair in preguntas:
-                    if isinstance(qa_pair['pregunta'], list):
-                        for pregunta in qa_pair['pregunta']:
-                            qa_list.append({
-                                'pregunta': pregunta.lower().strip(),
-                                'respuesta': qa_pair['respuesta']
-                            })
-                    else:
-                        qa_list.append({
-                            'pregunta': qa_pair['pregunta'].lower().strip(),
-                            'respuesta': qa_pair['respuesta']
-                        })
-            
-            # Debug log
-            print(f"Total de preguntas cargadas: {len(qa_list)}")
-            return qa_list
-            
-    except Exception as e:
-        print(f"Error al cargar JSON: {e}")
-        return []
 
-# ... rest of the code ...
-
-def find_best_match(user_input, qa_data):
-    user_input = user_input.lower().strip()
-    best_match = None
-    highest_similarity = 0
-
-    # Primero buscar coincidencia exacta
-    for qa in qa_data:
-        if user_input == qa['pregunta']:
-            return qa['respuesta']
-
-    # Si no hay coincidencia exacta, usar similitud
-    for qa in qa_data:
-        # Calcular similitud usando difflib
-        similarity = difflib.SequenceMatcher(None, user_input, qa['pregunta']).ratio()
-        
-        # Si la similitud es mayor a 0.8 (80%), consideramos que es una buena coincidencia
-        if similarity > 0.8:
-            return qa['respuesta']
-        
-        # Actualizar la mejor coincidencia si encontramos una similitud mayor
-        if similarity > highest_similarity:
-            highest_similarity = similarity
-            best_match = qa['respuesta']
-
-    # Si encontramos una coincidencia con al menos 60% de similitud
-    if highest_similarity > 0.6:
-        return best_match
-
-    # Si no encontramos ninguna coincidencia buena
+def find_best_match(user_question, qa_data):
+    if not qa_data or 'categorias' not in qa_data:
+        print("✗ Error: qa_data está vacío o no tiene el formato correcto")
+        return None
+    
+    user_question = user_question.lower().strip()
+    print(f"\n🔍 Buscando coincidencia para: '{user_question}'")
+    
+    # Primero buscar en saludos para priorizar estas respuestas
+    if 'saludos' in qa_data['categorias']:
+        for qa_item in qa_data['categorias']['saludos']:
+            for variant in qa_item['pregunta']:
+                if user_question in variant.lower() or variant.lower() in user_question:
+                    print(f"✓ ¡Coincidencia encontrada en saludos!")
+                    return qa_item['respuesta']
+    
+    # Luego buscar en el resto de categorías
+    for categoria_nombre, categoria_data in qa_data['categorias'].items():
+        if categoria_nombre != 'saludos':  # Skip saludos as we already checked
+            print(f"👉 Revisando categoría: {categoria_nombre}")
+            for qa_item in categoria_data:
+                for variant in qa_item['pregunta']:
+                    if user_question in variant.lower() or variant.lower() in user_question:
+                        print(f"✓ ¡Coincidencia encontrada en {categoria_nombre}!")
+                        return qa_item['respuesta']
+    
+    print("✗ No se encontró coincidencia en preguntas.json")
     return None
-
-def get_clinic_recommendations(user_message):
-    user_message = user_message.lower()
-    
-    # Detectar comuna
-    comunas = ["las condes", "providencia", "vitacura", "lo barnechea", "la reina", "ñuñoa", "santiago"]
-    comuna_mencionada = next((comuna for comuna in comunas if comuna in user_message), None)
-    
-    # Detectar tipo de tratamiento
-    tratamientos = {
-        "ortodoncia": ["ortodoncia", "brackets", "frenillos"],
-        "implantes": ["implantes", "implante dental"],
-        "estetica": ["estética", "blanqueamiento", "carillas"],
-        "general": ["general", "limpieza", "caries"]
-    }
-    
-    tratamiento_buscado = None
-    for tipo, keywords in tratamientos.items():
-        if any(keyword in user_message for keyword in keywords):
-            tratamiento_buscado = tipo
-            break
-
-    # Filtrar clínicas
-    clinicas_filtradas = CLINICAS.copy()
-    
-    if comuna_mencionada:
-        clinicas_filtradas = {k: v for k, v in clinicas_filtradas.items() 
-                            if v['comuna'] == comuna_mencionada or v['comuna'] == 'multiple'}
-    
-    if tratamiento_buscado:
-        if tratamiento_buscado == "ortodoncia":
-            clinicas_filtradas = {k: v for k, v in clinicas_filtradas.items() 
-                                if any("ortodoncia" in t.lower() for t in v['tratamientos'])}
-        elif tratamiento_buscado == "implantes":
-            clinicas_filtradas = {k: v for k, v in clinicas_filtradas.items() 
-                                if any("implantes" in t.lower() for t in v['tratamientos'])}
-        elif tratamiento_buscado == "estetica":
-            clinicas_filtradas = {k: v for k, v in clinicas_filtradas.items() 
-                                if any(t.lower() in ["odontología estética", "blanqueamiento dental"] for t in v['tratamientos'])}
-
-    # Si no hay filtros o no hay resultados, seleccionar 3 clínicas al azar
-    if not clinicas_filtradas:
-        selected_clinics = dict(random.sample(list(CLINICAS.items()), 3))
-    else:
-        # Si hay más de 3 clínicas filtradas, seleccionar 3 al azar
-        if len(clinicas_filtradas) > 3:
-            selected_clinics = dict(random.sample(list(clinicas_filtradas.items()), 3))
-        else:
-            selected_clinics = clinicas_filtradas
-
-    return format_clinic_response(selected_clinics, comuna_mencionada, tratamiento_buscado)
-
-def format_clinic_response(clinicas, comuna=None, tratamiento=None):
-    intro = "Te recomiendo estas clínicas dentales"
-    if comuna:
-        intro += f" en {comuna.title()}"
-    if tratamiento:
-        intro += f" especializadas en {tratamiento}"
-    intro += ":\n\n"
-    
-    response = intro
-    for clinica in clinicas.values():
-        response += f"🏥 {clinica['nombre']}\n"
-        response += f"📍 Comuna: {clinica['comuna'].title()}\n"
-        response += f"🌐 Web: {clinica['web']}\n"
-        response += f"🦷 Tratamientos principales: {', '.join(clinica['tratamientos'][:3])}\n"
-        response += f"💰 Rango de precios: {clinica['rango_precios']}\n"
-        response += f"ℹ️ {clinica['descripcion']}\n\n"
-    
-    response += "💡 Te recomiendo contactar directamente con las clínicas para obtener presupuestos actualizados y confirmar disponibilidad."
-    
-    return response
 
 @app.route('/')
 def home():
-    return render_template('index.html')
-
-@app.route('/health')
-def health_check():
-    """Endpoint para verificar que la aplicación está funcionando"""
-    return jsonify({
-        'status': 'healthy',
-        'timestamp': datetime.now().isoformat()
-    })
-
-@app.errorhandler(404)
-def not_found_error(error):
-    return jsonify({'error': 'Página no encontrada'}), 404
-
-@app.errorhandler(500)
-def internal_error(error):
-    return jsonify({'error': 'Error interno del servidor'}), 500
+    return app.send_static_file('index.html')
 
 @app.route('/chat', methods=['POST'])
 def chat():
     try:
         data = request.json
         user_message = data.get('message', '').strip()
-        print(f"\n=== Nuevo mensaje recibido: '{user_message}' ===")
         user_name = data.get('userName', '')
         user_last_name = data.get('userLastName', '')
         timestamp = datetime.now().strftime("%H:%M")
 
+        print(f"\n📝 Nuevo mensaje de {user_name}: '{user_message}'")
+
         # Primero buscar en preguntas.json
         qa_data = load_qa_data()
-        print(f"\n--- Procesando mensaje: '{user_message}' ---")  # Debug log
-        
         predefined_response = find_best_match(user_message, qa_data)
+        
         if predefined_response:
-            print("Usando respuesta predefinida de preguntas.json")  # Debug log
+            print("✓ Usando respuesta predefinida")
             return jsonify({
                 'response': predefined_response,
                 'timestamp': timestamp
             })
         
-        print("No se encontró respuesta predefinida, usando Cohere")  # Debug log
+        print("→ No se encontró respuesta predefinida, usando Cohere")
         # Si no se encontró respuesta predefinida, usar Cohere
         try:
             cohere_response = co.generate(
@@ -346,9 +91,7 @@ def chat():
                           1. Reconocimiento del problema o consulta
                           2. Explicación clara y sencilla en español chileno
                           3. Recomendaciones específicas
-                          5. No hablar tanto si no es necesario
-                          4. Sugerencia de clinicas dentales de Chile con número de telefono y costo apróximado
-                          5. Sugerencia de consultar a un profesional si es necesario""",
+                          4. Sugerencia de consultar a un profesional si es necesario""",
                 max_tokens=500,
                 temperature=0.7,
                 k=0,
@@ -360,15 +103,18 @@ def chat():
                 'timestamp': timestamp
             })
         except Exception as e:
-            print(f"Error with Cohere: {e}")
+            print(f"✗ Error with Cohere: {e}")
             return jsonify({
                 'response': f'Disculpa {user_name}, tuve un problema para procesar tu consulta. ¿Podrías reformularla de otra manera?',
                 'timestamp': timestamp
             })
 
     except Exception as e:
-        print(f"Error in chat: {e}")
+        print(f"✗ Error in chat: {e}")
         return jsonify({
             'response': 'Lo siento, ocurrió un error. Por favor, intenta de nuevo.',
             'timestamp': timestamp
         })
+
+if __name__ == '__main__':
+    app.run(debug=True)

@@ -211,32 +211,44 @@
             margin-bottom: 5px;
         }
 
-        .user-name {
-            font-weight: bold;
-            color: #007bff;
-        }
+       // ... existing code ...
 
-        .bot-name {
-            font-weight: bold;
-            color: #28a745;
-        }
+.user-name {
+    font-weight: bold;
+    color: #28a745;  /* Cambiado a verde */
+}
 
-        .message-time {
-            color: #666;
-            font-size: 0.8em;
-            margin-left: 10px;
-        }
+.bot-name {
+    font-weight: bold;
+    color: #007bff;  /* Azul para el bot */
+}
 
-        .message-content {
-            line-height: 1.6;
-            word-wrap: break-word;
-        }
+.message-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
 
-        .user-message {
-            background-color: #007bff;
-            color: white;
-            margin-left: auto;
-        }
+.message-time {
+    color: #666;
+    font-size: 0.8em;
+    margin-left: 10px;
+}
+
+// ... existing code ...
+
+.user-message {
+    background-color: #007bff;
+    color: white;
+    margin-left: auto;
+}
+
+.user-message .user-name {
+    color: #ffffff;  /* Nombre en blanco para mensajes del usuario */
+    font-weight: bold;
+}
+
 
         .bot-message {
             background-color: #f1f0f0;
@@ -563,34 +575,35 @@
         }
 
         function addMessage(message, isUser) {
-            const chatHistory = document.getElementById('chat-history');
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+    const chatHistory = document.getElementById('chat-history');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+    messageDiv.style.animation = 'fadeIn 0.5s ease';
 
-            const headerDiv = document.createElement('div');
-            headerDiv.className = 'message-header';
-            
-            const nameSpan = document.createElement('span');
-            nameSpan.className = isUser ? 'user-name' : 'bot-name';
-            nameSpan.textContent = isUser ? `${userName} ${userLastName}` : 'AI Doctor';
-            
-            const timeSpan = document.createElement('span');
-            timeSpan.className = 'message-time';
-            timeSpan.textContent = getCurrentTime();
+    const headerDiv = document.createElement('div');
+    headerDiv.className = 'message-header';
+    
+    const nameSpan = document.createElement('span');
+    nameSpan.className = isUser ? 'user-name' : 'bot-name';
+    nameSpan.textContent = isUser ? `${userName} ${userLastName}` : 'AI Doctor';
+    
+    const timeSpan = document.createElement('span');
+    timeSpan.className = 'message-time';
+    timeSpan.textContent = getCurrentTime();
 
-            headerDiv.appendChild(nameSpan);
-            headerDiv.appendChild(timeSpan);
+    headerDiv.appendChild(nameSpan);
+    headerDiv.appendChild(timeSpan);
 
-            const contentDiv = document.createElement('div');
-            contentDiv.className = 'message-content';
-            contentDiv.textContent = message;
+    const contentDiv = document.createElement('div');
+    contentDiv.className = 'message-content';
+    contentDiv.textContent = message;
 
-            messageDiv.appendChild(headerDiv);
-            messageDiv.appendChild(contentDiv);
-            
-            chatHistory.appendChild(messageDiv);
-            chatHistory.scrollTop = chatHistory.scrollHeight;
-        }
+    messageDiv.appendChild(headerDiv);
+    messageDiv.appendChild(contentDiv);
+    
+    chatHistory.appendChild(messageDiv);
+    chatHistory.scrollTop = chatHistory.scrollHeight;
+}
 
         async function sendMessage() {
             const input = document.getElementById('user-input');

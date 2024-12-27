@@ -148,18 +148,22 @@
 
         .input-container {
             display: flex;
-            gap: 20px;
-            padding: 40px;
+            gap: 10px;
+            padding: 15px;
             border-top: 1px solid #eee;
-            margin-top: auto;
+            background-color: white;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            position: sticky;
+            bottom: 0;
         }
 
         #user-input {
             flex-grow: 1;
-            padding: 15px;
+            padding: 12px 15px;
             border: 2px solid #ddd;
             border-radius: 5px;
-            font-size: 16px;
+            font-size: 14px;
             transition: border-color 0.3s ease;
         }
 
@@ -168,23 +172,25 @@
             outline: none;
         }
 
-        button {
-            padding: 15px 30px;
+        button#send-button {
+            padding: 12px 25px;
             background-color: #007bff;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 14px;
             transition: all 0.3s ease;
+            white-space: nowrap;
+            min-width: 100px;
         }
 
-        button:hover {
+        button#send-button:hover {
             background-color: #0056b3;
             transform: translateY(-1px);
         }
 
-        button:disabled {
+        button#send-button:disabled {
             background-color: #cccccc;
             cursor: not-allowed;
             transform: none;
@@ -282,7 +288,8 @@
         @media (max-width: 768px) {
             body {
                 flex-direction: column;
-                padding: 20px;
+                padding: 10px;
+                height: auto;
             }
 
             .side-image {
@@ -293,17 +300,61 @@
             }
 
             .chat-container {
-                width: 95%;
-                margin: 10px 0;
-                padding: 20px;
+                order: 2;
+                width: 100%;
+                margin: 20px 0;
+                min-height: 400px;
+                max-height: 70vh;
+            }
+
+            #chat-history {
+                flex: 1;
+                overflow-y: auto;
+                max-height: calc(70vh - 150px);
+                padding: 10px;
             }
 
             .input-container {
-                padding: 20px;
+                padding: 10px;
+                gap: 8px;
             }
 
             .message {
-                max-width: 90%;
+                margin: 8px 0;
+                padding: 10px;
+                max-width: 85%;
+            }
+
+            #user-input {
+                padding: 10px;
+                font-size: 14px;
+            }
+
+            button#send-button {
+                padding: 10px 20px;
+                min-width: 80px;
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .chat-container {
+                min-height: 350px;
+                max-height: 65vh;
+            }
+
+            #chat-history {
+                max-height: calc(65vh - 130px);
+            }
+
+            .input-container {
+                padding: 8px;
+                gap: 6px;
+            }
+
+            button#send-button {
+                padding: 10px 15px;
+                min-width: 70px;
             }
         }
     </style>
@@ -440,7 +491,7 @@
             document.getElementById('send-button').disabled = false;
             document.getElementById('user-input').focus();
             
-            addMessage(`Estimado/a ${nombre}: \n\nSoy su asistente dental virtual. ¿En qué puedo ayudarle? Puede consultarme sobre:\n\n• Tratamientos dentales\n• Recomendación de clínicas\n• Consejos de higiene dental\n• Urgencias dentales\n• Y otros temas relacionados con la salud dental`, false);
+            addMessage(`Estimado(a) ${nombre}:\n\nSoy su asistente dental virtual, estoy aquí para ayudarle con cualquier consulta relacionada con su salud dental. Puede preguntarme sobre:\n\n• Tratamientos dentales\n• Información sobre procedimientos\n• Recomendaciones de higiene dental\n• Atención de emergencias dentales\n• Cuidados preventivos\n\n¿En qué puedo orientarle el día de hoy?`, false);
         }
 
         function getCurrentTime() {
@@ -572,5 +623,4 @@
         };
     </script>
 </body>
-</html>
 </html>

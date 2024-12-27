@@ -450,170 +450,133 @@
         let userLastName = '';
         let userPhone = '';
         let userEmail = '';
-
+    
         function validateEmail(email) {
-            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return re.test(email);
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
         }
-
+    
         function validatePhone(phone) {
-            const re = /^\+569\d{8}$/;
-            return re.test(phone);
+            return /^\+569\d{8}$/.test(phone);
         }
-
-        function showError(inputId, message) {
-            const formGroup = document.getElementById(inputId).parentElement;
-            formGroup.classList.add('error');
-            const errorSpan = formGroup.querySelector('.error-message');
+    
+        function showError(fieldId, message) {
+            const field = document.getElementById(fieldId);
+            const errorSpan = field.nextElementSibling;
+            field.parentElement.classList.add('error');
             errorSpan.textContent = message;
             errorSpan.classList.add('visible');
         }
-
-        function clearError(inputId) {
-            const formGroup = document.getElementById(inputId).parentElement;
-            formGroup.classList.remove('error');
-            const errorSpan = formGroup.querySelector('.error-message');
+    
+        function clearError(fieldId) {
+            const field = document.getElementById(fieldId);
+            field.parentElement.classList.remove('error');
+            const errorSpan = field.nextElementSibling;
             errorSpan.classList.remove('visible');
         }
-
+    
+        function getCurrentTime() {
+            const now = new Date();
+            return now.toLocaleTimeString('es-CL', { hour: '2-digit', minute: '2-digit' });
+        }
+    
         function startChat() {
             const nombre = document.getElementById('user-nombre').value.trim();
             const apellido = document.getElementById('user-apellido').value.trim();
             const telefono = document.getElementById('user-telefono').value.trim();
             const email = document.getElementById('user-email').value.trim();
-            
             let isValid = true;
-
+    
             if (!nombre) {
                 showError('user-nombre', 'El nombre es obligatorio');
                 isValid = false;
             }
-
+    
             if (!apellido) {
                 showError('user-apellido', 'El apellido es obligatorio');
                 isValid = false;
             }
-
+    
             if (telefono && !validatePhone(telefono)) {
-                showError('user-telefono', 'Formato de teléfono inválido');
+                showError('user-telefono', 'Formato: +56912345678');
                 isValid = false;
             }
-
+    
             if (email && !validateEmail(email)) {
-                showError('user-email', 'Formato de email inválido');
+                showError('user-email', 'Ingresa un email válido');
                 isValid = false;
             }
-
-            if (!isValid) {
-                return;
-            }
-
+    
+            if (!isValid) return;
+    
             userName = nombre;
             userLastName = apellido;
             userPhone = telefono;
             userEmail = email;
-            
-            // Ocultar el modal
-            const modal = document.getElementById('welcome-modal');
-            if (modal) {
-                modal.classList.add('hidden');
-            }
-            
-            // Mostrar la información del usuario
-            const userInfo = document.getElementById('user-info');
-            if (userInfo) {
-                userInfo.classList.remove('hidden');
-            }
-            
-            let userInfoText = `${nombre} ${apellido}`;
-            if (telefono) userInfoText += ` | Tel: ${telefono}`;
-            if (email) userInfoText += ` | Email: ${email}`;
-            
-            const displayName = document.getElementById('display-name');
-            if (displayName) {
-                displayName.textContent = userInfoText;
-            }
-            
-            // Habilitar el chat
-            const userInput = document.getElementById('user-input');
-            const sendButton = document.getElementById('send-button');
-            
-            if (userInput) {
-                userInput.disabled = false;
-            }
-            if (sendButton) {
-                sendButton.disabled = false;
-            }
-            
-            if (userInput) {
-                userInput.focus();
-            }
-            
-            // Mostrar mensaje de bienvenida
-            addMessage(`Estimado(a) ${nombre}:\n\nSoy su asistente dental virtual, estoy aquí para ayudarle con cualquier consulta relacionada con su salud dental. Puede preguntarme sobre:\n\n• Tratamientos dentales\n• Información sobre procedimientos\n• Recomendaciones de higiene dental\n• Atención de emergencias dentales\n• Cuidados preventivos\n\n¿En qué puedo orientarle el día de hoy?`, false);
+    
+            document.getElementById('welcome-modal').classList.add('hidden');
+            document.getElementById('user-info').classList.remove('hidden');
+            document.getElementById('display-name').textContent = `${nombre} ${apellido}`;
+            document.getElementById('user-input').disabled = false;
+            document.getElementById('send-button').disabled = false;
+            document.getElementById('user-input').focus();
+    
+            // Mensaje de bienvenida
+            addMessage('¡Hola! ¿En qué te puedo ayudar con tu salud dental? Pregúntame cualquier duda que tengas sobre tus dientes.', false);
         }
-
-        function getCurrentTime() {
-            const now = new Date();
-            return now.toLocaleTimeString('es-CL', { hour: '2-digit', minute: '2-digit' });
-        }
-
+    
         function showTypingIndicator() {
-            document.querySelector('.typing-indicator').style.display = 'flex';
+            const typingIndicator = document.querySelector('.typing-indicator');
+            typingIndicator.style.display = 'block';
         }
-
+    
         function hideTypingIndicator() {
-            document.querySelector('.typing-indicator').style.display = 'none';
+            const typingIndicator = document.querySelector('.typing-indicator');
+            typingIndicator.style.display = 'none';
         }
-
-        <script>
-    // ... otro código JavaScript ...
-
-    function addMessage(message, isUser) {
-        const chatHistory = document.getElementById('chat-history');
-        const messageDiv = document.createElement('div');
-        messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
-
-        const headerDiv = document.createElement('div');
-        headerDiv.className = 'message-header';
-        
-        const nameSpan = document.createElement('span');
-        nameSpan.className = isUser ? 'user-name' : 'bot-name';
-        nameSpan.textContent = isUser ? `${userName} ${userLastName}` : 'AI Doctor';
-        
-        const timeSpan = document.createElement('span');
-        timeSpan.className = 'message-time';
-        timeSpan.textContent = getCurrentTime();
-
-        headerDiv.appendChild(nameSpan);
-        headerDiv.appendChild(timeSpan);
-
-        const contentDiv = document.createElement('div');
-        contentDiv.className = 'message-content';
-        contentDiv.textContent = message;
-
-        messageDiv.appendChild(headerDiv);
-        messageDiv.appendChild(contentDiv);
-        
-        chatHistory.appendChild(messageDiv);
-        chatHistory.scrollTop = chatHistory.scrollHeight;
-    }
-
-    // ... otro código JavaScript ...
-</script>
+    
+        function addMessage(message, isUser) {
+            const chatHistory = document.getElementById('chat-history');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+    
+            const headerDiv = document.createElement('div');
+            headerDiv.className = 'message-header';
+            
+            const nameSpan = document.createElement('span');
+            nameSpan.className = isUser ? 'user-name' : 'bot-name';
+            nameSpan.textContent = isUser ? `${userName} ${userLastName}` : 'AI Doctor';
+            
+            const timeSpan = document.createElement('span');
+            timeSpan.className = 'message-time';
+            timeSpan.textContent = getCurrentTime();
+    
+            headerDiv.appendChild(nameSpan);
+            headerDiv.appendChild(timeSpan);
+    
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'message-content';
+            contentDiv.textContent = message;
+    
+            messageDiv.appendChild(headerDiv);
+            messageDiv.appendChild(contentDiv);
+            
+            chatHistory.appendChild(messageDiv);
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+        }
+    
         async function sendMessage() {
             const input = document.getElementById('user-input');
             const sendButton = document.getElementById('send-button');
             const message = input.value.trim();
             
             if (!message) return;
-
+    
             addMessage(message, true);
             input.value = '';
             input.disabled = true;
             sendButton.disabled = true;
             showTypingIndicator();
-
+    
             try {
                 const response = await fetch('/chat', {
                     method: 'POST',
@@ -628,7 +591,7 @@
                         userEmail: userEmail
                     })
                 });
-
+    
                 const data = await response.json();
                 hideTypingIndicator();
                 addMessage(data.response, false);
@@ -642,24 +605,21 @@
                 input.focus();
             }
         }
-
+    
         document.addEventListener('DOMContentLoaded', function() {
             const sendButton = document.getElementById('send-button');
             const userInput = document.getElementById('user-input');
-
-            // Click event
+    
             sendButton.addEventListener('click', function(e) {
                 e.preventDefault();
                 sendMessage();
             });
-
-            // Touch event
+    
             sendButton.addEventListener('touchend', function(e) {
                 e.preventDefault();
                 sendMessage();
             });
-
-            // Enter key event
+    
             userInput.addEventListener('keypress', function(e) {
                 if (e.key === 'Enter' && !e.shiftKey && !this.disabled) {
                     e.preventDefault();
@@ -667,21 +627,21 @@
                 }
             });
         });
-
+    
         document.getElementById('user-nombre').addEventListener('input', function() {
             this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
             if (this.value.trim()) {
                 clearError('user-nombre');
             }
         });
-
+    
         document.getElementById('user-apellido').addEventListener('input', function() {
             this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
             if (this.value.trim()) {
                 clearError('user-apellido');
             }
         });
-
+    
         document.getElementById('user-telefono').addEventListener('input', function() {
             this.value = this.value.replace(/[^0-9+]/g, '');
             if (this.value && !validatePhone(this.value)) {
@@ -690,7 +650,7 @@
                 clearError('user-telefono');
             }
         });
-
+    
         document.getElementById('user-email').addEventListener('input', function() {
             if (this.value && !validateEmail(this.value)) {
                 showError('user-email', 'Ingresa un email válido');
@@ -698,8 +658,7 @@
                 clearError('user-email');
             }
         });
-
-        // Autoenfoque en el campo de nombre al cargar
+    
         window.onload = function() {
             document.getElementById('user-nombre').focus();
         };

@@ -18,52 +18,34 @@ DEBUG = os.environ.get('FLASK_ENV') != 'production'
 
 co = cohere.Client(os.getenv('COHERE_API_KEY'))
 
-def load_qa_data():
-    try:
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        json_path = os.path.join(current_dir, 'preguntas.json')
-        
-        with open(json_path, 'r', encoding='utf-8') as file:
-            data = json.load(file)
-            qa_list = []
-            for categoria, preguntas in data['categorias'].items():
-                for qa_pair in preguntas:
-                    if isinstance(qa_pair['pregunta'], list):
-                        for pregunta in qa_pair['pregunta']:
-                            qa_list.append({
-                                'pregunta': pregunta.lower().strip(),
-                                'respuesta': qa_pair['respuesta']
-                            })
-                    else:
-                        qa_list.append({
-                            'pregunta': qa_pair['pregunta'].lower().strip(),
-                            'respuesta': qa_pair['respuesta']
-                        })
-            return qa_list
-    except Exception as e:
-        print(f"Error al cargar JSON: {e}")
-        return []
-# ... existing code ...
-
 def find_best_match(user_question, qa_data):
-    if not qa_data or 'preguntas' not in qa_data:
+    if not qa_data or 'categorias' not in qa_data:
         print("Error: qa_data está vacío o no tiene el formato correcto")
         return None
-        
-    questions = [q['pregunta'] for q in qa_data['preguntas']]
-    print(f"Preguntas disponibles: {questions}")  # Debug
-    print(f"Buscando coincidencia para: {user_question}")  # Debug
     
-    matches = get_close_matches(user_question.lower(), [q.lower() for q in questions], n=1, cutoff=0.6)
-    print(f"Coincidencias encontradas: {matches}")  # Debug
+    user_question = user_question.lower()
     
-    if matches:
-        for qa in qa_data['preguntas']:
-            if qa['pregunta'].lower() == matches[0].lower():
-                print(f"Respuesta encontrada en preguntas.json")  # Debug
-                return qa['respuesta']
-    print("No se encontró coincidencia en preguntas.json")  # Debug
+    # Buscar en todas las categorías
+    for categoria, preguntas in qa_data['categorias'].items():
+        for qa in preguntas:
+            # Verifica si la pregunta del usuario coincide con alguna variante
+            for pregunta in qa['pregunta']:
+                if user_question in pregunta.lower() or pregunta.lower() in user_question:
+                    print(f"Coincidencia encontrada en categoría: {categoria}")
+                    return qa['respuesta']
+    
+    print("No se encontró coincidencia en preguntas.json")
     return None
+
+def load_qa_data():
+    try:
+        with open('preguntas.json', 'r', encoding='utf-8') as file:
+            data = json.load(file)
+            print("Archivo preguntas.json cargado correctamente")
+            return data
+    except Exception as e:
+        print(f"Error loading preguntas.json: {e}")
+        return {}
 # Base de datos de clínicas
 CLINICAS = {
     "san_cristobal": {

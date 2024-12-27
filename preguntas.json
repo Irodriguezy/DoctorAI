@@ -1,152 +1,683 @@
-{
-  "categorias": {
-      "saludos": [
-          {
-              "pregunta": ["hola", "buenos dias", "buenas tardes", "buenas noches", "que tal", "como estas", "hi", "hello"],
-              "respuesta": "¡Hola! ¿En qué te puedo ayudar con tu salud dental? Pregúntame cualquier duda que tengas sobre tus dientes."
-          }
-      ],
-      "despedidas": [
-          {
-              "pregunta": ["chao", "adios", "hasta luego", "nos vemos", "bye", "gracias", "muchas gracias"],
-              "respuesta": "¡Que estés muy bien! Recuerda lavarte los dientes después de cada comida. ¡Nos vemos!"
-          }
-      ],
-      "problemas_comunes": [
-          {
-              "pregunta": ["¿Qué es una caries?", "que es una caries", "que son las caries", "explicame que es una caries", "caries que es", "tengo una caries", "como saber si tengo caries"],
-              "respuesta": "Una caries es cuando se te pica un diente por culpa de las bacterias. Es super común y si no la tratas altiro, puede llegar hasta el nervio y ahí sí que duele caleta. Lo bacán es que si la pescas a tiempo, con un empaste quedai al tiro."
-          },
-          {
-              "pregunta": ["¿Me duele una muela que hago?", "me duele caleta la muela", "que hago si me duele el diente", "dolor de muela", "tengo dolor en un diente", "muela con dolor", "me duele mucho un diente", "dolor dental"],
-              "respuesta": "Pucha, si te duele mucho una muela lo mejor es que vayas al tiro al dentista. Mientras tanto puedes tomar un paracetamol o ibuprofeno pa'l dolor. Si el dolor es muy brígido o llevai varios días así, podría ser una infección y ahí hay que atenderse urgente nomás."
-          },
-          {
-              "pregunta": ["¿Por qué sangran las encias?", "me sangran las encias", "sangrado de encias", "porque me sangran las encias cuando me lavo los dientes", "encias con sangre", "sangre en las encias", "me sale sangre al cepillarme"],
-              "respuesta": "Las encías sangran principalmente por una gingivitis, que es cuando se inflaman por la acumulación de bacterias. Esto pasa cuando no te lavas bien los dientes o no usai seda dental. Si te sangran caleta las encías, tení que mejorar tu higiene y sería bueno que te hagas una limpieza profesional al tiro."
-          },
-          {
-              "pregunta": ["¿Por qué tengo mal aliento?", "tengo mal aliento", "como eliminar el mal aliento", "halitosis", "mal olor en la boca", "me huele mal la boca", "como quitar el mal aliento"],
-              "respuesta": "El mal aliento puede ser por varias cosas: no lavarte bien los dientes, tener restos de comida entre los dientes, caries, problemas en las encías o dramas del estómago. Lo primero es mejorar tu higiene dental, usar hilo dental y limpiarte la lengua. Si seguí con la custión, mejor anda al dentista pa' cachar bien qué onda."
-          },
-          {
-              "pregunta": ["¿Qué es la sensibilidad dental?", "porque me duelen los dientes con el frio", "dientes sensibles", "me duelen los dientes con lo dulce", "sensibilidad al frio y calor", "porque son sensibles mis dientes"],
-              "respuesta": "La sensibilidad dental es cuando sentí dolor o molestia con cosas frías, calientes o dulces. Puede ser porque te cepillai muy fuerte y se gastó el esmalte, tenís las encías retraídas o hay alguna picadura. Hay pastas especiales pa' la sensibilidad que ayudan caleta, pero igual es mejor que te revise un dentista pa' estar seguros."
-          }
-      ],
-      "higiene_dental": [
-          {
-              "pregunta": ["¿Cada cuanto hay que lavarse los dientes?", "cada cuanto me lavo los dientes", "cuantas veces al dia hay que lavarse los dientes", "cada cuanto tiempo debo cepillarme", "lavado de dientes frecuencia", "cada cuanto me cepillo", "cuantas veces al dia cepillarse"],
-              "respuesta": "Mira, lo ideal es que te laves los dientes después de cada comida, o sea mínimo 3 veces al día. El lavado más importante es el de la noche antes de dormir, ahí tienes que hacerlo súper bien porque durante la noche se multiplican más las bacterias. ¡No te vayai a acostar sin lavarte los dientes!"
-          },
-          {
-              "pregunta": ["¿Como usar bien el hilo dental?", "como se usa la seda dental", "uso correcto del hilo dental", "para que sirve el hilo dental", "es necesario usar hilo dental", "debo usar seda dental"],
-              "respuesta": "El hilo dental es la raja pa' sacar los restos de comida que quedan entre los dientes y que el cepillo no puede sacar. Tenís que usar unos 40 cm de hilo, enrollarlo en los dedos y pasarlo suavemente entre cada diente con movimientos de arriba a abajo. Es super importante usarlo al menos una vez al día, idealmente en la noche."
-          }
-      ],
-      "tratamientos_dentales": [
-          {
-              "pregunta": ["¿Qué es un conducto?", "que es una endodoncia", "tratamiento de conducto", "me van a hacer un conducto", "endodoncia que es", "para que sirve un conducto dental", "cuando hay que hacer un conducto"],
-              "respuesta": "El conducto o endodoncia es cuando la caries llegó tan profundo que afectó el nervio del diente. El dentista tiene que sacar todo el nervio infectado y rellenar el conducto. No es tan terrible como dicen, con la anestesia no duele nada y es mejor que perder el diente. Después te ponen una corona pa' proteger el diente y quedai joya."
-          },
-          {
-              "pregunta": ["¿Qué es un empaste?", "que es una restauracion dental", "para que sirven los empastes", "tapaduras dentales", "composite dental", "que es una tapadura", "empaste dental que es"],
-              "respuesta": "Un empaste es cuando el dentista te rellena un diente que tiene una caries. Primero te sacan toda la parte picada y después la rellenan con un material especial que queda del mismo color del diente. Es súper común y rápido, con anestesia no duele nada. Es importante hacerlo cuando la caries está chica pa' que no se ponga más brígida."
-          },
-          {
-              "pregunta": ["¿Qué es una corona dental?", "para que sirve una corona dental", "fundas dentales", "necesito una corona", "corona en un diente", "coronas dentales que son"],
-              "respuesta": "Una corona es como un gorrito que se pone sobre un diente cuando está muy dañado por caries o quebrado. Primero liman el diente pa' que quede más chico y después ponen la corona encima. Pueden ser de metal, porcelana o una mezcla de ambos. Son bacanes porque protegen el diente y se ven super naturales."
-          },
-          {
-              "pregunta": ["¿Qué es una limpieza dental?", "limpieza dental profesional", "destartraje dental", "profilaxis dental", "cada cuanto hacerse una limpieza dental", "para que sirve la limpieza dental"],
-              "respuesta": "La limpieza dental o destartraje es cuando el dentista te saca todo el sarro (esa cosa amarilla y dura) que se acumula en los dientes y que tú no podís sacar con el cepillado normal. También te pulen los dientes y quedan súper suavecitos. Es importante hacerse una limpieza al menos una vez al año pa' mantener las encías sanitas y prevenir problemas más graves."
-          }
-      ],
-      "urgencias_dentales": [
-          {
-              "pregunta": ["¿Qué hago si se me quebró un diente?", "se me rompio un diente", "diente quebrado que hacer", "se me partio una muela", "diente roto urgencia", "que hacer si se rompe un diente"],
-              "respuesta": "Si se te quebró un diente, lo primero es mantener la calma. Guarda el pedazo que se quebró en leche o suero fisiológico y anda al tiro al dentista. Si te duele, podís tomar un analgésico. No te preocupís, hay varias formas de arreglarlo dependiendo de qué tan grande es la quebradura. Lo importante es que te atiendan lo antes posible."
-          },
-          {
-              "pregunta": ["¿Qué hago si se me salió un diente?", "se me cayo un diente", "diente que se salio", "avulsion dental", "que hacer si se sale un diente", "diente expulsado"],
-              "respuesta": "Si se te salió un diente entero (con raíz y todo), es una urgencia brígida. Agarra el diente por la corona (la parte que se ve), no lo laves con agua ni lo frotes, ponlo en leche o suero y anda corriendo al dentista. Si te lo ponen de vuelta dentro de una hora, hay posibilidades de salvarlo. También ponte hielo en la cara pa' bajar la hinchazón."
-          },
-          {
-              "pregunta": ["¿Qué es un absceso dental?", "tengo un absceso", "infeccion dental con pus", "tengo una bolita con pus en la encia", "absceso en la muela que hacer", "inflamacion con pus en el diente"],
-              "respuesta": "Un absceso es una infección brígida que forma como una bolita con pus en la encía. Duele caleta y puede ser peligroso si no se trata. Necesitai antibióticos y que te revise un dentista urgente. No lo apretís ni te lo reventís solo, porque podís empeorar la infección. Mientras tanto podís hacer enjuagues con agua tibia con sal y tomar analgésicos."
-          }
-      ],
-      "ortodoncia_frenillos": [
-          {
-              "pregunta": ["¿Qué son los frenillos?", "brackets que son", "para que sirven los frenillos", "ortodoncia que es", "necesito frenillos", "brackets o frenillos", "como son los frenillos"],
-              "respuesta": "Los frenillos o brackets son esos aparatos que te ponen en los dientes pa' enderezarlos cuando están chuecos. El tratamiento puede durar entre 1 a 3 años dependiendo de qué tan desordenados estén tus dientes. Hay que tener más cuidado con la limpieza porque se pueden acumular restos de comida, pero el resultado es la raja y te queda una sonrisa perfecta."
-          },
-          {
-              "pregunta": ["¿Duelen los frenillos?", "duele ponerse brackets", "dolor de frenillos", "molestan los frenillos", "que tan dolorosos son los brackets", "dolor por ortodoncia"],
-              "respuesta": "Mira, cuando recién te ponen los frenillos o te los ajustan, puede que te molesten un poco los primeros días. No es un dolor terrible, es más como una presión. Se pasa con analgésicos y comiendo cositas blandas. Después te acostumbrai y ni los sentí. ¡Vale la pena el esfuerzo pa' tener los dientes derechitos!"
-          },
-          {
-              "pregunta": ["¿Qué no puedo comer con frenillos?", "alimentos prohibidos con brackets", "que comer con frenillos", "comidas permitidas con brackets", "que no debo comer con ortodoncia"],
-              "respuesta": "Con frenillos hay que tener cuidado con las comidas muy duras o pegajosas. Evita los dulces duros, chicles, maní, palomitas de maíz y cosas que se pegan caleta. También hay que tener cuidado con las manzanas duras o el choclo en la coronta. Mejor corta todo en pedazos chicos. Si se te suelta un bracket por comer algo que no debías, vai a tener que ir al dentista a que te lo pegue de nuevo."
-          }
-      ],
-      "estetica_dental": [
-          {
-              "pregunta": ["¿Cómo blanquear los dientes?", "blanqueamiento dental", "como tener dientes mas blancos", "dientes amarillos que hacer", "blanqueamiento casero dental", "aclaramiento dental"],
-              "respuesta": "Pa' blanquear los dientes tenís varias opciones: está el blanqueamiento profesional en la consulta que es más rápido y efectivo, o el casero con férulas que te hace el dentista. Los productos de farmacia como pastas blanqueadoras ayudan pero no hacen milagros. Ojo que el limón y el bicarbonato pueden dañar el esmalte, mejor no te mandís esas tallas caseras. Lo más importante es mantener una buena higiene y evitar las cosas que manchan como el café, té, vino tinto y cigarro."
-          },
-          {
-              "pregunta": ["¿Qué son las carillas dentales?", "carillas de porcelana", "carillas esteticas", "veneer dental", "carillas que son", "para que sirven las carillas"],
-              "respuesta": "Las carillas son como unas láminas finitas que se pegan en los dientes pa' mejorar su forma o color. Son bacanes pa' arreglar dientes chuecos, manchados o con espacios entre medio. Se pueden hacer de porcelana o de composite. Las de porcelana son más caras pero duran más y se ven más naturales. Es un tratamiento estético super popular porque te puede cambiar la sonrisa caleta."
-          }
-      ],
-      "prevencion": [
-          {
-              "pregunta": ["¿Cómo prevenir las caries?", "como evitar las caries", "prevenir caries", "que hacer para no tener caries", "consejos para evitar caries", "como cuidar los dientes"],
-              "respuesta": "Pa' prevenir las caries lo más importante es: lavarte bien los dientes después de cada comida, usar pasta con flúor, pasar hilo dental, no comer tantos dulces (y si comís, lavarte al tiro), y visitar al dentista cada 6 meses pa' una limpieza y revisión. También ayuda tomar harta agua y masticar chicle sin azúcar después de comer si no podís lavarte al tiro."
-          },
-          {
-              "pregunta": ["¿Cada cuanto ir al dentista?", "cada cuanto tiempo hay que ir al dentista", "visitas al dentista frecuencia", "control dental cada cuanto", "revision dental frecuencia"],
-              "respuesta": "Lo ideal es ir al dentista cada 6 meses pa' una revisión y limpieza, aunque no tengai ninguna molestia. Así pueden cachar cualquier drama a tiempo antes de que se ponga más complicado. Si usai frenillos o tenís problemas en las encías, capaz que tengai que ir más seguido. ¡No esperís a que te duela algo pa' ir al dentista!"
-          }
-      ],
-      "ninos_y_dientes": [
-          {
-              "pregunta": ["¿Cuándo empiezan a salir los dientes en los bebes?", "primera denticion", "dientes de leche cuando salen", "edad dientes bebes", "cuando salen los primeros dientes", "denticion temporal"],
-              "respuesta": "Los dientes de leche empiezan a salir como a los 6 meses, aunque algunos bebés pueden ser más temprano o más tarde, es normal. Primero salen los de adelante abajo, después los de arriba y así. Pa' cuando tienen 3 años ya deberían tener todos sus dientes de leche (20 en total). Cuando les están saliendo pueden estar más mañosos y babear caleta, es normal."
-          },
-          {
-              "pregunta": ["¿Cuándo hay que empezar a lavar los dientes a los niños?", "higiene dental niños", "cuando cepillar dientes bebes", "como lavar dientes niños", "cepillado dental infantil"],
-              "respuesta": "Hay que empezar a limpiar las encías del bebé incluso antes de que le salgan los dientes, con una gasa húmeda. Cuando sale el primer diente, ahí hay que empezar a cepillar con un cepillo chiquitito y pasta sin flúor. Después de los 2 años ya pueden usar pasta con flúor pero poquita, del porte de un granito de arroz. Es importante enseñarles desde chiquititos pa' que agarren el hábito."
-          },
-          {
-              "pregunta": ["¿Cuándo se caen los dientes de leche?", "cambio de dientes", "dientes permanentes cuando salen", "cuando se mudan los dientes", "dientes definitivos edad"],
-              "respuesta": "Los dientes de leche empiezan a mudarse como a los 6 años, partiendo por los de adelante. El proceso dura varios años, hasta como los 12 o 13. No hay que sacarlos a la fuerza, tienen que caerse solitos cuando estén listos. Si un diente de leche se cae antes por un golpe o caries, hay que ir al dentista pa' ver si necesita un mantenedor de espacio."
-          }
-      ],
-      "alimentacion_salud_dental": [
-          {
-              "pregunta": ["¿Qué alimentos son buenos para los dientes?", "comidas saludables dientes", "alimentos que fortalecen dientes", "que comer para dientes sanos", "dieta buena para dientes"],
-              "respuesta": "Los mejores alimentos pa' tus dientes son: lácteos (por el calcio), frutas y verduras crudas (porque te hacen masticar más y limpian natural), frutos secos (tienen minerales buenos) y quesos (ayudan a neutralizar los ácidos). El agua también es super importante. Evita las weas muy azucaradas o ácidas, y si las comí, pégate un cepillado después."
-          },
-          {
-              "pregunta": ["¿El café mancha los dientes?", "que mancha los dientes", "alimentos que manchan dientes", "porque se manchan los dientes", "como evitar manchas en dientes"],
-              "respuesta": "Sí, el café mancha caleta los dientes, igual que el té, el vino tinto, las bebidas de cola y el cigarro. Si tomái mucho café, podís usar bombilla o enjuagarte la boca con agua después. También ayuda lavarse los dientes 30 minutos después (no al tiro porque el ácido ablanda el esmalte). Si ya tenís los dientes manchados, una limpieza profesional o un blanqueamiento te pueden ayudar."
-          }
-      ],
-      "preguntas_generales": [
-          {
-              "pregunta": ["¿Por qué es importante la saliva?", "funcion de la saliva", "para que sirve la saliva", "boca seca que hacer", "poca saliva problemas"],
-              "respuesta": "La saliva es super importante porque ayuda a limpiar la boca, neutraliza los ácidos, remineraliza los dientes y mata bacterias. Si tenís la boca seca (xerostomía) podís tener más caries y problemas en las encías. Pa' aumentar la saliva: toma harta agua, mastica chicle sin azúcar, evita la cafeína y el copete, y si es muy heavy, hay sprays y pastillas que ayudan."
-          },
-          {
-              "pregunta": ["¿Qué es el bruxismo?", "rechino los dientes", "apreto los dientes", "bruxismo que hacer", "placa dental bruxismo", "ferula descarga"],
-              "respuesta": "El bruxismo es cuando apretai o rechínai los dientes, generalmente cuando dormís o estai estresado. Puede desgastar los dientes, causar dolor de cabeza y problemas en la mandíbula. El dentista te puede hacer una placa o férula pa' usar en la noche y proteger los dientes. También ayuda reducir el estrés, hacer ejercicios de relajación y evitar la cafeína."
-          },
-          {
-              "pregunta": ["¿Es normal que los dientes se muevan?", "dientes flojos adultos", "movilidad dental", "dientes se mueven", "porque se sueltan los dientes"],
-              "respuesta": "No es normal que los dientes se muevan en adultos. Si notai que tus dientes están más sueltos, puede ser por enfermedad de las encías (periodontitis), bruxismo, o un problema en el hueso. Es importante ir al dentista al tiro porque si no se trata, podís terminar perdiendo los dientes. Con tratamiento a tiempo se puede controlar en la mayoría de los casos."
-          }
-      ]
-  }
-}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Doctor - Consultas Dentales</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 40px;
+            background-color: #f0f2f5;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .modal {
+            display: flex;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .form-group {
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .form-group.required label::after {
+            content: " *";
+            color: #dc3545;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        .form-group.error input {
+            border-color: #dc3545;
+        }
+
+        .helper-text {
+            display: block;
+            font-size: 0.8em;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        .error-message {
+            display: none;
+            color: #dc3545;
+            font-size: 0.8em;
+            margin-top: 4px;
+        }
+
+        .error-message.visible {
+            display: block;
+        }
+
+        .required-fields {
+            font-size: 0.8em;
+            color: #666;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .side-image {
+            width: 400px;
+            height: auto;
+            object-fit: contain;
+            position: sticky;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .chat-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 40px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            width: 60%;
+            margin: 0 40px;
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 0 40px;
+            color: #2c3e50;
+        }
+
+        .user-info {
+            text-align: right;
+            padding: 20px 40px;
+            color: #666;
+            font-size: 0.9em;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 40px;
+        }
+
+        #chat-history {
+            flex-grow: 1;
+            overflow-y: auto;
+            margin: 40px 0;
+            padding: 0 40px;
+            background-color: #ffffff;
+        }
+
+        .input-container {
+            display: flex;
+            gap: 10px;
+            padding: 15px;
+            border-top: 1px solid #eee;
+            background-color: white;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+            position: sticky;
+            bottom: 0;
+        }
+
+        #user-input {
+            flex-grow: 1;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        #user-input:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        button#send-button {
+            padding: 12px 25px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            min-width: 100px;
+        }
+
+        button#send-button:hover {
+            background-color: #0056b3;
+            transform: translateY(-1px);
+        }
+
+        button#send-button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .message {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 10px;
+            max-width: 80%;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+
+        .user-name {
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .bot-name {
+            font-weight: bold;
+            color: #28a745;
+        }
+
+        .message-time {
+            color: #666;
+            font-size: 0.8em;
+            margin-left: 10px;
+        }
+
+        .message-content {
+            line-height: 1.6;
+            word-wrap: break-word;
+        }
+
+        .user-message {
+            background-color: #e3f2fd;
+            margin-left: auto;
+            text-align: right;
+            border-bottom-right-radius: 5px;
+        }
+
+        .bot-message {
+            background-color: #f8f9fa;
+            margin-right: auto;
+            text-align: left;
+            border-bottom-left-radius: 5px;
+        }
+
+        .bot-message .message-content {
+            white-space: pre-line;
+        }
+
+        .typing-indicator {
+            padding: 20px;
+            display: none;
+            align-items: center;
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .typing-indicator span {
+            animation: blink 1s infinite;
+            margin-left: 5px;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        @media (max-width: 1200px) {
+            .side-image {
+                width: 300px;
+            }
+
+            .chat-container {
+                padding: 30px;
+            }
+
+            .input-container {
+                padding: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+                padding: 10px;
+                min-height: 100vh;
+                position: relative;
+            }
+
+            .side-image {
+                width: 100%;
+                max-width: 200px;
+                height: auto;
+            }
+
+            .side-image:first-of-type {
+                order: 1;
+                margin: 20px auto;
+                position: relative;
+                top: auto;
+                transform: none;
+                display: block;
+                max-width: 150px;
+                padding: 20px 0;
+            }
+
+            .chat-container {
+                order: 2;
+                width: 100%;
+                margin: 10px 0;
+                flex: 1;
+                min-height: 60vh;
+                display: flex;
+                flex-direction: column;
+            }
+
+            #chat-history {
+                flex: 1;
+                overflow-y: auto;
+                padding: 15px;
+                margin-bottom: 10px;
+                height: calc(100% - 120px);
+            }
+
+            .input-container {
+                position: sticky;
+                bottom: 0;
+                width: 100%;
+                background-color: white;
+                padding: 10px;
+                border-top: 1px solid #eee;
+            }
+
+            .side-image:last-of-type {
+                order: 3;
+                margin: 0;
+                position: relative;
+                bottom: 0;
+                transform: none;
+                max-width: 150px;
+                background-color: #f0f2f5;
+                padding: 20px 0;
+                width: 100%;
+            }
+
+            .message {
+                margin: 8px 0;
+                padding: 10px;
+                max-width: 85%;
+            }
+
+            .chat-header {
+                padding: 10px;
+                margin-bottom: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .chat-container {
+                min-height: 70vh;
+            }
+
+            #chat-history {
+                height: calc(100% - 100px);
+            }
+
+            .side-image:first-of-type {
+                max-width: 120px;
+                margin: 15px auto;
+            }
+
+            .side-image:last-of-type {
+                max-width: 120px;
+                margin: 15px auto;
+            }
+
+            .input-container {
+                padding: 8px;
+            }
+        }
+
+        @media (hover: none) {
+            #user-input,
+            button#send-button {
+                touch-action: manipulation;
+                -webkit-tap-highlight-color: transparent;
+            }
+
+            button#send-button:active {
+                background-color: #0056b3;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="welcome-modal" class="modal">
+        <div class="modal-content">
+            <h2>Bienvenido a AI Doctor</h2>
+            <p>Por favor, completa tus datos:</p>
+            <div class="form-group required">
+                <input type="text" id="user-nombre" placeholder="Nombre *" required>
+                <div class="error-message"></div>
+            </div>
+            <div class="form-group required">
+                <input type="text" id="user-apellido" placeholder="Apellido *" required>
+                <div class="error-message"></div>
+            </div>
+            <div class="form-group optional">
+                <input type="tel" id="user-telefono" placeholder="Teléfono (opcional)" pattern="[0-9+]+" maxlength="12">
+                <small class="helper-text">Formato: +56912345678</small>
+                <div class="error-message"></div>
+            </div>
+            <div class="form-group optional">
+                <input type="email" id="user-email" placeholder="Correo electrónico (opcional)">
+                <div class="error-message"></div>
+            </div>
+            <button onclick="startChat()" id="start-chat-btn">Comenzar Chat</button>
+            <p class="required-fields">* Campos obligatorios</p>
+        </div>
+    </div>
+
+    <img src="https://png.pngtree.com/png-clipart/20211121/original/pngtree-cute-dentist-in-cartoon-style-png-image_6950456.png" alt="Logo 1" class="side-image">
+    
+    <div class="chat-container">
+        <div class="chat-header">
+            <h1>AI Doctor - Asistente Dental</h1>
+            <div id="user-info" class="user-info hidden">
+                <div class="user-details">
+                    <span id="display-name"></span>
+                </div>
+            </div>
+        </div>
+        <div id="chat-history"></div>
+        <div class="typing-indicator">
+            AI Doctor está escribiendo<span>...</span>
+        </div>
+        <div class="input-container">
+            <input type="text" id="user-input" placeholder="Escribe tu pregunta aquí..." disabled>
+            <button onclick="sendMessage()" disabled id="send-button">Enviar</button>
+        </div>
+    </div>
+
+    <img src="{{ url_for('static', filename='logo2.png') }}" alt="Logo 2" class="side-image">
+
+    <script>
+        let userName = '';
+        let userLastName = '';
+        let userPhone = '';
+        let userEmail = '';
+
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return email === '' || re.test(email);
+        }
+
+        function validatePhone(phone) {
+            const re = /^\+?[0-9]{9,12}$/;
+            return phone === '' || re.test(phone);
+        }
+
+        function showError(elementId, message) {
+            const element = document.getElementById(elementId);
+            const errorElement = element.parentElement.querySelector('.error-message');
+            element.parentElement.classList.add('error');
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+        }
+
+        function clearError(elementId) {
+            const element = document.getElementById(elementId);
+            const errorElement = element.parentElement.querySelector('.error-message');
+            element.parentElement.classList.remove('error');
+            if (errorElement) {
+                errorElement.style.display = 'none';
+            }
+        }
+
+        function startChat() {
+            const nombre = document.getElementById('user-nombre').value.trim();
+            const apellido = document.getElementById('user-apellido').value.trim();
+            const telefono = document.getElementById('user-telefono').value.trim();
+            const email = document.getElementById('user-email').value.trim();
+            
+            let isValid = true;
+
+            if (!nombre) {
+                showError('user-nombre', 'El nombre es obligatorio');
+                isValid = false;
+            }
+
+            if (!apellido) {
+                showError('user-apellido', 'El apellido es obligatorio');
+                isValid = false;
+            }
+
+            if (telefono && !validatePhone(telefono)) {
+                showError('user-telefono', 'Formato de teléfono inválido');
+                isValid = false;
+            }
+
+            if (email && !validateEmail(email)) {
+                showError('user-email', 'Formato de email inválido');
+                isValid = false;
+            }
+
+            if (!isValid) {
+                return;
+            }
+
+            userName = nombre;
+            userLastName = apellido;
+            userPhone = telefono;
+            userEmail = email;
+            
+            document.getElementById('welcome-modal').classList.add('hidden');
+            document.getElementById('user-info').classList.remove('hidden');
+            
+            let userInfoText = `${nombre} ${apellido}`;
+            if (telefono) userInfoText += ` | Tel: ${telefono}`;
+            if (email) userInfoText += ` | Email: ${email}`;
+            document.getElementById('display-name').textContent = userInfoText;
+            
+            document.getElementById('user-input').disabled = false;
+            document.getElementById('send-button').disabled = false;
+            document.getElementById('user-input').focus();
+            
+            addMessage(`Estimado(a) ${nombre}:\n\nSoy su asistente dental virtual, estoy aquí para ayudarle con cualquier consulta relacionada con su salud dental. Puede preguntarme sobre:\n\n• Tratamientos dentales\n• Información sobre procedimientos\n• Recomendaciones de higiene dental\n• Atención de emergencias dentales\n• Cuidados preventivos\n\n¿En qué puedo orientarle el día de hoy?`, false);
+        }
+
+        function getCurrentTime() {
+            const now = new Date();
+            return now.toLocaleTimeString('es-CL', { hour: '2-digit', minute: '2-digit' });
+        }
+
+        function showTypingIndicator() {
+            document.querySelector('.typing-indicator').style.display = 'flex';
+        }
+
+        function hideTypingIndicator() {
+            document.querySelector('.typing-indicator').style.display = 'none';
+        }
+
+        function addMessage(message, isUser) {
+            const chatHistory = document.getElementById('chat-history');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+
+            const headerDiv = document.createElement('div');
+            headerDiv.className = 'message-header';
+            
+            const nameSpan = document.createElement('span');
+            nameSpan.className = isUser ? 'user-name' : 'bot-name';
+            nameSpan.textContent = isUser ? `${userName} ${userLastName}` : 'AI Doctor';
+            
+            const timeSpan = document.createElement('span');
+            timeSpan.className = 'message-time';
+            timeSpan.textContent = getCurrentTime();
+
+            headerDiv.appendChild(nameSpan);
+            headerDiv.appendChild(timeSpan);
+
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'message-content';
+            contentDiv.textContent = message;
+
+            messageDiv.appendChild(headerDiv);
+            messageDiv.appendChild(contentDiv);
+            
+            chatHistory.appendChild(messageDiv);
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+        }
+
+        async function sendMessage() {
+            const input = document.getElementById('user-input');
+            const sendButton = document.getElementById('send-button');
+            const message = input.value.trim();
+            
+            if (!message) return;
+
+            addMessage(message, true);
+            input.value = '';
+            input.disabled = true;
+            sendButton.disabled = true;
+            showTypingIndicator();
+
+            try {
+                const response = await fetch('/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ 
+                        message: message,
+                        userName: userName,
+                        userLastName: userLastName,
+                        userPhone: userPhone,
+                        userEmail: userEmail
+                    })
+                });
+
+                const data = await response.json();
+                hideTypingIndicator();
+                addMessage(data.response, false);
+            } catch (error) {
+                console.error('Error:', error);
+                hideTypingIndicator();
+                addMessage('Lo siento, ocurrió un error al procesar tu mensaje. Por favor, intenta nuevamente.', false);
+            } finally {
+                input.disabled = false;
+                sendButton.disabled = false;
+                input.focus();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const sendButton = document.getElementById('send-button');
+            const userInput = document.getElementById('user-input');
+
+            // Click event
+            sendButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                sendMessage();
+            });
+
+            // Touch event
+            sendButton.addEventListener('touchend', function(e) {
+                e.preventDefault();
+                sendMessage();
+            });
+
+            // Enter key event
+            userInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && !e.shiftKey && !this.disabled) {
+                    e.preventDefault();
+                    sendMessage();
+                }
+            });
+        });
+
+        document.getElementById('user-nombre').addEventListener('input', function() {
+            this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
+            if (this.value.trim()) {
+                clearError('user-nombre');
+            }
+        });
+
+        document.getElementById('user-apellido').addEventListener('input', function() {
+            this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
+            if (this.value.trim()) {
+                clearError('user-apellido');
+            }
+        });
+
+        document.getElementById('user-telefono').addEventListener('input', function() {
+            this.value = this.value.replace(/[^0-9+]/g, '');
+            if (this.value && !validatePhone(this.value)) {
+                showError('user-telefono', 'Formato: +56912345678');
+            } else {
+                clearError('user-telefono');
+            }
+        });
+
+        document.getElementById('user-email').addEventListener('input', function() {
+            if (this.value && !validateEmail(this.value)) {
+                showError('user-email', 'Ingresa un email válido');
+            } else {
+                clearError('user-email');
+            }
+        });
+
+        // Autoenfoque en el campo de nombre al cargar
+        window.onload = function() {
+            document.getElementById('user-nombre').focus();
+        };
+    </script>
+</body>
+</html>

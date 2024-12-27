@@ -118,6 +118,8 @@ CLINICAS = {
     }
 }
 
+# ... existing code ...
+
 def load_qa_data():
     try:
         current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -145,25 +147,38 @@ def load_qa_data():
         print(f"Error al cargar JSON: {e}")
         return []  # Retornar lista vacía en lugar de None
 
-def find_best_match(user_question, questions):
-    user_question = user_question.lower().strip()
-    
-    # Buscar coincidencia exacta primero
-    for qa in questions:
-        if user_question in qa['pregunta']:
-            return qa['respuesta']
-    
-    # Si no hay coincidencia exacta, buscar coincidencia parcial
+# ... rest of the code ...
+
+def find_best_match(user_input, qa_data):
+    user_input = user_input.lower().strip()
     best_match = None
-    highest_ratio = 0
-    
-    for qa in questions:
-        ratio = difflib.SequenceMatcher(None, user_question, qa['pregunta']).ratio()
-        if ratio > highest_ratio and ratio > 0.6:  # Umbral de coincidencia del 60%
-            highest_ratio = ratio
+    highest_similarity = 0
+
+    # Primero buscar coincidencia exacta
+    for qa in qa_data:
+        if user_input == qa['pregunta']:
+            return qa['respuesta']
+
+    # Si no hay coincidencia exacta, usar similitud
+    for qa in qa_data:
+        # Calcular similitud usando difflib
+        similarity = difflib.SequenceMatcher(None, user_input, qa['pregunta']).ratio()
+        
+        # Si la similitud es mayor a 0.8 (80%), consideramos que es una buena coincidencia
+        if similarity > 0.8:
+            return qa['respuesta']
+        
+        # Actualizar la mejor coincidencia si encontramos una similitud mayor
+        if similarity > highest_similarity:
+            highest_similarity = similarity
             best_match = qa['respuesta']
-    
-    return best_match
+
+    # Si encontramos una coincidencia con al menos 60% de similitud
+    if highest_similarity > 0.6:
+        return best_match
+
+    # Si no encontramos ninguna coincidencia buena
+    return None
 
 def get_clinic_recommendations(user_message):
     user_message = user_message.lower()
@@ -260,15 +275,16 @@ def internal_error(error):
 @app.route('/chat', methods=['POST'])
 def chat():
     try:
-        user_message = request.json.get('message', '').strip()
+        data = request.json
+        user_message = data.get('message', '').strip()
+        user_name = data.get('userName', '')
+        user_last_name = data.get('userLastName', '')
         timestamp = datetime.now().strftime("%H:%M")
         
         if not user_message:
             return jsonify({
-                'response': '¡Hola! ¿En qué te puedo ayudar con tu salud dental? Pregúntame cualquier duda que tengas sobre tus dientes.',
-                'timestamp': timestamp,
-                'user': 'Usuario',
-                'ai': 'AI Doctor'
+                'response': f'¡Hola {user_name}! ¿En qué te puedo ayudar con tu salud dental? Pregúntame cualquier duda que tengas sobre tus dientes.',
+                'timestamp': timestamp
             })
 
         # Intentar primero con preguntas predefinidas
@@ -278,9 +294,7 @@ def chat():
         if best_match:
             return jsonify({
                 'response': best_match,
-                'timestamp': timestamp,
-                'user': 'Usuario',
-                'ai': 'AI Doctor'
+                'timestamp': timestamp
             })
 
         # Si es consulta sobre clínicas
@@ -288,9 +302,7 @@ def chat():
             response = get_clinic_recommendations(user_message)
             return jsonify({
                 'response': response,
-                'timestamp': timestamp,
-                'user': 'Usuario',
-                'ai': 'AI Doctor'
+                'timestamp': timestamp
             })
 
         # Si no hay coincidencia, usar Cohere
@@ -301,6 +313,7 @@ def chat():
                           Debes responder de manera clara y amigable, usando términos que cualquier 
                           persona pueda entender. Usa modismos chilenos ocasionalmente.
                           
+                          Nombre del paciente: {user_name} {user_last_name}
                           Pregunta del paciente: {user_message}
                           
                           Responde como dentista profesional, incluyendo:
@@ -316,24 +329,18 @@ def chat():
             )
             return jsonify({
                 'response': response.generations[0].text.strip(),
-                'timestamp': timestamp,
-                'user': 'Usuario',
-                'ai': 'AI Doctor'
+                'timestamp': timestamp
             })
         except Exception as e:
             print(f"Error con Cohere: {e}")
             return jsonify({
-                'response': 'Pucha, tuve un problema para procesar tu consulta. ¿Podrías reformularla de otra manera?',
-                'timestamp': timestamp,
-                'user': 'Usuario',
-                'ai': 'AI Doctor'
+                'response': f'Pucha {user_name}, tuve un problema para procesar tu consulta. ¿Podrías reformularla de otra manera?',
+                'timestamp': timestamp
             })
 
     except Exception as e:
         print(f"Error en chat: {e}")
         return jsonify({
             'response': 'Lo siento, ocurrió un error. Por favor, intenta de nuevo.',
-            'timestamp': timestamp,
-            'user': 'Usuario',
-            'ai': 'AI Doctor'
+            'timestamp': timestamp
         })

@@ -43,31 +43,42 @@ def load_qa_data():
     except Exception as e:
         print(f"Error al cargar JSON: {e}")
         return []
+# ... existing code ...
+
 def find_best_match(user_input, qa_data):
     user_input = user_input.lower().strip()
+    best_match = None
+    highest_similarity = 0
+
+    # Primero buscar coincidencias parciales de palabras clave
+    user_words = set(user_input.split())
     
-    # Primero buscar coincidencia exacta
     for qa in qa_data:
-        if user_input == qa['pregunta']:
+        if user_input == qa['pregunta']:  # Coincidencia exacta
+            return qa['respuesta']
+            
+        question_words = set(qa['pregunta'].split())
+        # Si hay al menos 2 palabras clave en común
+        common_words = user_words.intersection(question_words)
+        if len(common_words) >= 2:
             return qa['respuesta']
 
-    # Si no hay coincidencia exacta, buscar palabras clave
-    user_words = set(user_input.split())
-    best_match = None
-    max_words_matched = 0
-
+    # Si no hay coincidencias por palabras clave, usar similitud
     for qa in qa_data:
-        qa_words = set(qa['pregunta'].split())
-        words_matched = len(user_words.intersection(qa_words))
+        similarity = difflib.SequenceMatcher(None, user_input, qa['pregunta']).ratio()
         
-        if words_matched > max_words_matched:
-            max_words_matched = words_matched
+        if similarity > 0.7:  # Coincidencia del 70% o más
+            return qa['respuesta']
+        
+        if similarity > highest_similarity:
+            highest_similarity = similarity
             best_match = qa['respuesta']
 
-    # Solo retornar si hay suficiente coincidencia
-    if max_words_matched >= 2:
+    # Si encontramos una coincidencia con al menos 50% de similitud
+    if highest_similarity > 0.5:
         return best_match
 
+    # Si no encontramos ninguna coincidencia buena
     return None
 # Base de datos de clínicas
 CLINICAS = {
@@ -168,19 +179,21 @@ CLINICAS = {
         "descripcion": "Red de centros médicos y dentales en todo Santiago."
     }
 }
-
-# ... existing code ...
-
 def load_qa_data():
     try:
         current_dir = os.path.dirname(os.path.abspath(__file__))
         json_path = os.path.join(current_dir, 'preguntas.json')
         
+        print(f"Intentando cargar JSON desde: {json_path}")  # Debug log
+        
         with open(json_path, 'r', encoding='utf-8') as file:
             data = json.load(file)
             qa_list = []
-            # Recorremos las categorías
-            for categoria, preguntas in data['categorias'].items():  # Añadido 'categorias'
+            
+            # Debug log
+            print(f"Categorías encontradas: {list(data['categorias'].keys())}")
+            
+            for categoria, preguntas in data['categorias'].items():
                 for qa_pair in preguntas:
                     if isinstance(qa_pair['pregunta'], list):
                         for pregunta in qa_pair['pregunta']:
@@ -193,10 +206,14 @@ def load_qa_data():
                             'pregunta': qa_pair['pregunta'].lower().strip(),
                             'respuesta': qa_pair['respuesta']
                         })
+            
+            # Debug log
+            print(f"Total de preguntas cargadas: {len(qa_list)}")
             return qa_list
+            
     except Exception as e:
         print(f"Error al cargar JSON: {e}")
-        return []  # Retornar lista vacía en lugar de None
+        return []
 
 # ... rest of the code ...
 

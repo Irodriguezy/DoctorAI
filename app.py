@@ -354,39 +354,26 @@ def chat():
         user_name = data.get('userName', '')
         user_last_name = data.get('userLastName', '')
         timestamp = datetime.now().strftime("%H:%M")
-        
-        if not user_message:
-            return jsonify({
-                'response': f'¡Hola {user_name}! ¿En qué te puedo ayudar con tu salud dental? Pregúntame cualquier duda que tengas sobre tus dientes.',
-                'timestamp': timestamp
-            })
 
-        # Intentar primero con preguntas predefinidas
+        # Primero intentar con preguntas predefinidas
         qa_data = load_qa_data()
+        print(f"Buscando coincidencia para: {user_message}")  # Debug log
         best_match = find_best_match(user_message, qa_data)
         
         if best_match:
+            print("Usando respuesta predefinida")  # Debug log
             return jsonify({
                 'response': best_match,
                 'timestamp': timestamp
             })
 
-        # Si es consulta sobre clínicas
-        if any(keyword in user_message.lower() for keyword in ["clinica", "donde", "atender", "consulta", "recomend"]):
-            response = get_clinic_recommendations(user_message)
-            return jsonify({
-                'response': response,
-                'timestamp': timestamp
-            })
-
         # Si no hay coincidencia, usar Cohere
+        print("No se encontró respuesta predefinida, usando Cohere")  # Debug log
         try:
             response = co.generate(
                 model='command',
                 prompt=f"""Eres un dentista profesional chileno respondiendo en español chileno informal.
                           IMPORTANTE: SIEMPRE debes responder en español chileno, NUNCA en inglés.
-                          Debes responder de manera clara y amigable, usando términos que cualquier 
-                          persona pueda entender. Usa modismos chilenos ocasionalmente.
                           
                           Nombre del paciente: {user_name} {user_last_name}
                           Pregunta del paciente: {user_message}

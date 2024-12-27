@@ -289,53 +289,84 @@
             body {
                 flex-direction: column;
                 padding: 10px;
+                min-height: 100vh;
+                position: relative;
+            }
+
+            .side-image {
+                width: 100%;
+                max-width: 200px;
                 height: auto;
             }
 
             .side-image:first-of-type {
                 order: 1;
-                margin: 10px auto;
+                margin: 20px auto;
+                position: relative;
+                top: 0;
             }
 
             .chat-container {
                 order: 2;
                 width: 100%;
                 margin: 10px 0;
-                min-height: 400px;
-                max-height: 70vh;
-            }
-
-            .side-image:last-of-type {
-                order: 3;
-                margin: 10px auto;
+                flex: 1;
+                min-height: 60vh;
+                display: flex;
+                flex-direction: column;
             }
 
             #chat-history {
                 flex: 1;
                 overflow-y: auto;
-                max-height: calc(70vh - 150px);
+                padding: 15px;
+                margin-bottom: 10px;
+                height: calc(100% - 120px);
             }
 
             .input-container {
-                position: relative;
+                position: sticky;
                 bottom: 0;
                 width: 100%;
                 background-color: white;
-                z-index: 10;
-            }
-
-            #user-input {
-                width: 100%;
                 padding: 10px;
-                font-size: 14px;
+                border-top: 1px solid #eee;
             }
 
-            button#send-button {
-                padding: 10px 20px;
-                min-width: 80px;
-                font-size: 14px;
-                pointer-events: auto;
-                touch-action: manipulation;
+            .side-image:last-of-type {
+                order: 3;
+                margin: 20px auto;
+                position: relative;
+                bottom: 0;
+            }
+
+            .message {
+                margin: 8px 0;
+                padding: 10px;
+                max-width: 85%;
+            }
+
+            .chat-header {
+                padding: 10px;
+                margin-bottom: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .chat-container {
+                min-height: 70vh;
+            }
+
+            #chat-history {
+                height: calc(100% - 100px);
+            }
+
+            .side-image {
+                max-width: 150px;
+            }
+
+            .input-container {
+                padding: 8px;
             }
         }
 
@@ -348,27 +379,6 @@
 
             button#send-button:active {
                 background-color: #0056b3;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .chat-container {
-                min-height: 350px;
-                max-height: 65vh;
-            }
-
-            #chat-history {
-                max-height: calc(65vh - 130px);
-            }
-
-            .input-container {
-                padding: 8px;
-                gap: 6px;
-            }
-
-            button#send-button {
-                padding: 10px 15px;
-                min-width: 70px;
             }
         }
     </style>

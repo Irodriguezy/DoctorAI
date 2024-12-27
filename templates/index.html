@@ -311,12 +311,15 @@
             .side-image {
                 position: static;
                 width: 120px;
+                transform: none;
             }
 
             .side-image:first-of-type {
                 order: 1;
-                margin: 80px auto 30px auto;
+                margin: 120px auto 30px auto;
                 display: block;
+                position: relative;
+                top: 0;
             }
 
             .chat-container {
@@ -329,8 +332,9 @@
 
             .side-image:last-of-type {
                 order: 3;
-                margin: 30px auto 80px auto;
+                margin: 30px auto 120px auto;
                 display: block;
+                background-color: #f0f2f5;
             }
 
             .message {
@@ -691,5 +695,7 @@
             document.getElementById('user-nombre').focus();
         };
     </script>
+</body>
+</html>
 </body>
 </html>

@@ -43,30 +43,25 @@ def find_best_match(user_question, qa_data):
                     highest_similarity = similarity
                     best_match = item
 
-    # Si hay una coincidencia cercana (60% o más), devolver la respuesta
-    if highest_similarity >= 0.6:
+    # Si hay una coincidencia cercana (50% o más), devolver la respuesta
+    if highest_similarity >= 0.5:
         return best_match['respuesta']
     
     return None
 
-def generate_cohere_response(user_message, user_name, user_last_name):
+def generate_cohere_response(user_message):
     """Genera una respuesta usando Cohere."""
     try:
         response = co.generate(
             model='command',
-            prompt=f"""Eres un dentista profesional chileno respondiendo en español chileno informal.
-                          IMPORTANTE: SIEMPRE debes responder en español chileno, NUNCA en inglés.
+            prompt=f"""Eres un dentista profesional chileno respondiendo en español informal.
+Responde solo preguntas relacionadas con odontología. Si el mensaje no tiene sentido, responde con un mensaje genérico.
 
-                          Nombre del paciente: {user_name} {user_last_name}
-                          Pregunta del paciente: {user_message}
+Pregunta del paciente: {user_message}
 
-                          Responde como dentista profesional, incluyendo:
-                          1. Reconocimiento del problema o consulta
-                          2. Explicación clara y sencilla en español chileno
-                          3. Recomendaciones específicas
-                          4. Sugerencia de consultar a un profesional si es necesario""",
-            max_tokens=500,
-            temperature=0.7,
+Responde de forma clara y breve, enfocándote en la odontología.""",
+            max_tokens=100,
+            temperature=0.5,
             k=0,
             stop_sequences=[],
             return_likelihoods='NONE'
@@ -74,7 +69,7 @@ def generate_cohere_response(user_message, user_name, user_last_name):
         return response.generations[0].text.strip()
     except Exception as e:
         print(f"Error con Cohere: {e}")
-        return "Disculpa, tuve un problema para procesar tu consulta. ¿Podrías reformularla de otra manera?"
+        return "Lo siento, no puedo procesar tu consulta en este momento."
 
 @app.route('/')
 def home():
@@ -86,8 +81,6 @@ def chat():
     try:
         data = request.json
         user_message = data.get('message', '').strip()
-        user_name = data.get('userName', 'Usuario')
-        user_last_name = data.get('userLastName', '')
         timestamp = datetime.now().strftime("%H:%M")
 
         # Cargar datos de preguntas y respuestas
@@ -98,7 +91,7 @@ def chat():
 
         if not response:
             print("No se encontró respuesta en preguntas.json, usando Cohere")
-            response = generate_cohere_response(user_message, user_name, user_last_name)
+            response = generate_cohere_response(user_message)
 
         return jsonify({
             'response': response,

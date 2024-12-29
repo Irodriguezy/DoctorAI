@@ -44,8 +44,8 @@ def find_best_match(user_question, qa_data):
                     highest_similarity = similarity
                     best_match = item
 
-    # Si hay una coincidencia cercana (30% o más), devolver la respuesta
-    if highest_similarity >= 0.3:
+    # Si hay una coincidencia cercana (20% o más), devolver la respuesta
+    if highest_similarity >= 0.2:
         print(f"Coincidencia encontrada con {highest_similarity*100:.2f}% de similitud.")
         return best_match['respuesta']
 

@@ -57,7 +57,7 @@ def generate_cohere_response(user_message):
         response = co.generate(
             model='command',
             prompt=f"""Eres un dentista profesional chileno respondiendo exclusivamente en español informal.
-Responde solo preguntas relacionadas con odontología. Si el mensaje no tiene sentido, responde con un mensaje genérico en español.
+Responde solo preguntas relacionadas con odontología. Si el mensaje no tiene sentido o no es relacionado, responde con un mensaje genérico en español.
 
 Pregunta del paciente: {user_message}
 
@@ -95,8 +95,11 @@ def chat():
         response = find_best_match(user_message, qa_data)
 
         if not response:
-            print("No se encontró respuesta en preguntas.json, usando Cohere.")
-            response = generate_cohere_response(user_message)
+            print("No se encontró respuesta en preguntas.json.")
+            return jsonify({
+                'response': 'Lo siento, no tengo información sobre eso. Intenta con otra consulta.',
+                'timestamp': timestamp
+            })
 
         return jsonify({
             'response': response,
@@ -112,4 +115,3 @@ def chat():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=PORT, debug=DEBUG)
-

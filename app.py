@@ -44,13 +44,20 @@ def find_best_match(user_question, qa_data):
                     highest_similarity = similarity
                     best_match = item
 
-    # Si hay una coincidencia cercana (40% o más), devolver la respuesta
-    if highest_similarity >= 0.4:
+    # Si hay una coincidencia cercana (30% o más), devolver la respuesta
+    if highest_similarity >= 0.3:
         print(f"Coincidencia encontrada con {highest_similarity*100:.2f}% de similitud.")
         return best_match['respuesta']
 
     print("No se encontró una coincidencia cercana en preguntas.json.")
     return None
+
+def log_questions(qa_data):
+    """Imprime todas las preguntas cargadas para verificar."""
+    print("Preguntas cargadas desde preguntas.json:")
+    for category, questions in qa_data.get('categorias', {}).items():
+        for item in questions:
+            print(f"Categoría: {category} -> Preguntas: {item['pregunta']}")
 
 def generate_cohere_response(user_message):
     """Genera una respuesta usando Cohere."""
@@ -91,6 +98,7 @@ def chat():
 
         # Cargar datos de preguntas y respuestas
         qa_data = load_qa_data()
+        log_questions(qa_data)  # Log de preguntas cargadas
 
         # Buscar coincidencia en preguntas.json
         response = find_best_match(user_message, qa_data)

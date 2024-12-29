@@ -1,34 +1,63 @@
 {
-  "categorias": {
-    "saludos": [
-      {
-        "pregunta": ["Hola", "Buenos días", "Buenas tardes", "Buenas noches", "¿Qué tal?", "¿Cómo estás?"],
-        "respuesta": "¡Hola! ¿Cómo puedo ayudarte con tu salud dental? Si tienes alguna inquietud, estaré encantado de responderte."
-      },
-      {
-        "pregunta": ["Hola, ¿cómo estás?", "¿Qué tal tu día?", "Buenas, ¿en qué puedes ayudarme?"],
-        "respuesta": "¡Hola! Estoy aquí para ayudarte con cualquier consulta sobre salud dental. ¿En qué puedo asistirte hoy?"
-      },
-      {
-        "pregunta": ["Buen día", "Hola, ¿me puedes ayudar?", "Hola, ¿quién está disponible?"],
-        "respuesta": "¡Hola! Claro que sí, estoy aquí para resolver tus dudas dentales."
-      }
-    ],
-    "despedidas": [
-      {
-        "pregunta": ["Adiós", "Hasta luego", "Nos vemos", "Gracias", "Muchas gracias"],
-        "respuesta": "¡Que tengas un excelente día! Recuerda cuidar tu salud dental."
-      },
-      {
-        "pregunta": ["Chao", "Nos vemos después", "Hasta pronto"],
-        "respuesta": "¡Gracias por tu consulta! No olvides agendar tu próxima cita dental."
-      },
-      {
-        "pregunta": ["Muchas gracias por tu ayuda", "Hasta la próxima", "Gracias, adiós"],
-        "respuesta": "¡Fue un placer ayudarte! Recuerda visitar a tu dentista regularmente."
-      }
-    ],
-    "problemas_comunes": [
+"categorias": {
+        "saludos": [
+            {
+                "pregunta": [
+                    "Hola",
+                    "Buenos días",
+                    "Buenas tardes",
+                    "Buenas noches",
+                    "¿Qué tal?",
+                    "¿Cómo estás?"
+                ],
+                "respuesta": "¡Hola! ¿Cómo puedo ayudarte con tu salud dental? Si tienes alguna inquietud, estaré encantado de responderte."
+            },
+            {
+                "pregunta": [
+                    "Hola, ¿cómo estás?",
+                    "¿Qué tal tu día?",
+                    "Buenas, ¿en qué puedes ayudarme?"
+                ],
+                "respuesta": "¡Hola! Estoy aquí para ayudarte con cualquier consulta sobre salud dental. ¿En qué puedo asistirte hoy?"
+            },
+            {
+                "pregunta": [
+                    "Buen día",
+                    "Hola, ¿me puedes ayudar?",
+                    "Hola, ¿quién está disponible?"
+                ],
+                "respuesta": "¡Hola! Claro que sí, estoy aquí para resolver tus dudas dentales."
+            }
+        ],
+        "despedidas": [
+            {
+                "pregunta": [
+                    "Adiós",
+                    "Hasta luego",
+                    "Nos vemos",
+                    "Gracias",
+                    "Muchas gracias"
+                ],
+                "respuesta": "¡Que tengas un excelente día! Recuerda cuidar tu salud dental."
+            },
+            {
+                "pregunta": [
+                    "Chao",
+                    "Nos vemos después",
+                    "Hasta pronto"
+                ],
+                "respuesta": "¡Gracias por tu consulta! No olvides agendar tu próxima cita dental."
+            },
+            {
+                "pregunta": [
+                    "Muchas gracias por tu ayuda",
+                    "Hasta la próxima",
+                    "Gracias, adiós"
+                ],
+                "respuesta": "¡Fue un placer ayudarte! Recuerda visitar a tu dentista regularmente."
+    }
+],
+"problemas_comunes": [
       {
         "pregunta": ["¿Qué es una caries?", "¿Cómo sé si tengo caries?", "Tengo un diente picado", "¿Qué hago si tengo caries?"],
         "respuesta": "La caries dental es el daño que le puede ocurrir a un diente cuando las bacterias que causan caries producen ácidos que atacan la superficie del diente o esmalte. Esto puede resultar en un pequeño agujero en el diente, al que se le llama caries. Si la caries dental no se trata, puede causar dolor, una infección e incluso la pérdida del diente."
@@ -39,118 +68,219 @@
       }
     ]
   },
-  "problemas_comunes": [
-      {
-        "pregunta": ["¿Por qué sangran las encías?", "Tengo sangrado en las encías", "Mis encías están inflamadas"],
-        "respuesta": "El sangrado de las encías es un síntoma común que puede tener varias causas, entre las más frecuentes están:\n1. Gingivitis: Es una inflamación de las encías causada por la acumulación de placa bacteriana en los dientes.\n2. Periodontitis: Si la gingivitis no se trata, puede evolucionar a periodontitis, una afección más grave que afecta los tejidos que sostienen los dientes.\n3. Mala higiene bucal: La acumulación de placa y sarro por no cepillarse o usar hilo dental correctamente puede irritar las encías.\n4. Uso de técnicas incorrectas de cepillado o hilo dental: Cepillarse con demasiada fuerza o usar mal el hilo dental puede dañar las encías y provocar sangrado.\n5. Déficit de vitaminas: La falta de vitamina C o vitamina K puede hacer que las encías sean más propensas a sangrar.\n6. Cambios hormonales: Durante el embarazo o la menstruación, los cambios hormonales pueden hacer que las encías sean más sensibles y propensas a sangrar.\n7. Fumar: Aunque parezca contradictorio, fumar puede enmascarar los síntomas iniciales de enfermedades de las encías.\n8. Problemas sistémicos: Enfermedades como la diabetes, leucemia o trastornos de la coagulación pueden causar sangrado en las encías.\n9. Medicamentos: Algunos medicamentos, como los anticoagulantes, pueden hacer que las encías sangren más fácilmente.\nEs importante visitar al dentista para realizar una limpieza profesional y prevenir complicaciones mayores."
-      },
-      {
-        "pregunta": ["¿Por qué tengo mal aliento?", "Halitosis, ¿cómo se trata?", "Mi boca tiene mal olor"],
-        "respuesta": "El mal aliento, conocido como halitosis, puede deberse a múltiples factores:\n1. Mala higiene bucal: La acumulación de placa bacteriana en los dientes, lengua y encías produce compuestos que generan mal olor.\n2. Lengua cubierta o saburra lingual: Una capa blanca o amarilla en la lengua puede ser una causa frecuente de mal aliento.\n3. Caries y enfermedades de las encías: Las infecciones bucales generan olores desagradables.\n4. Alimentos y bebidas: Ajo, cebolla, café y alcohol pueden causar mal aliento temporal.\n5. Boca seca: La saliva ayuda a limpiar la boca, y su ausencia favorece el mal olor.\n6. Fumar o consumir tabaco: Esto no solo causa mal aliento, sino que también afecta la salud general de la boca.\n7. Problemas gastrointestinales: Reflujo o infecciones estomacales pueden contribuir al mal aliento.\nPara combatirlo, mejora tu higiene bucal, usa enjuagues específicos y visita a tu dentista regularmente."
-      },
-      {
-        "pregunta": ["¿Qué es la sensibilidad dental?", "Me duelen los dientes con el frío", "Sensibilidad al calor y frío"],
-        "respuesta": "La sensibilidad dental puede ser causada por esmalte desgastado. Usa pastas especiales y visita [UnoSalud](https://www.unosalud.cl/) para un diagnóstico."
+ "problemas_comunes": [
+            {
+                "pregunta": [
+                    "¿Qué es una caries?",
+                    "¿Cómo sé si tengo caries?",
+                    "Tengo un diente picado",
+                    "¿Qué hago si tengo caries?"
+                ],
+                "respuesta": "La caries dental es el daño que le puede ocurrir a un diente cuando las bacterias que causan caries producen ácidos que atacan la superficie del diente o esmalte. Esto puede resultar en un pequeño agujero en el diente, al que se le llama caries. Si no se trata, puede causar dolor, infección e incluso la pérdida del diente."
+            },
+            {
+                "pregunta": [
+                    "Me duele una muela, ¿qué hago?",
+                    "Dolor en un diente",
+                    "¿Qué puedo tomar para el dolor dental?"
+                ],
+                "respuesta": "Un dolor de diente puede deberse a varias causas:\n\n- **Caries dental**: Cuando las bacterias destruyen el esmalte y llegan a las capas más profundas del diente, pueden causar dolor.\n- **Sensibilidad dental**: Puede ser causada por el consumo de alimentos o bebidas frías, calientes o dulces.\n- **Infección o absceso dental**: Una acumulación de pus causada por una infección puede generar dolor intenso.\n- **Fractura o grieta en el diente**: Puede causar molestias al masticar.\n\nSi el dolor persiste, visita al dentista."
+            },
+            {
+                "pregunta": [
+                    "¿Por qué sangran las encías?",
+                    "Tengo sangrado en las encías",
+                    "Mis encías están inflamadas"
+                ],
+                "respuesta": "El sangrado de las encías puede tener varias causas:\n\n- **Gingivitis**: Inflamación causada por la acumulación de placa bacteriana.\n- **Periodontitis**: Si la gingivitis no se trata, puede evolucionar a un problema más grave.\n- **Uso incorrecto del cepillado**: Cepillarse con demasiada fuerza puede dañar las encías.\n\nEs importante visitar al dentista para prevenir complicaciones mayores."
+            }
+        ],
+        "prevencion": [
+            {
+                "pregunta": [
+                    "¿Cómo prevenir las caries?",
+                    "¿Qué hago para evitar problemas dentales?",
+                    "¿Son efectivas las revisiones semestrales?"
+                ],
+                "respuesta": "Cepíllate los dientes después de cada comida, usa hilo dental diariamente y visita al dentista cada 6 meses para prevenir caries y problemas mayores."
+            },
+            {
+                "pregunta": [
+                    "¿Cada cuánto debo ir al dentista?",
+                    "¿Es necesario un control dental regular?",
+                    "¿Qué pasa si no visito al dentista?"
+                ],
+                "respuesta": "Es fundamental realizar un control dental cada 6 meses para prevenir problemas mayores y mantener una buena salud bucal."
+            },
+            {
+                "pregunta": [
+                    "¿Qué alimentos ayudan a cuidar los dientes?",
+                    "¿Pueden las frutas proteger los dientes?",
+                    "¿Es buena la leche para la salud dental?"
+                ],
+                "respuesta": "Frutas, vegetales y lácteos fortalecen tus dientes. Mantén una dieta equilibrada y cuida tu higiene dental diariamente."
       }
 ],
-"higiene_dental": [
-  {
-      "pregunta": ["¿Cada cuánto debo lavarme los dientes?", "Frecuencia de cepillado dental", "¿Es importante usar hilo dental?"],
-      "respuesta": "Cepíllate al menos dos veces al día y utiliza hilo dental diariamente. Esto ayuda a prevenir caries y problemas en las encías."
-    },
-    {
-      "pregunta": ["¿Qué pasta dental debo usar?", "¿Es necesario el enjuague bucal?", "¿Qué productos mejoran la higiene bucal?"],
-      "respuesta": "Usa una pasta dental con flúor y un enjuague que fortalezca tus encías. Consulta en [IntegraMédica](https://www.integramedica.cl/)."
-    },
-    {
-      "pregunta": ["¿Cómo usar correctamente el hilo dental?", "¿Hilo dental antes o después del cepillado?", "¿Por qué usar hilo dental?"],
-      "respuesta": "El hilo dental elimina restos entre los dientes que el cepillo no puede alcanzar. Utilízalo al menos una vez al día."
-    },
-    {
-      "pregunta": ["¿Cuánto tiempo debo cepillarme los dientes?", "¿Es mejor el cepillo manual o eléctrico?", "¿Cómo cuidar mi cepillo dental?"],
-      "respuesta": "Cepíllate durante 2 minutos. Cambia tu cepillo cada 3 meses para una mejor higiene."
-    },
-    {
-      "pregunta": ["¿Es importante usar enjuague bucal todos los días?", "¿Qué beneficios tiene el enjuague bucal?", "¿Cuándo debo usar enjuague bucal?"],
-      "respuesta": "El enjuague bucal complementa el cepillado y elimina bacterias. Úsalo después de cepillarte para una limpieza completa."
-    }
-  ],
-  "tratamientos_dentales": [
-    {
-      "pregunta": ["¿Qué es una endodoncia?", "¿Qué es un tratamiento de conducto?", "¿Cómo se hace una endodoncia?"],
-      "respuesta": "La endodoncia es un tratamiento para salvar dientes dañados eliminando el nervio afectado. Consulta en [Clínica Everest](https://clinicaeverest.cl/) para más información."
-    },
-    {
-      "pregunta": ["¿Qué es una limpieza dental?", "¿Cada cuánto debo hacerme una limpieza profesional?", "¿La limpieza dental duele?"],
-      "respuesta": "Se recomienda una limpieza profesional cada 6 meses para mantener tus encías y dientes saludables. Puedes realizarla en [INO](https://www.ino.cl/)."
-    },
-    {
-      "pregunta": ["¿Qué es un empaste dental?", "¿Cómo se arreglan las caries?", "¿Duele hacer un empaste?"],
-      "respuesta": "Un empaste repara el daño de una caries. Es rápido y generalmente indoloro. Agenda tu cita en [UnoSalud](https://www.unosalud.cl/)."
-    },
-    {
-      "pregunta": ["¿Qué es una corona dental?", "¿Para qué sirve una corona?", "¿Cuándo necesito una corona dental?"],
-      "respuesta": "Las coronas dentales protegen dientes dañados o debilitados. Agenda tu evaluación en [IntegraMédica](https://www.integramedica.cl/)."
-    },
-    {
-      "pregunta": ["¿Qué es la ortodoncia invisible?", "¿Son efectivos los alineadores transparentes?", "¿Cuánto duran los tratamientos con Invisalign?"],
-      "respuesta": "La ortodoncia invisible alinea los dientes de forma discreta. Consulta más en [Clínica Everest](https://clinicaeverest.cl/)."
+ "higiene_dental": [
+            {
+                "pregunta": [
+                    "¿Cada cuánto debo lavarme los dientes?",
+                    "Frecuencia de cepillado dental",
+                    "¿Es importante usar hilo dental?"
+                ],
+                "respuesta": "Cepíllate al menos dos veces al día y utiliza hilo dental diariamente. Esto ayuda a prevenir caries y problemas en las encías."
+            },
+            {
+                "pregunta": [
+                    "¿Qué pasta dental debo usar?",
+                    "¿Es necesario el enjuague bucal?",
+                    "¿Qué productos mejoran la higiene bucal?"
+                ],
+                "respuesta": "Usa una pasta dental con flúor y un enjuague bucal que fortalezca las encías. Consulta con tu dentista para elegir los productos adecuados."
+            },
+            {
+                "pregunta": [
+                    "¿Cómo usar correctamente el hilo dental?",
+                    "¿Hilo dental antes o después del cepillado?",
+                    "¿Por qué usar hilo dental?"
+                ],
+                "respuesta": "El hilo dental elimina los restos de comida y placa entre los dientes que el cepillo no puede alcanzar. Utilízalo al menos una vez al día."
+            },
+            {
+                "pregunta": [
+                    "¿Cuánto tiempo debo cepillarme los dientes?",
+                    "¿Es mejor el cepillo manual o eléctrico?",
+                    "¿Cómo cuidar mi cepillo dental?"
+                ],
+                "respuesta": "Cepíllate durante al menos 2 minutos en cada sesión. Cambia tu cepillo dental cada 3 meses o cuando las cerdas estén desgastadas."
+            },
+            {
+                "pregunta": [
+                    "¿Es importante usar enjuague bucal todos los días?",
+                    "¿Qué beneficios tiene el enjuague bucal?",
+                    "¿Cuándo debo usar enjuague bucal?"
+                ],
+                "respuesta": "El enjuague bucal complementa el cepillado y elimina bacterias que el cepillo no alcanza. Úsalo después del cepillado para una limpieza completa."
+            }
+        ],
+        "tratamientos_dentales": [
+            {
+                "pregunta": [
+                    "¿Qué es una endodoncia?",
+                    "¿Qué es un tratamiento de conducto?",
+                    "¿Cómo se hace una endodoncia?"
+                ],
+                "respuesta": "La endodoncia es un tratamiento para salvar dientes dañados eliminando el nervio afectado. Consulta con tu dentista para más información."
+            },
+            {
+                "pregunta": [
+                    "¿Qué es una limpieza dental?",
+                    "¿Cada cuánto debo hacerme una limpieza profesional?",
+                    "¿La limpieza dental duele?"
+                ],
+                "respuesta": "Se recomienda una limpieza profesional cada 6 meses para mantener tus encías y dientes saludables. Consulta con tu dentista."
+            },
+            {
+                "pregunta": [
+                    "¿Qué es un empaste dental?",
+                    "¿Cómo se arreglan las caries?",
+                    "¿Duele hacer un empaste?"
+                ],
+                "respuesta": "Un empaste repara el daño de una caries. Es un procedimiento rápido y generalmente indoloro."
+            },
+            {
+                "pregunta": [
+                    "¿Qué es una corona dental?",
+                    "¿Para qué sirve una corona?",
+                    "¿Cuándo necesito una corona dental?"
+                ],
+                "respuesta": "Las coronas dentales protegen dientes dañados o debilitados, restaurando su funcionalidad y apariencia."
+            },
+            {
+                "pregunta": [
+                    "¿Qué es la ortodoncia invisible?",
+                    "¿Son efectivos los alineadores transparentes?",
+                    "¿Cuánto duran los tratamientos con Invisalign?"
+                ],
+                "respuesta": "La ortodoncia invisible alinea los dientes de manera discreta y cómoda. Consulta con un especialista para evaluar tu caso."
      }
 ],
   "urgencias_dentales": [
-    {
-      "pregunta": ["Se me rompió un diente, ¿qué hago?", "¿Qué hacer si se me cae un diente?", "¿Cómo tratar un diente fracturado?"],
-      "respuesta": "Si se rompe o cae un diente, guarda el fragmento en leche y acude de inmediato a una clínica como [RedSalud](https://www.redsalud.cl/)."
-    },
-    {
-      "pregunta": ["Tengo una infección dental, ¿qué hago?", "¿Qué es un absceso dental?", "¿Cómo tratar un absceso en la encía?"],
-      "respuesta": "Un absceso dental es una infección seria que requiere atención inmediata. Visita una clínica como [UnoSalud](https://www.unosalud.cl/)."
-    },
-    {
-      "pregunta": ["Tengo dolor de muelas intenso", "¿Qué hago si el dolor no mejora con medicamentos?", "¿Puede ser urgente el dolor dental?"],
-      "respuesta": "El dolor intenso puede ser una emergencia. Visita una clínica como [INO](https://www.ino.cl/) para tratamiento inmediato."
-    }
-  ],
-  "ortodoncia": [
-    {
-      "pregunta": ["¿Qué son los frenillos?", "¿Duelen los brackets?", "¿Cuánto tiempo dura el tratamiento de ortodoncia?"],
-      "respuesta": "Los frenillos ayudan a alinear tus dientes. Es posible sentir molestias al inicio, pero estas desaparecen pronto."
-    },
-    {
-      "pregunta": ["¿Qué no debo comer con brackets?", "¿Cómo cuido mis frenillos?", "¿Es difícil limpiar los brackets?"],
-      "respuesta": "Evita alimentos duros o pegajosos que puedan dañar tus brackets. Mantén una limpieza rigurosa."
-    },
-    {
-      "pregunta": ["¿Cuánto cuesta un tratamiento de ortodoncia?", "¿Qué opciones de brackets existen?", "¿Es posible hacer ortodoncia en adultos?"],
-      "respuesta": "Los costos varían según el tipo de tratamiento. Consulta opciones en [IntegraMédica](https://www.integramedica.cl/)."
-    }
-  ],
-  "estetica_dental": [
-    {
-      "pregunta": ["¿Qué es un blanqueamiento dental?", "¿Cómo puedo tener dientes más blancos?", "¿Es seguro el blanqueamiento casero?"],
-      "respuesta": "El blanqueamiento dental puede hacerse en casa o en una clínica. Visita [Clínica Everest](https://clinicaeverest.cl/) para un tratamiento seguro."
-    },
-    {
-      "pregunta": ["¿Qué son las carillas dentales?", "¿Para qué sirven las carillas?", "¿Son caras las carillas dentales?"],
-      "respuesta": "Las carillas son láminas que mejoran el aspecto de tus dientes. Consulta en [INO](https://www.ino.cl/) para más detalles."
-    },
-    {
-      "pregunta": ["¿Qué hacer para mejorar la apariencia de mis dientes?", "¿Son seguras las técnicas estéticas dentales?", "¿Cuáles son las opciones más efectivas?"],
-      "respuesta": "Hay varias técnicas estéticas. Agenda una consulta en [RedSalud](https://www.redsalud.cl/) para evaluar tus opciones."
-    }
-  ],
-  "prevencion": [
-    {
-      "pregunta": ["¿Cómo prevenir las caries?", "¿Qué hago para evitar problemas dentales?", "¿Son efectivas las revisiones semestrales?"],
-      "respuesta": "Cepilla tus dientes después de cada comida, usa hilo dental y visita al dentista cada 6 meses."
-    },
-    {
-      "pregunta": ["¿Cada cuánto debo ir al dentista?", "¿Es necesario un control dental regular?", "¿Qué pasa si no visito al dentista?"],
-      "respuesta": "Es fundamental un control dental semestral para prevenir problemas mayores."
-    },
-    {
-      "pregunta": ["¿Qué alimentos ayudan a cuidar los dientes?", "¿Pueden las frutas proteger los dientes?", "¿Es buena la leche para la salud dental?"],
-      "respuesta": "Frutas, vegetales y lácteos fortalecen tus dientes. Mantén una dieta equilibrada y cuida tu higiene."
+            {
+                "pregunta": [
+                    "Se me rompió un diente, ¿qué hago?",
+                    "¿Qué hacer si se me cae un diente?",
+                    "¿Cómo tratar un diente fracturado?"
+                ],
+                "respuesta": "Si se rompe o cae un diente, guarda el fragmento en un recipiente con leche o solución salina y acude de inmediato a tu dentista."
+            },
+            {
+                "pregunta": [
+                    "Tengo una infección dental, ¿qué hago?",
+                    "¿Qué es un absceso dental?",
+                    "¿Cómo tratar un absceso en la encía?"
+                ],
+                "respuesta": "Un absceso dental es una infección seria que requiere atención inmediata. Consulta a tu dentista para evitar complicaciones mayores."
+            },
+            {
+                "pregunta": [
+                    "Tengo dolor de muelas intenso",
+                    "¿Qué hago si el dolor no mejora con medicamentos?",
+                    "¿Puede ser urgente el dolor dental?"
+                ],
+                "respuesta": "El dolor dental intenso puede indicar una emergencia. Visita a tu dentista lo antes posible para recibir tratamiento."
+            }
+        ],
+        "ortodoncia": [
+            {
+                "pregunta": [
+                    "¿Qué son los frenillos?",
+                    "¿Duelen los brackets?",
+                    "¿Cuánto tiempo dura el tratamiento de ortodoncia?"
+                ],
+                "respuesta": "Los frenillos ayudan a alinear los dientes y mejorar la mordida. Es posible sentir molestias al inicio, pero suelen desaparecer en pocos días."
+            },
+            {
+                "pregunta": [
+                    "¿Qué no debo comer con brackets?",
+                    "¿Cómo cuido mis frenillos?",
+                    "¿Es difícil limpiar los brackets?"
+                ],
+                "respuesta": "Evita alimentos duros o pegajosos que puedan dañar los brackets. Mantén una rutina de limpieza rigurosa con cepillos especiales."
+            },
+            {
+                "pregunta": [
+                    "¿Cuánto cuesta un tratamiento de ortodoncia?",
+                    "¿Qué opciones de brackets existen?",
+                    "¿Es posible hacer ortodoncia en adultos?"
+                ],
+                "respuesta": "Los costos y opciones de ortodoncia varían según el caso. Consulta con tu especialista para evaluar el mejor tratamiento para ti."
+            }
+        ],
+        "estetica_dental": [
+            {
+                "pregunta": [
+                    "¿Qué es un blanqueamiento dental?",
+                    "¿Cómo puedo tener dientes más blancos?",
+                    "¿Es seguro el blanqueamiento casero?"
+                ],
+                "respuesta": "El blanqueamiento dental puede realizarse en casa o en una clínica. Consulta con tu dentista para un tratamiento seguro y efectivo."
+            },
+            {
+                "pregunta": [
+                    "¿Qué son las carillas dentales?",
+                    "¿Para qué sirven las carillas?",
+                    "¿Son caras las carillas dentales?"
+                ],
+                "respuesta": "Las carillas son láminas delgadas que mejoran el aspecto de los dientes. Consulta con un especialista para conocer las opciones."
+            },
+            {
+                "pregunta": [
+                    "¿Qué hacer para mejorar la apariencia de mis dientes?",
+                    "¿Son seguras las técnicas estéticas dentales?",
+                    "¿Cuáles son las opciones más efectivas?"
+                ],
+                "respuesta": "Existen diversas técnicas estéticas como blanqueamientos, carillas y ortodoncia. Consulta con tu dentista para encontrar la mejor opción."
   }
   ]
 }

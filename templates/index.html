@@ -157,35 +157,60 @@
     </style>
 </head>
 <body>
+    <img src="https://static.vecteezy.com/system/resources/previews/022/665/480/non_2x/adorable-and-skilled-dentist-women-engaging-and-compassionate-characters-for-oral-health-media-transparent-background-free-png.png" alt="Dentista" class="image-left">
+    
+    <div class="container">
+        <h1 style="text-align: center; color: #2c3e50;">AI Doctor: Dentista</h1>
+        <div id="user-info" class="hidden">
+            <span id="display-name"></span>
+        </div>
+        <div class="chat-container" id="chat-container"></div>
+        <div class="typing-indicator">
+            <span>AI Doctor está escribiendo...</span>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="user-input" placeholder="Escribe tu mensaje..." disabled>
+            <button id="send-button" onclick="sendMessage()" disabled>Enviar</button>
+        </div>
+    </div>
+
+    <img src="https://cdn3d.iconscout.com/3d/premium/thumb/dentista-asiento-sobre-los-dientes-4541158-3770002.png" alt="Dentista" class="image-right">
+
+    <div id="welcome-modal" class="modal">
+        <div class="modal-content">
+            <h2>Bienvenido a AI Doctor</h2>
+            <p>Por favor, ingresa tus datos para comenzar:</p>
+            
+            <div class="form-group">
+                <label for="user-nombre">Nombre *</label>
+                <input type="text" id="user-nombre" placeholder="Tu nombre">
+                <span class="error-message"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="user-apellido">Apellido *</label>
+                <input type="text" id="user-apellido" placeholder="Tu apellido">
+                <span class="error-message"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="user-telefono">Teléfono</label>
+                <input type="tel" id="user-telefono" placeholder="+56912345678">
+                <span class="error-message"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="user-email">Email</label>
+                <input type="email" id="user-email" placeholder="tucorreo@ejemplo.com">
+                <span class="error-message"></span>
+            </div>
+
+            <button onclick="startChat()" style="width: 100%; margin-top: 20px;">Comenzar Chat</button>
+            <p style="color: #666; font-size: 0.8em; margin-top: 15px; text-align: center;">* Campos obligatorios</p>
+        </div>
+    </div>
+
     <script>
-        let userName = '';
-        let userLastName = '';
-        let userPhone = '';
-        let userEmail = '';
-
-        function validateEmail(email) {
-            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-        }
-
-        function validatePhone(phone) {
-            return /^\+569\d{8}$/.test(phone);
-        }
-
-        function showError(fieldId, message) {
-            const field = document.getElementById(fieldId);
-            const errorSpan = field.nextElementSibling;
-            field.parentElement.classList.add('error');
-            errorSpan.textContent = message;
-            errorSpan.classList.add('visible');
-        }
-
-        function clearError(fieldId) {
-            const field = document.getElementById(fieldId);
-            field.parentElement.classList.remove('error');
-            const errorSpan = field.nextElementSibling;
-            errorSpan.classList.remove('visible');
-        }
-    </script>
         let userName = '';
         let userLastName = '';
         let userPhone = '';
@@ -279,22 +304,10 @@
             messageDiv.className = `chat-message ${isUser ? 'user-message' : 'ai-message'}`;
             
             const time = getCurrentTime();
-            messageDiv.innerHTML = `<strong>${isUser ? userName + ' ' + userLastName : 'AI Doctor'} (${time}):</strong> ${formatMessage(message, isUser)}`;
+            messageDiv.innerHTML = `<strong>${isUser ? userName + ' ' + userLastName : 'AI Doctor'} (${time}):</strong> ${message}`;
             
             chatContainer.appendChild(messageDiv);
             chatContainer.scrollTop = chatContainer.scrollHeight;
-        }
-
-        function formatMessage(message, isUser) {
-            if (!isUser && typeof message === 'object' && message.formatted) {
-                let formattedResponse = '<div class="formatted-response">';
-                message.content.forEach(item => {
-                    formattedResponse += `<p><strong>${item.title}:</strong> ${item.description}</p>`;
-                });
-                formattedResponse += '</div>';
-                return formattedResponse;
-            }
-            return message;
         }
 
         async function sendMessage() {

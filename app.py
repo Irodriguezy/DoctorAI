@@ -39,12 +39,13 @@ def find_best_match(user_question, qa_data):
         for item in questions:
             for question in item['pregunta']:
                 similarity = difflib.SequenceMatcher(None, user_question, question.lower()).ratio()
+                print(f"Comparando: '{user_question}' con '{question}' -> Similitud: {similarity:.2f}")
                 if similarity > highest_similarity:
                     highest_similarity = similarity
                     best_match = item
 
-    # Si hay una coincidencia cercana (50% o más), devolver la respuesta
-    if highest_similarity >= 0.5:
+    # Si hay una coincidencia cercana (40% o más), devolver la respuesta
+    if highest_similarity >= 0.4:
         print(f"Coincidencia encontrada con {highest_similarity*100:.2f}% de similitud.")
         return best_match['respuesta']
 

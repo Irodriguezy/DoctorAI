@@ -1,8 +1,8 @@
-
-  "categorias": {
+{
+    "categorias": {
       "saludos": [
           {
-              "pregunta": ["hola", "buenos dias", "buenas tardes", "buenas noches", "que tal", "como estas", "hi", "hello"],
+              "pregunta": ["Hola","buena","Buenas","hola", "buenos dias", "buenas tardes", "buenas noches", "que tal", "como estas", "hi", "hello"],
               "respuesta": "¡Hola! ¿En qué te puedo ayudar con tu salud dental? Pregúntame cualquier duda que tengas sobre tus dientes."
           }
       ],

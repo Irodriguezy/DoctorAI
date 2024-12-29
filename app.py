@@ -6,6 +6,7 @@ import os
 from dotenv import load_dotenv
 from datetime import datetime
 import cohere
+import re
 
 app = Flask(__name__)
 CORS(app)
@@ -28,9 +29,16 @@ def load_qa_data():
         print(f"Error al cargar preguntas.json: {e}")
         return {}
 
+def normalize_text(text):
+    """Normaliza el texto para comparación."""
+    text = text.lower()  # Convertir a minúsculas
+    text = re.sub(r'[^a-záéíóúñü\s]', '', text)  # Eliminar caracteres especiales
+    text = re.sub(r'\s+', ' ', text).strip()  # Eliminar espacios extra
+    return text
+
 def find_best_match(user_question, qa_data):
     """Busca la mejor coincidencia para la pregunta del usuario."""
-    user_question = user_question.lower().strip()
+    user_question = normalize_text(user_question)
     highest_similarity = 0
     best_match = None
 
@@ -38,14 +46,15 @@ def find_best_match(user_question, qa_data):
     for category, questions in qa_data.get('categorias', {}).items():
         for item in questions:
             for question in item['pregunta']:
-                similarity = difflib.SequenceMatcher(None, user_question, question.lower()).ratio()
-                print(f"Comparando: '{user_question}' con '{question}' -> Similitud: {similarity:.2f}")
+                normalized_question = normalize_text(question)
+                similarity = difflib.SequenceMatcher(None, user_question, normalized_question).ratio()
+                print(f"Comparando: '{user_question}' con '{normalized_question}' -> Similitud: {similarity:.2f}")
                 if similarity > highest_similarity:
                     highest_similarity = similarity
                     best_match = item
 
-    # Si hay una coincidencia cercana (20% o más), devolver la respuesta
-    if highest_similarity >= 0.2:
+    # Si hay una coincidencia cercana (15% o más), devolver la respuesta
+    if highest_similarity >= 0.15:
         print(f"Coincidencia encontrada con {highest_similarity*100:.2f}% de similitud.")
         return best_match['respuesta']
 
@@ -124,3 +133,4 @@ def chat():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=PORT, debug=DEBUG)
+

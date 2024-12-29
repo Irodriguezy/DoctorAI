@@ -31,19 +31,64 @@
     "problemas_comunes": [
       {
         "pregunta": ["¿Qué es una caries?", "¿Cómo sé si tengo caries?", "Tengo un diente picado", "¿Qué hago si tengo caries?"],
-        "respuesta": "Una caries es una lesión en el diente causada por bacterias. Si notas sensibilidad o manchas en tus dientes, acude a una clínica como [UnoSalud](https://www.unosalud.cl/) o [RedSalud](https://www.redsalud.cl/) para un diagnóstico."
-      },
-      {
+        "respuesta": "La caries dental es el daño que le puede ocurrir a un diente cuando las bacterias que causan caries que se encuentran en la boca producen ácidos que atacan la superficie del diente o esmalte. Esto puede resultar en un pequeño agujero en el diente, al que se le llama caries. Si la caries dental no se trata, puede causar dolor, una infección e incluso la pérdida del diente.
+     
         "pregunta": ["Me duele una muela, ¿qué hago?", "Dolor en un diente", "¿Qué puedo tomar para el dolor dental?"],
-        "respuesta": "El dolor dental puede indicar una infección o una caries profunda. Te recomiendo visitar una clínica como [IntegraMédica](https://www.integramedica.cl/) lo antes posible para tratamiento."
+        "respuesta": "Un dolor de diente puede deberse a varias causas, aquí tienes algunas de las más comunes: 
+        1. Caries dental: Cuando las bacterias destruyen el esmalte y llegan a las capas más profundas del diente, pueden causar dolor.
+        2. Sensibilidad dental: Si consumes alimentos o bebidas muy frías, calientes, dulces o ácidas, y sientes dolor, puede ser debido a la exposición de la dentina o encías retraídas.
+        3. Infección o absceso dental: Una acumulación de pus causada por una infección puede generar dolor intenso, inflamación y a veces fiebre.
+        4. Fractura o grieta en el diente: Una fisura en el diente, aunque sea pequeña, puede causar molestias al masticar o exponerse a temperaturas extremas.
+        5. Problemas en las encías: La gingivitis o periodontitis pueden causar molestias que se sienten como dolor dental.
+        6. Bruxismo: Apretar o rechinar los dientes, especialmente por la noche, puede causar dolor en los dientes y la mandíbula.
+        7. Problemas de muelas del juicio: Si están saliendo o impactadas, pueden causar dolor en los dientes cercanos.
+        8. Problemas referidos: A veces, dolores en otras áreas (como los senos paranasales o la mandíbula) pueden sentirse como dolor dental.
+Si el dolor persiste, empeora o está acompañado de inflamación, fiebre o dificultad para masticar, es importante que visites a un dentista lo antes posible para obtener un diagnóstico y tratamiento adecuado"
+   
       },
       {
         "pregunta": ["¿Por qué sangran las encías?", "Tengo sangrado en las encías", "Mis encías están inflamadas"],
-        "respuesta": "El sangrado de encías puede ser señal de gingivitis. Te sugerimos mejorar tu higiene dental y acudir a una clínica como [Clínica Everest](https://clinicaeverest.cl/) para una evaluación."
-      },
+        "respuesta": El sangrado de las encías es un síntoma común que puede tener varias causas, entre las más frecuentes están:
+        1. Gingivitis: Es una inflamación de las encías causada por la acumulación de placa bacteriana en los dientes. Es el problema más común y suele ir acompañado de enrojecimiento e hinchazón de las encías.
+        2. Periodontitis:Si la gingivitis no se trata, puede evolucionar a periodontitis, una afección más grave que afecta los tejidos que sostienen los dientes. Además del sangrado, puede haber mal aliento, recesión de encías y movilidad dental.
+        3. Mala higiene bucal: La acumulación de placa y sarro por no cepillarse o usar hilo dental correctamente puede irritar las encías
+        4. Uso de técnicas incorrectas de cepillado o hilo dental: Cepillarse con demasiada fuerza o usar mal el hilo dental puede dañar las encías y provocar sangrado.
+        5. Déficit de vitaminas: La falta de vitamina C (escorbuto) o vitamina K puede hacer que las encías sean más propensas a sangrar.
+        6. Cambios hormonales: Durante el embarazo o la menstruación, los cambios hormonales pueden hacer que las encías sean más sensibles y propensas a sangrar.
+        7. Fumar: Aunque parezca contradictorio, fumar puede enmascarar los síntomas iniciales de enfermedades de las encías. Sin embargo, a largo plazo, afecta la salud gingival.
+        8. Problemas sistémicos: Enfermedades como la diabetes, leucemia o trastornos de la coagulación pueden causar sangrado en las encías.
+        9. Medicamentos: Algunos medicamentos, como los anticoagulantes, pueden hacer que las encías sangren más fácilmente.
+
+        Es importante, visitrar al dentista para realizar un destrartraje supragingival (limpieza dental) y profilaxis coronaria (pulido de corona). 
+      
+      },  
       {
         "pregunta": ["¿Por qué tengo mal aliento?", "Halitosis, ¿cómo se trata?", "Mi boca tiene mal olor"],
-        "respuesta": "El mal aliento puede ser causado por caries o problemas en las encías. Una limpieza dental profesional en [INO](https://www.ino.cl/) podría ayudarte."
+        "respuesta": 
+El mal aliento, conocido médicamente como halitosis, puede deberse a múltiples factores. Aquí te detallo las causas más comunes:
+
+Causas principales del mal aliento
+
+        1. Mala higiene bucal: La acumulación de placa bacteriana en los dientes, lengua y encías produce compuestos sulfurosos que generan un olor desagradable. No usar hilo dental permite que restos de comida se queden entre los dientes y se descompongan.
+        2. Lengua cubierta o saburra lingual: Una capa blanca o amarilla en la lengua, formada por bacterias, restos de comida y células muertas, es una causa frecuente de mal aliento.
+        3. Caries y enfermedades de las encía: Infecciones bucales, como caries, gingivitis o periodontitis, pueden provocar un olor desagradable debido a la descomposición bacteriana.
+        4. Alimentos y bebidas: Algunos alimentos como el ajo, la cebolla, especias fuertes, café o alcohol pueden causar mal aliento temporal.
+        5. Boca seca (xerostomía): La saliva ayuda a limpiar la boca. Una producción insuficiente de saliva, que puede ocurrir por medicamentos, respirar por la boca o ciertas enfermedades, favorece el mal olor.
+        6. Fumar o consumir tabaco: El tabaco no solo deja un olor desagradable, sino que también favorece enfermedades de las encías y reseca la boca.
+        7. Problemas gastrointestinales: Reflujo gastroesofágico (cuando los ácidos del estómago suben hacia la boca) o infecciones estomacales pueden contribuir al mal aliento.
+        8. Amígdalas o infecciones respiratorias: Infecciones en la garganta, sinusitis, amígdalas inflamadas o con cálculos (caseum) pueden ser fuentes de mal olor.
+        9. Dietas extremas o ayuno: Las dietas bajas en carbohidratos o el ayuno prolongado pueden causar mal aliento por la producción de cetonas durante la quema de grasa.
+        10. Condiciones sistémicas: Enfermedades como la diabetes (olor dulce/frutal), insuficiencia renal (olor a amoníaco) o hepática pueden manifestarse con halitosis.
+Qué hacer para combatir el mal aliento
+
+        1. Mejora tu higiene bucal:Cepíllate los dientes al menos dos veces al día.Limpia tu lengua con un raspador lingual o el cepillo. Usa hilo dental diariamente. 
+        2. Enjuagues bucales: Usa un enjuague antiséptico o específico para halitosis. Busca productos que contengan cloruro de cetilpiridinio o clorhexidina.
+        3. Mantén la boca hidratada: Bebe suficiente agua. Mastica chicle sin azúcar para estimular la producción de saliva.
+        4. Evita ciertos alimentos y bebidas: Limita el consumo de ajo, cebolla, café y alcohol. Consulta al dentista regularmente:
+        5. Realiza limpiezas dentales y chequeos periódicos para prevenir problemas bucales.
+        6. Revisa posibles condiciones médicas:
+
+Si el mal aliento persiste a pesar de una buena higiene, consulta a un médico para descartar causas sistémicas o gastrointestinales.
       },
       {
         "pregunta": ["¿Qué es la sensibilidad dental?", "Me duelen los dientes con el frío", "Sensibilidad al calor y frío"],

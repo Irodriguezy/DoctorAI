@@ -45,8 +45,10 @@ def find_best_match(user_question, qa_data):
 
     # Si hay una coincidencia cercana (50% o más), devolver la respuesta
     if highest_similarity >= 0.5:
+        print(f"Coincidencia encontrada con {highest_similarity*100:.2f}% de similitud.")
         return best_match['respuesta']
-    
+
+    print("No se encontró una coincidencia cercana en preguntas.json.")
     return None
 
 def generate_cohere_response(user_message):
@@ -54,19 +56,22 @@ def generate_cohere_response(user_message):
     try:
         response = co.generate(
             model='command',
-            prompt=f"""Eres un dentista profesional chileno respondiendo en español informal.
-Responde solo preguntas relacionadas con odontología. Si el mensaje no tiene sentido, responde con un mensaje genérico.
+            prompt=f"""Eres un dentista profesional chileno respondiendo exclusivamente en español informal.
+Responde solo preguntas relacionadas con odontología. Si el mensaje no tiene sentido, responde con un mensaje genérico en español.
 
 Pregunta del paciente: {user_message}
 
-Responde de forma clara y breve, enfocándote en la odontología.""",
+Responde de forma clara y breve, enfocándote en la odontología y manteniendo el idioma español.""",
             max_tokens=100,
             temperature=0.5,
             k=0,
             stop_sequences=[],
             return_likelihoods='NONE'
         )
-        return response.generations[0].text.strip()
+        respuesta = response.generations[0].text.strip()
+        if not respuesta or not any(char.isalpha() for char in respuesta):
+            return "Lo siento, no puedo procesar tu consulta en este momento."
+        return respuesta
     except Exception as e:
         print(f"Error con Cohere: {e}")
         return "Lo siento, no puedo procesar tu consulta en este momento."
@@ -90,7 +95,7 @@ def chat():
         response = find_best_match(user_message, qa_data)
 
         if not response:
-            print("No se encontró respuesta en preguntas.json, usando Cohere")
+            print("No se encontró respuesta en preguntas.json, usando Cohere.")
             response = generate_cohere_response(user_message)
 
         return jsonify({
@@ -107,3 +112,4 @@ def chat():
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=PORT, debug=DEBUG)
+
